@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { ResponsiveModal } from '@/components/responsive-modal';
@@ -9,6 +10,7 @@ export const useConfirm = (
   message: string,
   variant: ButtonProps['variant'] = 'primary',
 ): [() => JSX.Element, () => Promise<unknown>] => {
+  const t = useTranslations('Common');
   const [promise, setPromise] = useState<{ resolve: (value: boolean) => void } | null>(null);
 
   const confirm = () => {
@@ -43,11 +45,11 @@ export const useConfirm = (
 
           <div className="flex w-full flex-col items-center justify-end gap-x-2 gap-y-2 pt-4 lg:flex-row">
             <Button onClick={handleCancel} variant="outline" className="w-full lg:w-auto">
-              Cancel
+              {t('cancel')}
             </Button>
 
             <Button onClick={handleConfirm} variant={variant} className="w-full lg:w-auto">
-              Confirm
+              {t('confirm')}
             </Button>
           </div>
         </CardContent>

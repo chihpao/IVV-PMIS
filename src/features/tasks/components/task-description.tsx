@@ -1,4 +1,5 @@
 import { Pencil, XIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { DottedSeparator } from '@/components/dotted-separator';
@@ -12,6 +13,8 @@ interface TaskDescriptionProps {
 }
 
 export const TaskDescription = ({ task }: TaskDescriptionProps) => {
+  const tCommon = useTranslations('Common');
+  const tTasks = useTranslations('Tasks');
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(task.description);
 
@@ -36,7 +39,7 @@ export const TaskDescription = ({ task }: TaskDescriptionProps) => {
   return (
     <div className="rounded-lg border p-4">
       <div className="flex items-center justify-between">
-        <p className="text-lg font-semibold">Overview</p>
+        <p className="text-lg font-semibold">{tTasks('description')}</p>
 
         <Button
           onClick={() => {
@@ -47,7 +50,7 @@ export const TaskDescription = ({ task }: TaskDescriptionProps) => {
           variant="secondary"
         >
           {isEditing ? <XIcon className="mr-2 size-4" /> : <Pencil className="mr-2 size-4" />}
-          {isEditing ? 'Cancel' : 'Edit'}
+          {isEditing ? tCommon('cancel') : tCommon('edit')}
         </Button>
       </div>
 
@@ -57,7 +60,7 @@ export const TaskDescription = ({ task }: TaskDescriptionProps) => {
         <div className="flex flex-col gap-y-4">
           <Textarea
             autoFocus
-            placeholder="Add a description..."
+            placeholder={tTasks('addDescription')}
             value={value}
             rows={4}
             onChange={(e) => setValue(e.target.value)}
@@ -65,11 +68,11 @@ export const TaskDescription = ({ task }: TaskDescriptionProps) => {
           />
 
           <Button size="sm" className="ml-auto w-fit" onClick={handleSave} disabled={isPending}>
-            {isPending ? 'Saving...' : 'Save Changes'}
+            {isPending ? tTasks('saving') : tTasks('saveChanges')}
           </Button>
         </div>
       ) : (
-        <div>{task.description || <span className="italic text-muted-foreground">No description set...</span>}</div>
+        <div>{task.description || <span className="italic text-muted-foreground">{tTasks('noDescription')}</span>}</div>
       )}
     </div>
   );

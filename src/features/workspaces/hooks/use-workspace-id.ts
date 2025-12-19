@@ -3,5 +3,9 @@ import { useParams } from 'next/navigation';
 export const useWorkspaceId = () => {
   const params = useParams();
 
-  return params.workspaceId as string;
+  const workspaceId = params.workspaceId;
+
+  if (Array.isArray(workspaceId)) return workspaceId[0] ?? '';
+
+  return typeof workspaceId === 'string' ? workspaceId : '';
 };

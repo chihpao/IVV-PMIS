@@ -1,18 +1,20 @@
 import { z } from 'zod';
 
+import messages from '../../../messages/zh-TW.json';
+
 export const signInFormSchema = z.object({
   email: z.string().trim().email({
-    message: 'Invalid email.',
+    message: messages.Validation.invalidEmail,
   }),
   password: z.string({
-    required_error: 'Password is required.',
+    required_error: messages.Validation.passwordRequired,
   }),
 });
 
 export const signUpFormSchema = z.object({
-  name: z.string().trim().min(1, 'Full name is required.'),
-  email: z.string().trim().min(1, 'Email is required.').email({
-    message: 'Invalid email.',
+  name: z.string().trim().min(1, messages.Validation.fullNameRequired),
+  email: z.string().trim().min(1, messages.Validation.emailRequired).email({
+    message: messages.Validation.invalidEmail,
   }),
-  password: z.string().min(8, 'Password must be atleast 8 characters.').max(256, 'Password cannot exceed 256 characters.'),
+  password: z.string().min(8, messages.Validation.passwordMin).max(256, messages.Validation.passwordMax),
 });

@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ImageIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
@@ -28,6 +29,9 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
   const inputRef = useRef<HTMLInputElement>(null);
+  const tCommon = useTranslations('Common');
+  const tProjects = useTranslations('Projects');
+  const tUploads = useTranslations('Uploads');
 
   const { mutate: createProject, isPending } = useCreateProject();
 
@@ -68,8 +72,8 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
     if (file) {
       const validImageTypes = ['image/png', 'image/jpg', 'image/jpeg'];
 
-      if (!validImageTypes.includes(file.type)) return toast.error('File is not a valid image.');
-      if (file.size > MAX_FILE_SIZE) return toast.error('Image size cannot exceed 1 MB.');
+      if (!validImageTypes.includes(file.type)) return toast.error(tUploads('invalidImage'));
+      if (file.size > MAX_FILE_SIZE) return toast.error(tUploads('imageTooLarge'));
 
       createProjectForm.setValue('image', file);
     }
@@ -78,7 +82,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
   return (
     <Card className="size-full border-none shadow-none">
       <CardHeader className="flex p-7">
-        <CardTitle className="text-xl font-bold">Create a new project</CardTitle>
+        <CardTitle className="text-xl font-bold">{tProjects('createProject')}</CardTitle>
       </CardHeader>
 
       <div className="px-7">
@@ -95,10 +99,10 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Project Name</FormLabel>
+                    <FormLabel>{tProjects('projectName')}</FormLabel>
 
                     <FormControl>
-                      <Input {...field} type="text" placeholder="Enter project name" />
+                      <Input {...field} type="text" placeholder={tProjects('projectNamePlaceholder')} />
                     </FormControl>
 
                     <FormMessage />
@@ -117,7 +121,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
                         <div className="relative size-[72px] overflow-hidden rounded-md">
                           <Image
                             src={field.value instanceof File ? URL.createObjectURL(field.value) : field.value}
-                            alt="Project Logo"
+                            alt={tProjects('projectLogoAlt')}
                             fill
                             className="object-cover"
                           />
@@ -131,8 +135,8 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
                       )}
 
                       <div className="flex flex-col">
-                        <p className="text-sm">Project Icon</p>
-                        <p className="text-xs text-muted-foreground">JPG, PNG, or JPEG, max 1MB</p>
+                        <p className="text-sm">{tProjects('projectIcon')}</p>
+                        <p className="text-xs text-muted-foreground">{tProjects('projectIconHint')}</p>
 
                         <input
                           type="file"
@@ -156,7 +160,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
                               if (inputRef.current) inputRef.current.value = '';
                             }}
                           >
-                            Remove Image
+                            {tCommon('removeImage')}
                           </Button>
                         ) : (
                           <Button
@@ -167,7 +171,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
                             className="mt-2 w-fit"
                             onClick={() => inputRef.current?.click()}
                           >
-                            Upload Image
+                            {tCommon('uploadImage')}
                           </Button>
                         )}
                       </div>
@@ -188,11 +192,11 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
                 onClick={onCancel}
                 className={cn(!onCancel && 'invisible')}
               >
-                Cancel
+                {tCommon('cancel')}
               </Button>
 
               <Button disabled={isPending} type="submit" size="lg">
-                Create Project
+                {tProjects('createProject')}
               </Button>
             </div>
           </form>

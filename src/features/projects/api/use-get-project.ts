@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 
 import { client } from '@/lib/hono';
 
@@ -7,6 +8,7 @@ interface useGetProjectProps {
 }
 
 export const useGetProject = ({ projectId }: useGetProjectProps) => {
+  const tErrors = useTranslations('Errors');
   const query = useQuery({
     queryKey: ['project', projectId],
     queryFn: async () => {
@@ -14,7 +16,7 @@ export const useGetProject = ({ projectId }: useGetProjectProps) => {
         param: { projectId },
       });
 
-      if (!response.ok) throw new Error('Failed to fetch project.');
+      if (!response.ok) throw new Error(tErrors('fetchProjectFailed'));
 
       const { data } = await response.json();
 

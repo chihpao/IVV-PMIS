@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { RiAddCircleFill } from 'react-icons/ri';
 
@@ -12,6 +13,7 @@ import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 export const WorkspaceSwitcher = () => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
+  const t = useTranslations('Nav');
 
   const { open } = useCreateWorkspaceModal();
   const { data: workspaces } = useGetWorkspaces();
@@ -23,15 +25,15 @@ export const WorkspaceSwitcher = () => {
   return (
     <div className="flex flex-col gap-y-2">
       <div className="flex items-center justify-between">
-        <p className="text-xs uppercase text-neutral-500">Workspaces</p>
+        <p className="text-xs uppercase text-neutral-500">{t('workspaces')}</p>
         <button onClick={open}>
           <RiAddCircleFill className="size-5 cursor-pointer text-neutral-500 transition hover:opacity-75" />
         </button>
       </div>
 
-      <Select onValueChange={onSelect} value={workspaceId}>
+      <Select onValueChange={onSelect} value={workspaceId ?? ''}>
         <SelectTrigger className="w-full bg-neutral-200 p-1 font-medium">
-          <SelectValue placeholder="No workspace selected" />
+          <SelectValue placeholder={t('noWorkspaceSelected')} />
         </SelectTrigger>
 
         <SelectContent>

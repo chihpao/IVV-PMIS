@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 import { MemberAvatar } from '@/features/members/components/member-avatar';
@@ -23,10 +24,11 @@ const statusColorMap: Record<TaskStatus, string> = {
 };
 
 export const EventCard = ({ title, assignee, project, status, id }: EventCardProps) => {
+  const tCommon = useTranslations('Common');
   const router = useRouter();
   const workspaceId = useWorkspaceId();
-  const assigneeName = assignee?.name ?? 'Unassigned';
-  const projectName = project?.name ?? 'No project';
+  const assigneeName = assignee?.name ?? tCommon('unassigned');
+  const projectName = project?.name ?? tCommon('noProject');
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();

@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft, ImageIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
@@ -30,8 +31,11 @@ interface EditProjectFormProps {
 export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProps) => {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
+  const tCommon = useTranslations('Common');
+  const tProjects = useTranslations('Projects');
+  const tUploads = useTranslations('Uploads');
 
-  const [DeleteDialog, confirmDelete] = useConfirm('Delete project', 'This action cannot be undone.', 'destructive');
+  const [DeleteDialog, confirmDelete] = useConfirm(tProjects('deleteProject'), tProjects('deleteProjectWarning'), 'destructive');
 
   const { mutate: updateProject, isPending: isUpdatingProject } = useUpdateProject();
   const { mutate: deleteProject, isPending: isDeletingProject } = useDeleteProject();
@@ -61,7 +65,7 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
     const file = e.target.files?.[0];
 
     if (file) {
-      if (file.size > MAX_FILE_SIZE) return toast.error('Image size cannot exceed 1 MB.');
+      if (file.size > MAX_FILE_SIZE) return toast.error(tUploads('imageTooLarge'));
 
       updateProjectForm.setValue('image', file);
     }
@@ -99,7 +103,7 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
             className="gap-x-1"
           >
             <ArrowLeft className="size-4" />
-            Back
+            {tCommon('back')}
           </Button>
 
           <CardTitle className="text-xl font-bold">{initialValues.name}</CardTitle>
@@ -119,10 +123,10 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Project Name</FormLabel>
+                      <FormLabel>{tProjects('projectName')}</FormLabel>
 
                       <FormControl>
-                        <Input {...field} type="text" placeholder="Enter project name" />
+                        <Input {...field} type="text" placeholder={tProjects('projectNamePlaceholder')} />
                       </FormControl>
 
                       <FormMessage />
@@ -141,7 +145,7 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
                           <div className="relative size-[72px] overflow-hidden rounded-md">
                             <Image
                               src={field.value instanceof File ? URL.createObjectURL(field.value) : field.value}
-                              alt="Project Logo"
+                              alt={tProjects('projectLogoAlt')}
                               fill
                               className="object-cover"
                             />
@@ -155,8 +159,8 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
                         )}
 
                         <div className="flex flex-col">
-                          <p className="text-sm">Project Icon</p>
-                          <p className="text-xs text-muted-foreground">JPG, PNG, or JPEG, max 1MB</p>
+                          <p className="text-sm">{tProjects('projectIcon')}</p>
+                          <p className="text-xs text-muted-foreground">{tProjects('projectIconHint')}</p>
 
                           <input
                             type="file"
@@ -180,7 +184,7 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
                                 if (inputRef.current) inputRef.current.value = '';
                               }}
                             >
-                              Remove Image
+                              {tCommon('removeImage')}
                             </Button>
                           ) : (
                             <Button
@@ -191,7 +195,7 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
                               className="mt-2 w-fit"
                               onClick={() => inputRef.current?.click()}
                             >
-                              Upload Image
+                              {tCommon('uploadImage')}
                             </Button>
                           )}
                         </div>
@@ -214,11 +218,11 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
                   onClick={onCancel}
                   className={cn(!onCancel && 'invisible')}
                 >
-                  Cancel
+                  {tCommon('cancel')}
                 </Button>
 
                 <Button disabled={isPending} type="submit" size="lg">
-                  Save Changes
+                  {tCommon('save')}
                 </Button>
               </div>
             </form>
@@ -229,9 +233,9 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
       <Card className="size-full border-none shadow-none">
         <CardContent className="p-7">
           <div className="flex flex-col">
-            <h3 className="font-bold">Danger Zone</h3>
+            <h3 className="font-bold">{tProjects('dangerZone')}</h3>
 
-            <p className="text-sm text-muted-foreground">Deleting a project is irreversible and will remove all associated data.</p>
+            <p className="text-sm text-muted-foreground">{tProjects('dangerZoneDescription')}</p>
 
             <DottedSeparator className="py-7" />
 
@@ -243,7 +247,7 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
               onClick={handleDelete}
               className="ml-auto mt-6 w-fit"
             >
-              Delete Project
+              {tProjects('deleteProject')}
             </Button>
           </div>
         </CardContent>

@@ -1,6 +1,7 @@
 'use client';
 
 import { Loader2, LogOut } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { DottedSeparator } from '@/components/dotted-separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -11,6 +12,7 @@ import { useLogout } from '@/features/auth/api/use-logout';
 export const UserButton = () => {
   const { data: user, isLoading } = useCurrent();
   const { mutate: logout, isPending } = useLogout();
+  const t = useTranslations('Common');
 
   if (isLoading) {
     return (
@@ -58,7 +60,7 @@ export const UserButton = () => {
           className="flex h-10 cursor-pointer items-center justify-center font-medium text-amber-700"
         >
           <LogOut className="mr-2 size-4" />
-          Sign out
+          {t('signOut')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

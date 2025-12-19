@@ -2,7 +2,9 @@
 
 import { PopoverClose } from '@radix-ui/react-popover';
 import { format } from 'date-fns';
+import { zhTW } from 'date-fns/locale';
 import { CalendarIcon, OctagonMinus } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -19,14 +21,11 @@ interface DatePickerProps {
   showReset?: boolean;
 }
 
-export const DatePicker = ({
-  value,
-  onChange,
-  disabled = false,
-  className,
-  placeholder = 'Select date',
-  showReset = false,
-}: DatePickerProps) => {
+export const DatePicker = ({ value, onChange, disabled = false, className, placeholder, showReset = false }: DatePickerProps) => {
+  const t = useTranslations('Common');
+  const tTasks = useTranslations('Tasks');
+  const resolvedPlaceholder = placeholder ?? tTasks('selectDueDate');
+
   return (
     <Popover>
       <PopoverTrigger disabled={disabled} asChild>
@@ -37,7 +36,7 @@ export const DatePicker = ({
           className={cn('w-full justify-start px-3 text-left font-normal', !value && 'text-muted-foreground', className)}
         >
           <CalendarIcon className="mr-2 size-4" />
-          {value ? format(value, 'PPP') : <span>{placeholder}</span>}
+          {value ? format(value, 'PPP', { locale: zhTW }) : <span>{resolvedPlaceholder}</span>}
         </Button>
       </PopoverTrigger>
 
@@ -48,7 +47,7 @@ export const DatePicker = ({
           <PopoverClose asChild>
             <Button onClick={() => onChange(null)} variant="secondary" size="sm" className="w-full">
               <OctagonMinus className="size-4" />
-              Reset Filter
+              {t('resetFilter')}
             </Button>
           </PopoverClose>
         )}

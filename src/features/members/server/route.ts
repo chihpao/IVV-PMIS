@@ -17,13 +17,14 @@ const app = new Hono()
       'query',
       z.object({
         workspaceId: z.string(),
+        limit: z.coerce.number().int().positive().max(100).nullish(),
       }),
     ),
     async (ctx) => {
       const { users } = await createAdminClient();
       const databases = ctx.get('databases');
       const user = ctx.get('user');
-      const { workspaceId } = ctx.req.valid('query');
+      const { workspaceId, limit } = ctx.req.valid('query');
 
       const member = await getMember({
         databases,
@@ -35,7 +36,11 @@ const app = new Hono()
         return ctx.json({ error: 'Unauthorized.' }, 401);
       }
 
-      const members = await databases.listDocuments<Member>(DATABASE_ID, MEMBERS_ID, [Query.equal('workspaceId', workspaceId)]);
+      const query = [Query.equal('workspaceId', workspaceId)];
+
+      if (limit) query.push(Query.limit(limit));
+
+      const members = await databases.listDocuments<Member>(DATABASE_ID, MEMBERS_ID, query);
 
       const populatedMembers = await Promise.all(
         members.documents.map(async (member) => {

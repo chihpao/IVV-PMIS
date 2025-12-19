@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { InferRequestType, InferResponseType } from 'hono';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 import { client } from '@/lib/hono';
@@ -9,17 +10,18 @@ type RequestType = InferRequestType<(typeof client.api.members)[':memberId']['$p
 
 export const useUpdateMember = () => {
   const queryClient = useQueryClient();
+  const t = useTranslations('Notifications');
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ param, json }) => {
       const response = await client.api.members[':memberId']['$patch']({ param, json });
 
-      if (!response.ok) throw new Error('Failed to update member.');
+      if (!response.ok) throw new Error(t('memberUpdateFailed'));
 
       return await response.json();
     },
     onSuccess: ({ data }) => {
-      toast.success('Member updated.');
+      toast.success(t('memberUpdated'));
 
       queryClient.invalidateQueries({
         queryKey: ['members', data.workspaceId],
@@ -29,7 +31,7 @@ export const useUpdateMember = () => {
     onError: (error) => {
       console.error('[UPDATE_MEMBER]: ', error);
 
-      toast.error('Failed to update member.');
+      toast.error(t('memberUpdateFailed'));
     },
   });
 

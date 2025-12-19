@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { DottedSeparator } from '@/components/dotted-separator';
 import { PageError } from '@/components/page-error';
 import { PageLoader } from '@/components/page-loader';
@@ -11,13 +13,14 @@ import { useTaskId } from '@/features/tasks/hooks/use-task-id';
 
 export const TaskIdClient = () => {
   const taskId = useTaskId();
+  const tErrors = useTranslations('Errors');
 
   const { data: task, isLoading } = useGetTask({ taskId });
 
   if (isLoading) return <PageLoader />;
 
-  if (!task) return <PageError message="Task not found." />;
-  if (!task.project) return <PageError message="Project not found." />;
+  if (!task) return <PageError message={tErrors('taskNotFound')} />;
+  if (!task.project) return <PageError message={tErrors('projectNotFound')} />;
 
   return (
     <div className="flex flex-col">

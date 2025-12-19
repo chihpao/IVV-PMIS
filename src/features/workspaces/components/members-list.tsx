@@ -1,6 +1,7 @@
 'use client';
 
 import { ArrowLeft, MoreVertical } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { Fragment } from 'react';
 
@@ -19,7 +20,9 @@ import { useConfirm } from '@/hooks/use-confirm';
 
 export const MembersList = () => {
   const workspaceId = useWorkspaceId();
-  const [ConfirmDialog, confirm] = useConfirm('Remove member', 'This member will be removed from this workspace.', 'destructive');
+  const tCommon = useTranslations('Common');
+  const tMembers = useTranslations('Members');
+  const [ConfirmDialog, confirm] = useConfirm(tMembers('removeMember'), tMembers('removeMemberDescription'), 'destructive');
 
   const { data: members } = useGetMembers({ workspaceId });
   const { mutate: deleteMember, isPending: isDeletingMember } = useDeleteMember();
@@ -57,11 +60,11 @@ export const MembersList = () => {
         <Button variant="secondary" size="sm" asChild>
           <Link href={`/workspaces/${workspaceId}`}>
             <ArrowLeft className="mr-2 size-4" />
-            Back
+            {tCommon('back')}
           </Link>
         </Button>
 
-        <CardTitle className="text-xl font-bold">Members list</CardTitle>
+        <CardTitle className="text-xl font-bold">{tMembers('membersList')}</CardTitle>
       </CardHeader>
 
       <div className="px-7">
@@ -81,7 +84,7 @@ export const MembersList = () => {
 
               <DropdownMenu>
                 <DropdownMenuTrigger disabled={isPending} asChild>
-                  <Button title="View options" className="ml-auto" variant="secondary" size="icon">
+                  <Button title={tMembers('viewOptions')} className="ml-auto" variant="secondary" size="icon">
                     <MoreVertical className="size-4 text-muted-foreground" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -92,7 +95,7 @@ export const MembersList = () => {
                     onClick={() => handleUpdateMember(member.$id, MemberRole.ADMIN)}
                     disabled={isPending}
                   >
-                    Set as Administrator
+                    {tMembers('setAsAdmin')}
                   </DropdownMenuItem>
 
                   <DropdownMenuItem
@@ -100,7 +103,7 @@ export const MembersList = () => {
                     onClick={() => handleUpdateMember(member.$id, MemberRole.MEMBER)}
                     disabled={isPending}
                   >
-                    Set as Member
+                    {tMembers('setAsMember')}
                   </DropdownMenuItem>
 
                   <DropdownMenuItem
@@ -108,7 +111,7 @@ export const MembersList = () => {
                     onClick={() => handleDeleteMember(member.$id)}
                     disabled={isPending}
                   >
-                    Remove {member.name}
+                    {tMembers('removeMemberWithName', { name: member.name })}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

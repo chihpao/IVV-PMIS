@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { InferRequestType, InferResponseType } from 'hono';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 import { client } from '@/lib/hono';
@@ -9,17 +10,18 @@ type RequestType = InferRequestType<(typeof client.api.workspaces)[':workspaceId
 
 export const useUpdateWorkspace = () => {
   const queryClient = useQueryClient();
+  const t = useTranslations('Notifications');
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ form, param }) => {
       const response = await client.api.workspaces[':workspaceId']['$patch']({ form, param });
 
-      if (!response.ok) throw new Error('Failed to update workspace.');
+      if (!response.ok) throw new Error(t('workspaceUpdateFailed'));
 
       return await response.json();
     },
     onSuccess: ({ data }) => {
-      toast.success('Workspace updated.');
+      toast.success(t('workspaceUpdated'));
 
       queryClient.invalidateQueries({
         queryKey: ['workspaces'],
@@ -32,7 +34,7 @@ export const useUpdateWorkspace = () => {
     onError: (error) => {
       console.error('[UPDATE_WORKSPACE]: ', error);
 
-      toast.error('Failed to update workspace.');
+      toast.error(t('workspaceUpdateFailed'));
     },
   });
 

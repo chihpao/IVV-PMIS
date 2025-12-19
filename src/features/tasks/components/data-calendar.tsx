@@ -1,6 +1,7 @@
 import { addMonths, format, getDay, parse, startOfWeek, subMonths } from 'date-fns';
-import { enUS } from 'date-fns/locale';
+import { zhTW } from 'date-fns/locale';
 import { CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -12,7 +13,7 @@ import './data-calendar.css';
 import { EventCard } from './event-card';
 
 const locales = {
-  'en-US': enUS,
+  'zh-TW': zhTW,
 };
 
 const localizer = dateFnsLocalizer({
@@ -33,18 +34,20 @@ interface CustomToolbarProps {
 }
 
 const CustomToolbar = ({ date, onNavigate }: CustomToolbarProps) => {
+  const t = useTranslations('Calendar');
+
   return (
     <div className="mb-4 flex w-full items-center justify-center gap-x-2 lg:w-auto lg:justify-start">
-      <Button title="Previous Month" onClick={() => onNavigate('PREV')} variant="secondary" size="icon">
+      <Button title={t('previousMonth')} onClick={() => onNavigate('PREV')} variant="secondary" size="icon">
         <ChevronLeft className="size-4" />
       </Button>
 
       <div className="flex h-8 w-full items-center justify-center rounded-md border border-input px-3 py-2 lg:w-auto">
         <CalendarIcon className="mr-2 size-4" />
-        <p className="text-sm">{format(date, 'MMMM yyyy')}</p>
+        <p className="text-sm">{format(date, 'yyyy MMMM', { locale: zhTW })}</p>
       </div>
 
-      <Button title="Next Month" onClick={() => onNavigate('NEXT')} variant="secondary" size="icon">
+      <Button title={t('nextMonth')} onClick={() => onNavigate('NEXT')} variant="secondary" size="icon">
         <ChevronRight className="size-4" />
       </Button>
     </div>
@@ -74,6 +77,7 @@ export const DataCalendar = ({ data }: DataCalendarProps) => {
     <Calendar
       localizer={localizer}
       date={value}
+      culture="zh-TW"
       events={events}
       views={['month']}
       defaultView="month"

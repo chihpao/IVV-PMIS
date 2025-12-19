@@ -26,7 +26,10 @@ type AdditionalContext = {
 };
 
 export const sessionMiddleware = createMiddleware<AdditionalContext>(async (ctx, next) => {
-  const client = new Client().setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!).setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!);
+  const client = new Client()
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!)
+    .setLocale('zh-TW');
 
   const session = getCookie(ctx, AUTH_COOKIE);
 

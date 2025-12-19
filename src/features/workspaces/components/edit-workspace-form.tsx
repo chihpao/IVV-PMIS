@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft, CopyIcon, ImageIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
@@ -31,13 +32,12 @@ interface EditWorkspaceFormProps {
 export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceFormProps) => {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
+  const tCommon = useTranslations('Common');
+  const tUploads = useTranslations('Uploads');
+  const tWorkspaces = useTranslations('Workspaces');
 
-  const [DeleteDialog, confirmDelete] = useConfirm('Delete workspace', 'This action cannot be undone.', 'destructive');
-  const [ResetDialog, confirmReset] = useConfirm(
-    'Reset invite link',
-    'This action will invalidate the current invite link.',
-    'destructive',
-  );
+  const [DeleteDialog, confirmDelete] = useConfirm(tWorkspaces('deleteWorkspace'), tWorkspaces('deleteWorkspaceWarning'), 'destructive');
+  const [ResetDialog, confirmReset] = useConfirm(tWorkspaces('resetInviteLink'), tWorkspaces('resetInviteLinkWarning'), 'destructive');
 
   const { mutate: updateWorkspace, isPending: isUpdatingWorkspace } = useUpdateWorkspace();
   const { mutate: deleteWorkspace, isPending: isDeletingWorkspace } = useDeleteWorkspace();
@@ -68,7 +68,7 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
     const file = e.target.files?.[0];
 
     if (file) {
-      if (file.size > MAX_FILE_SIZE) return toast.error('Image size cannot exceed 1 MB.');
+      if (file.size > MAX_FILE_SIZE) return toast.error(tUploads('imageTooLarge'));
 
       updateWorkspaceForm.setValue('image', file);
     }
@@ -102,7 +102,7 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(fullInviteLink).then(() => toast.success('Invite link copied to clipboard.'));
+    navigator.clipboard.writeText(fullInviteLink).then(() => toast.success(tWorkspaces('inviteLinkCopied')));
   };
 
   const fullInviteLink = `${process.env.NEXT_PUBLIC_APP_BASE_URL}/workspaces/${initialValues.$id}/join/${initialValues.inviteCode}`;
@@ -122,7 +122,7 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
             className="gap-x-1"
           >
             <ArrowLeft className="size-4" />
-            Back
+            {tCommon('back')}
           </Button>
 
           <CardTitle className="text-xl font-bold">{initialValues.name}</CardTitle>
@@ -142,10 +142,10 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Workspace Name</FormLabel>
+                      <FormLabel>{tWorkspaces('workspaceName')}</FormLabel>
 
                       <FormControl>
-                        <Input {...field} type="text" placeholder="Enter workspace name" />
+                        <Input {...field} type="text" placeholder={tWorkspaces('workspaceNamePlaceholder')} />
                       </FormControl>
 
                       <FormMessage />
@@ -164,7 +164,7 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
                           <div className="relative size-[72px] overflow-hidden rounded-md">
                             <Image
                               src={field.value instanceof File ? URL.createObjectURL(field.value) : field.value}
-                              alt="Workspace Logo"
+                              alt={tWorkspaces('workspaceLogoAlt')}
                               fill
                               className="object-cover"
                             />
@@ -178,8 +178,8 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
                         )}
 
                         <div className="flex flex-col">
-                          <p className="text-sm">Workspace Icon</p>
-                          <p className="text-xs text-muted-foreground">JPG, PNG, or JPEG, max 1MB</p>
+                          <p className="text-sm">{tWorkspaces('workspaceIcon')}</p>
+                          <p className="text-xs text-muted-foreground">{tWorkspaces('workspaceIconHint')}</p>
 
                           <input
                             type="file"
@@ -203,7 +203,7 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
                                 if (inputRef.current) inputRef.current.value = '';
                               }}
                             >
-                              Remove Image
+                              {tCommon('removeImage')}
                             </Button>
                           ) : (
                             <Button
@@ -214,7 +214,7 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
                               className="mt-2 w-fit"
                               onClick={() => inputRef.current?.click()}
                             >
-                              Upload Image
+                              {tCommon('uploadImage')}
                             </Button>
                           )}
                         </div>
@@ -237,11 +237,11 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
                   onClick={onCancel}
                   className={cn(!onCancel && 'invisible')}
                 >
-                  Cancel
+                  {tCommon('cancel')}
                 </Button>
 
                 <Button disabled={isPending} type="submit" size="lg">
-                  Save Changes
+                  {tCommon('save')}
                 </Button>
               </div>
             </form>
@@ -252,9 +252,9 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
       <Card className="size-full border-none shadow-none">
         <CardContent className="p-7">
           <div className="flex flex-col">
-            <h3 className="font-bold">Invite Members</h3>
+            <h3 className="font-bold">{tWorkspaces('inviteMembers')}</h3>
 
-            <p className="text-sm text-muted-foreground">Use the invite link to add members to your workspace.</p>
+            <p className="text-sm text-muted-foreground">{tWorkspaces('inviteMembersDescription')}</p>
 
             <div className="mt-4">
               <div className="flex items-center gap-x-2">
@@ -276,7 +276,7 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
               onClick={handleResetInviteCode}
               className="ml-auto mt-6 w-fit"
             >
-              Reset invite link
+              {tWorkspaces('resetInviteLink')}
             </Button>
           </div>
         </CardContent>
@@ -285,9 +285,9 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
       <Card className="size-full border-none shadow-none">
         <CardContent className="p-7">
           <div className="flex flex-col">
-            <h3 className="font-bold">Danger Zone</h3>
+            <h3 className="font-bold">{tWorkspaces('dangerZone')}</h3>
 
-            <p className="text-sm text-muted-foreground">Deleting a workspace is irreversible and will remove all associated data.</p>
+            <p className="text-sm text-muted-foreground">{tWorkspaces('dangerZoneDescription')}</p>
 
             <DottedSeparator className="py-7" />
 
@@ -299,7 +299,7 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
               onClick={handleDelete}
               className="ml-auto mt-6 w-fit"
             >
-              Delete Workspace
+              {tWorkspaces('deleteWorkspace')}
             </Button>
           </div>
         </CardContent>

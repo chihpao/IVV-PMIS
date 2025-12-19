@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { InferRequestType, InferResponseType } from 'hono';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 import { client } from '@/lib/hono';
@@ -9,17 +10,18 @@ type RequestType = InferRequestType<(typeof client.api.projects)[':projectId']['
 
 export const useUpdateProject = () => {
   const queryClient = useQueryClient();
+  const t = useTranslations('Notifications');
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ form, param }) => {
       const response = await client.api.projects[':projectId']['$patch']({ form, param });
 
-      if (!response.ok) throw new Error('Failed to update project.');
+      if (!response.ok) throw new Error(t('projectUpdateFailed'));
 
       return await response.json();
     },
     onSuccess: ({ data }) => {
-      toast.success('Project updated.');
+      toast.success(t('projectUpdated'));
 
       queryClient.invalidateQueries({
         queryKey: ['projects', data.workspaceId],
@@ -37,7 +39,7 @@ export const useUpdateProject = () => {
     onError: (error) => {
       console.error('[UPDATE_PROJECT]: ', error);
 
-      toast.error('Failed to update project.');
+      toast.error(t('projectUpdateFailed'));
     },
   });
 

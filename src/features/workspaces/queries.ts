@@ -2,12 +2,13 @@
 
 import { type Models, Query } from 'node-appwrite';
 
-import { DATABASE_ID, IMAGES_BUCKET_ID, MEMBERS_ID, WORKSPACES_ID } from '@/config/db';
+import { DATABASE_ID, MEMBERS_ID, WORKSPACES_ID } from '@/config/db';
 import { createSessionClient } from '@/lib/appwrite';
+import { getFileViewUrl } from '@/lib/appwrite-file-url';
 
 export const getWorkspaces = async () => {
   try {
-    const { account, databases, storage } = await createSessionClient();
+    const { account, databases } = await createSessionClient();
 
     const user = await account.get();
     const members = await databases.listDocuments(DATABASE_ID, MEMBERS_ID, [Query.equal('userId', user.$id)]);
@@ -21,21 +22,10 @@ export const getWorkspaces = async () => {
       Query.orderDesc('$createdAt'),
     ]);
 
-    const workspacesWithImages: Models.Document[] = await Promise.all(
-      workspaces.documents.map(async (workspace) => {
-        let imageUrl: string | undefined = undefined;
-
-        if (workspace.imageId) {
-          const arrayBuffer = await storage.getFileView(IMAGES_BUCKET_ID, workspace.imageId);
-          imageUrl = `data:image/png;base64,${Buffer.from(arrayBuffer).toString('base64')}`;
-        }
-
-        return {
-          ...workspace,
-          imageUrl,
-        };
-      }),
-    );
+    const workspacesWithImages: Models.Document[] = workspaces.documents.map((workspace) => ({
+      ...workspace,
+      imageUrl: workspace.imageId ? getFileViewUrl(workspace.imageId) : undefined,
+    }));
 
     return {
       documents: workspacesWithImages,

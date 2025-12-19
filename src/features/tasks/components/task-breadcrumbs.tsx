@@ -1,4 +1,5 @@
 import { ChevronRight, Trash } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -18,7 +19,8 @@ interface TaskBreadcrumbsProps {
 export const TaskBreadcrumbs = ({ project, task }: TaskBreadcrumbsProps) => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
-  const [ConfirmDialog, confirm] = useConfirm('Delete task?', 'This action cannot be undone.', 'destructive');
+  const tTasks = useTranslations('Tasks');
+  const [ConfirmDialog, confirm] = useConfirm(tTasks('deleteTaskConfirm'), tTasks('deleteTaskWarning'), 'destructive');
 
   const { mutate: deleteTask, isPending } = useDeleteTask();
 
@@ -52,7 +54,7 @@ export const TaskBreadcrumbs = ({ project, task }: TaskBreadcrumbsProps) => {
 
       <Button disabled={isPending} onClick={handleDeleteTask} className="ml-auto" variant="destructive" size="sm">
         <Trash className="size-4 lg:mr-2" />
-        <span className="hidden lg:block">Delete task</span>
+        <span className="hidden lg:block">{tTasks('deleteTask')}</span>
       </Button>
     </div>
   );

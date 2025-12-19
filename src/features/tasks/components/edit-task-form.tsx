@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -26,6 +27,8 @@ interface EditTaskFormProps {
 }
 
 export const EditTaskForm = ({ onCancel, memberOptions, projectOptions, initialValues }: EditTaskFormProps) => {
+  const tCommon = useTranslations('Common');
+  const tTasks = useTranslations('Tasks');
   const { mutate: createTask, isPending } = useUpdateTask();
 
   const editTaskForm = useForm<z.infer<typeof createTaskSchema>>({
@@ -53,7 +56,7 @@ export const EditTaskForm = ({ onCancel, memberOptions, projectOptions, initialV
   return (
     <Card className="size-full border-none shadow-none">
       <CardHeader className="flex p-7">
-        <CardTitle className="text-xl font-bold">Edit a task</CardTitle>
+        <CardTitle className="text-xl font-bold">{tTasks('editTask')}</CardTitle>
       </CardHeader>
 
       <div className="px-7">
@@ -70,10 +73,10 @@ export const EditTaskForm = ({ onCancel, memberOptions, projectOptions, initialV
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Task Name</FormLabel>
+                    <FormLabel>{tTasks('taskName')}</FormLabel>
 
                     <FormControl>
-                      <Input {...field} type="text" placeholder="Enter task name" />
+                      <Input {...field} type="text" placeholder={tTasks('taskNamePlaceholder')} />
                     </FormControl>
 
                     <FormMessage />
@@ -87,10 +90,10 @@ export const EditTaskForm = ({ onCancel, memberOptions, projectOptions, initialV
                 name="dueDate"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Due Date</FormLabel>
+                    <FormLabel>{tTasks('dueDate')}</FormLabel>
 
                     <FormControl>
-                      <DatePicker {...field} disabled={isPending} placeholder="Select due date" />
+                      <DatePicker {...field} disabled={isPending} placeholder={tTasks('selectDueDate')} />
                     </FormControl>
 
                     <FormMessage />
@@ -104,11 +107,13 @@ export const EditTaskForm = ({ onCancel, memberOptions, projectOptions, initialV
                 name="assigneeId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Assignee</FormLabel>
+                    <FormLabel>{tTasks('assignee')}</FormLabel>
 
                     <Select disabled={isPending} defaultValue={field.value} value={field.value} onValueChange={field.onChange}>
                       <FormControl>
-                        <SelectTrigger>{field.value ? <SelectValue placeholder="Select assignee" /> : 'Select assignee'}</SelectTrigger>
+                        <SelectTrigger>
+                          {field.value ? <SelectValue placeholder={tTasks('selectAssignee')} /> : tTasks('selectAssignee')}
+                        </SelectTrigger>
                       </FormControl>
 
                       <FormMessage />
@@ -134,21 +139,23 @@ export const EditTaskForm = ({ onCancel, memberOptions, projectOptions, initialV
                 name="status"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Status</FormLabel>
+                    <FormLabel>{tTasks('status')}</FormLabel>
 
                     <Select disabled={isPending} defaultValue={field.value} value={field.value} onValueChange={field.onChange}>
                       <FormControl>
-                        <SelectTrigger>{field.value ? <SelectValue placeholder="Select status" /> : 'Select status'}</SelectTrigger>
+                        <SelectTrigger>
+                          {field.value ? <SelectValue placeholder={tTasks('selectStatus')} /> : tTasks('selectStatus')}
+                        </SelectTrigger>
                       </FormControl>
 
                       <FormMessage />
 
                       <SelectContent>
-                        <SelectItem value={TaskStatus.BACKLOG}>Backlog</SelectItem>
-                        <SelectItem value={TaskStatus.IN_PROGRESS}>In Progress</SelectItem>
-                        <SelectItem value={TaskStatus.IN_REVIEW}>In Review</SelectItem>
-                        <SelectItem value={TaskStatus.TODO}>Todo</SelectItem>
-                        <SelectItem value={TaskStatus.DONE}>Done</SelectItem>
+                        <SelectItem value={TaskStatus.BACKLOG}>{tTasks('statusBacklog')}</SelectItem>
+                        <SelectItem value={TaskStatus.IN_PROGRESS}>{tTasks('statusInProgress')}</SelectItem>
+                        <SelectItem value={TaskStatus.IN_REVIEW}>{tTasks('statusInReview')}</SelectItem>
+                        <SelectItem value={TaskStatus.TODO}>{tTasks('statusTodo')}</SelectItem>
+                        <SelectItem value={TaskStatus.DONE}>{tTasks('statusDone')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormItem>
@@ -161,11 +168,13 @@ export const EditTaskForm = ({ onCancel, memberOptions, projectOptions, initialV
                 name="projectId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Project</FormLabel>
+                    <FormLabel>{tTasks('project')}</FormLabel>
 
                     <Select disabled={isPending} defaultValue={field.value} value={field.value} onValueChange={field.onChange}>
                       <FormControl>
-                        <SelectTrigger>{field.value ? <SelectValue placeholder="Select project" /> : 'Select project'}</SelectTrigger>
+                        <SelectTrigger>
+                          {field.value ? <SelectValue placeholder={tTasks('selectProject')} /> : tTasks('selectProject')}
+                        </SelectTrigger>
                       </FormControl>
 
                       <FormMessage />
@@ -199,11 +208,11 @@ export const EditTaskForm = ({ onCancel, memberOptions, projectOptions, initialV
                 onClick={onCancel}
                 className={cn(!onCancel && 'invisible')}
               >
-                Cancel
+                {tCommon('cancel')}
               </Button>
 
               <Button disabled={isPending} type="submit" size="lg">
-                Save Changes
+                {tTasks('saveChanges')}
               </Button>
             </div>
           </form>

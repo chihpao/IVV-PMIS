@@ -5,7 +5,10 @@ import 'server-only';
 import { AUTH_COOKIE } from '@/features/auth/constants';
 
 export async function createSessionClient() {
-  const client = new Client().setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!).setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!);
+  const client = new Client()
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!)
+    .setLocale('zh-TW');
 
   const session = cookies().get(AUTH_COOKIE);
 
@@ -30,6 +33,7 @@ export async function createAdminClient() {
   const client = new Client()
     .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
     .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT)
+    .setLocale('zh-TW')
     .setKey(process.env.NEXT_APPWRITE_KEY);
 
   return {

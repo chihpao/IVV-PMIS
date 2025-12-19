@@ -1,7 +1,7 @@
 import { zValidator } from '@hono/zod-validator';
 import { endOfMonth, startOfMonth, subMonths } from 'date-fns';
 import { Hono } from 'hono';
-import { ID, Models, Query } from 'node-appwrite';
+import { ID, Query } from 'node-appwrite';
 import { z } from 'zod';
 
 import { DATABASE_ID, IMAGES_BUCKET_ID, PROJECTS_ID, TASKS_ID } from '@/config/db';
@@ -9,6 +9,7 @@ import { getMember } from '@/features/members/utils';
 import { createProjectSchema, updateProjectSchema } from '@/features/projects/schema';
 import type { Project } from '@/features/projects/types';
 import { type Task, TaskStatus } from '@/features/tasks/types';
+import { getFileViewUrl } from '@/lib/appwrite-file-url';
 import { sessionMiddleware } from '@/lib/session-middleware';
 
 const app = new Hono()
@@ -65,7 +66,6 @@ const app = new Hono()
     async (ctx) => {
       const user = ctx.get('user');
       const databases = ctx.get('databases');
-      const storage = ctx.get('storage');
 
       const { workspaceId } = ctx.req.valid('query');
 
@@ -84,21 +84,10 @@ const app = new Hono()
         Query.orderDesc('$createdAt'),
       ]);
 
-      const projectsWithImages: Project[] = await Promise.all(
-        projects.documents.map(async (project) => {
-          let imageUrl: string | undefined = undefined;
-
-          if (project.imageId) {
-            const arrayBuffer = await storage.getFileView(IMAGES_BUCKET_ID, project.imageId);
-            imageUrl = `data:image/png;base64,${Buffer.from(arrayBuffer).toString('base64')}`;
-          }
-
-          return {
-            ...project,
-            imageUrl,
-          };
-        }),
-      );
+      const projectsWithImages: Project[] = projects.documents.map((project) => ({
+        ...project,
+        imageUrl: project.imageId ? getFileViewUrl(project.imageId) : undefined,
+      }));
 
       return ctx.json({
         data: {
@@ -111,7 +100,6 @@ const app = new Hono()
   .get('/:projectId', sessionMiddleware, async (ctx) => {
     const user = ctx.get('user');
     const databases = ctx.get('databases');
-    const storage = ctx.get('storage');
 
     const { projectId } = ctx.req.param();
 
@@ -132,12 +120,7 @@ const app = new Hono()
       );
     }
 
-    let imageUrl: string | undefined = undefined;
-
-    if (project.imageId) {
-      const arrayBuffer = await storage.getFileView(IMAGES_BUCKET_ID, project.imageId);
-      imageUrl = `data:image/png;base64,${Buffer.from(arrayBuffer).toString('base64')}`;
-    }
+    const imageUrl = project.imageId ? getFileViewUrl(project.imageId) : undefined;
 
     return ctx.json({
       data: {
@@ -255,12 +238,14 @@ const app = new Hono()
       Query.equal('projectId', projectId),
       Query.greaterThanEqual('$createdAt', thisMonthStart.toISOString()),
       Query.lessThanEqual('$createdAt', thisMonthEnd.toISOString()),
+      Query.limit(1),
     ]);
 
     const lastMonthTasks = await databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
       Query.equal('projectId', projectId),
       Query.greaterThanEqual('$createdAt', lastMonthStart.toISOString()),
       Query.lessThanEqual('$createdAt', lastMonthEnd.toISOString()),
+      Query.limit(1),
     ]);
 
     const taskCount = thisMonthTasks.total;
@@ -271,6 +256,7 @@ const app = new Hono()
       Query.equal('assigneeId', member.$id),
       Query.greaterThanEqual('$createdAt', thisMonthStart.toISOString()),
       Query.lessThanEqual('$createdAt', thisMonthEnd.toISOString()),
+      Query.limit(1),
     ]);
 
     const lastMonthAssignedTasks = await databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
@@ -278,6 +264,7 @@ const app = new Hono()
       Query.equal('assigneeId', member.$id),
       Query.greaterThanEqual('$createdAt', lastMonthStart.toISOString()),
       Query.lessThanEqual('$createdAt', lastMonthEnd.toISOString()),
+      Query.limit(1),
     ]);
 
     const assignedTaskCount = thisMonthAssignedTasks.total;
@@ -288,6 +275,7 @@ const app = new Hono()
       Query.notEqual('status', TaskStatus.DONE),
       Query.greaterThanEqual('$createdAt', thisMonthStart.toISOString()),
       Query.lessThanEqual('$createdAt', thisMonthEnd.toISOString()),
+      Query.limit(1),
     ]);
 
     const lastMonthIncompleteTasks = await databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
@@ -295,6 +283,7 @@ const app = new Hono()
       Query.notEqual('status', TaskStatus.DONE),
       Query.greaterThanEqual('$createdAt', lastMonthStart.toISOString()),
       Query.lessThanEqual('$createdAt', lastMonthEnd.toISOString()),
+      Query.limit(1),
     ]);
 
     const incompleteTaskCount = thisMonthIncompleteTasks.total;
@@ -305,6 +294,7 @@ const app = new Hono()
       Query.equal('status', TaskStatus.DONE),
       Query.greaterThanEqual('$createdAt', thisMonthStart.toISOString()),
       Query.lessThanEqual('$createdAt', thisMonthEnd.toISOString()),
+      Query.limit(1),
     ]);
 
     const lastMonthCompletedTasks = await databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
@@ -312,6 +302,7 @@ const app = new Hono()
       Query.notEqual('status', TaskStatus.DONE),
       Query.greaterThanEqual('$createdAt', lastMonthStart.toISOString()),
       Query.lessThanEqual('$createdAt', lastMonthEnd.toISOString()),
+      Query.limit(1),
     ]);
 
     const completedTaskCount = thisMonthCompletedTasks.total;
@@ -323,6 +314,7 @@ const app = new Hono()
       Query.lessThan('dueDate', now.toISOString()),
       Query.greaterThanEqual('$createdAt', thisMonthStart.toISOString()),
       Query.lessThanEqual('$createdAt', thisMonthEnd.toISOString()),
+      Query.limit(1),
     ]);
 
     const lastMonthOverdueTasks = await databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
@@ -331,6 +323,7 @@ const app = new Hono()
       Query.lessThan('dueDate', now.toISOString()),
       Query.greaterThanEqual('$createdAt', lastMonthStart.toISOString()),
       Query.lessThanEqual('$createdAt', lastMonthEnd.toISOString()),
+      Query.limit(1),
     ]);
 
     const overdueTaskCount = thisMonthOverdueTasks.total;

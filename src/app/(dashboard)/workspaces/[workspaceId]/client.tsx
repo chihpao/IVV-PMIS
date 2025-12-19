@@ -1,7 +1,9 @@
 'use client';
 
 import { formatDistanceToNow } from 'date-fns';
+import { zhTW } from 'date-fns/locale';
 import { CalendarIcon, PlusIcon, SettingsIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 import { Analytics } from '@/components/analytics';
@@ -25,20 +27,25 @@ import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 
 export const WorkspaceIdClient = () => {
   const workspaceId = useWorkspaceId();
+  const tErrors = useTranslations('Errors');
 
   const { data: workspaceAnalytics, isLoading: isLoadingAnalytics } = useGetWorkspaceAnalytics({ workspaceId });
-  const { data: tasks, isLoading: isLoadingTasks } = useGetTasks({ workspaceId });
+  const { data: tasks, isLoading: isLoadingTasks } = useGetTasks({ workspaceId, limit: 4 });
   const { data: projects, isLoading: isLoadingProjects } = useGetProjects({ workspaceId });
   const { data: members, isLoading: isLoadingMembers } = useGetMembers({ workspaceId });
 
-  const isLoading = isLoadingAnalytics || isLoadingTasks || isLoadingProjects || isLoadingMembers;
+  const isLoading = isLoadingTasks || isLoadingProjects || isLoadingMembers;
 
   if (isLoading) return <PageLoader />;
-  if (!workspaceAnalytics || !tasks || !projects || !members) return <PageError message="Failed to load workspace data." />;
+  if (!tasks || !projects || !members) return <PageError message={tErrors('failedToLoadWorkspace')} />;
 
   return (
     <div className="flex h-full flex-col space-y-4">
-      <Analytics data={workspaceAnalytics} />
+      {workspaceAnalytics ? (
+        <Analytics data={workspaceAnalytics} />
+      ) : (
+        <div className="h-[72px] w-full rounded-lg border bg-muted/50" aria-busy={isLoadingAnalytics} />
+      )}
 
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
         <TaskList data={tasks.documents.slice(0, 4)} total={tasks.total} />
@@ -57,14 +64,15 @@ interface TaskListProps {
 export const TaskList = ({ data, total }: TaskListProps) => {
   const workspaceId = useWorkspaceId();
   const { open: createTask } = useCreateTaskModal();
+  const tHome = useTranslations('Home');
 
   return (
     <div className="col-span-1 flex flex-col gap-y-4">
       <div className="rounded-lg bg-muted p-4">
         <div className="flex items-center justify-between">
-          <p className="text-lg font-semibold">Tasks ({total})</p>
+          <p className="text-lg font-semibold">{tHome('tasksWithCount', { count: total })}</p>
 
-          <Button title="Create Task" variant="muted" size="icon" onClick={() => createTask()}>
+          <Button title={tHome('createTask')} variant="muted" size="icon" onClick={() => createTask()}>
             <PlusIcon className="size-4 text-neutral-400" />
           </Button>
         </div>
@@ -86,7 +94,7 @@ export const TaskList = ({ data, total }: TaskListProps) => {
 
                       <div className="flex items-center text-sm text-muted-foreground">
                         <CalendarIcon className="mr-1 size-3" />
-                        <span className="truncate">{formatDistanceToNow(new Date(task.dueDate))}</span>
+                        <span className="truncate">{formatDistanceToNow(new Date(task.dueDate), { locale: zhTW })}</span>
                       </div>
                     </div>
                   </CardContent>
@@ -95,11 +103,11 @@ export const TaskList = ({ data, total }: TaskListProps) => {
             </li>
           ))}
 
-          <li className="hidden text-center text-sm text-muted-foreground first-of-type:block">No tasks found.</li>
+          <li className="hidden text-center text-sm text-muted-foreground first-of-type:block">{tHome('noTasks')}</li>
         </ul>
 
         <Button variant="muted" className="mt-4 w-full" asChild>
-          <Link href={`/workspaces/${workspaceId}/tasks`}>Show All</Link>
+          <Link href={`/workspaces/${workspaceId}/tasks`}>{tHome('showAll')}</Link>
         </Button>
       </div>
     </div>
@@ -114,14 +122,15 @@ interface ProjectListProps {
 export const ProjectList = ({ data, total }: ProjectListProps) => {
   const workspaceId = useWorkspaceId();
   const { open: createProject } = useCreateProjectModal();
+  const tHome = useTranslations('Home');
 
   return (
     <div className="col-span-1 flex flex-col gap-y-4">
       <div className="rounded-lg border bg-white p-4">
         <div className="flex items-center justify-between">
-          <p className="text-lg font-semibold">Projects ({total})</p>
+          <p className="text-lg font-semibold">{tHome('projectsWithCount', { count: total })}</p>
 
-          <Button title="Create Project" variant="secondary" size="icon" onClick={createProject}>
+          <Button title={tHome('createProject')} variant="secondary" size="icon" onClick={createProject}>
             <PlusIcon className="size-4 text-neutral-400" />
           </Button>
         </div>
@@ -142,7 +151,7 @@ export const ProjectList = ({ data, total }: ProjectListProps) => {
             </li>
           ))}
 
-          <li className="hidden text-center text-sm text-muted-foreground first-of-type:block">No projects found.</li>
+          <li className="hidden text-center text-sm text-muted-foreground first-of-type:block">{tHome('noProjects')}</li>
         </ul>
       </div>
     </div>
@@ -156,14 +165,15 @@ interface MemberListProps {
 
 export const MemberList = ({ data, total }: MemberListProps) => {
   const workspaceId = useWorkspaceId();
+  const tHome = useTranslations('Home');
 
   return (
     <div className="col-span-1 flex flex-col gap-y-4">
       <div className="rounded-lg border bg-white p-4">
         <div className="flex items-center justify-between">
-          <p className="text-lg font-semibold">Members ({total})</p>
+          <p className="text-lg font-semibold">{tHome('membersWithCount', { count: total })}</p>
 
-          <Button title="Create Project" variant="secondary" size="icon" asChild>
+          <Button title={tHome('manageMembers')} variant="secondary" size="icon" asChild>
             <Link href={`/workspaces/${workspaceId}/members`}>
               <SettingsIcon className="size-4 text-neutral-400" />
             </Link>
@@ -188,7 +198,7 @@ export const MemberList = ({ data, total }: MemberListProps) => {
             </li>
           ))}
 
-          <li className="hidden text-center text-sm text-muted-foreground first-of-type:block">No members found.</li>
+          <li className="hidden text-center text-sm text-muted-foreground first-of-type:block">{tHome('noMembers')}</li>
         </ul>
       </div>
     </div>

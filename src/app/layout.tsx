@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 import { Inter } from 'next/font/google';
 import type { PropsWithChildren } from 'react';
 
@@ -16,15 +18,19 @@ const inter = Inter({
 
 export const metadata: Metadata = siteConfig;
 
-const RootLayout = ({ children }: Readonly<PropsWithChildren>) => {
+const RootLayout = async ({ children }: Readonly<PropsWithChildren>) => {
+  const messages = await getMessages();
+
   return (
-    <html lang="en">
+    <html lang="zh-TW">
       <body className={cn(inter.className, 'min-h-screen antialiased')}>
-        <QueryProvider>
-          <ExternalBrowserGate />
-          <Toaster theme="light" richColors closeButton />
-          {children}
-        </QueryProvider>
+        <NextIntlClientProvider messages={messages}>
+          <QueryProvider>
+            <ExternalBrowserGate />
+            <Toaster theme="light" richColors closeButton />
+            {children}
+          </QueryProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

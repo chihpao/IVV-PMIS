@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { OAuthProvider } from 'node-appwrite';
 import { useState } from 'react';
@@ -20,6 +21,8 @@ import { signInFormSchema } from '@/features/auth/schema';
 import { onOAuth } from '@/lib/oauth';
 
 export const SignInCard = () => {
+  const t = useTranslations('Auth');
+  const tErrors = useTranslations('Errors');
   const [isRedirecting, setIsRedirecting] = useState(false);
   const { mutate: login, isPending: isLoggingIn } = useLogin();
 
@@ -53,7 +56,7 @@ export const SignInCard = () => {
     onOAuth(provider)
       .catch((error) => {
         console.error(error);
-        toast.error('Something went wrong.');
+        toast.error(tErrors('somethingWentWrong'));
       })
       .finally(() => setIsRedirecting(false));
   };
@@ -63,7 +66,7 @@ export const SignInCard = () => {
   return (
     <Card className="size-full border-none shadow-none md:w-[487px]">
       <CardHeader className="flex items-center justify-center p-7 text-center">
-        <CardTitle className="text-2xl">Welcome back!</CardTitle>
+        <CardTitle className="text-2xl">{t('welcomeBack')}</CardTitle>
       </CardHeader>
 
       <div className="px-7">
@@ -80,7 +83,7 @@ export const SignInCard = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} type="email" placeholder="Email address" />
+                    <Input {...field} type="email" placeholder={t('emailPlaceholder')} />
                   </FormControl>
 
                   <FormMessage />
@@ -95,7 +98,7 @@ export const SignInCard = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} type="password" placeholder="Password" />
+                    <Input {...field} type="password" placeholder={t('passwordPlaceholder')} />
                   </FormControl>
 
                   <FormMessage />
@@ -104,7 +107,7 @@ export const SignInCard = () => {
             />
 
             <Button type="submit" disabled={isPending} size="lg" className="w-full">
-              Login
+              {t('login')}
             </Button>
           </form>
         </Form>
@@ -116,11 +119,11 @@ export const SignInCard = () => {
 
       <CardContent className="flex flex-col gap-y-4 p-7">
         <Button onClick={() => handleOAuth(OAuthProvider.Google)} disabled={isPending} variant="secondary" size="lg" className="w-full">
-          <FcGoogle className="mr-2 size-5" /> Continue with Google
+          <FcGoogle className="mr-2 size-5" /> {t('continueWithGoogle')}
         </Button>
 
         <Button onClick={() => handleOAuth(OAuthProvider.Github)} disabled={isPending} variant="secondary" size="lg" className="w-full">
-          <FaGithub className="mr-2 size-5" /> Continue with GitHub
+          <FaGithub className="mr-2 size-5" /> {t('continueWithGithub')}
         </Button>
       </CardContent>
 
@@ -130,9 +133,9 @@ export const SignInCard = () => {
 
       <CardContent className="flex items-center justify-center p-7">
         <p>
-          Don&apos;t have an account?{' '}
+          {t('noAccount')}{' '}
           <Link href="/sign-up">
-            <span className="text-blue-700">Register</span>
+            <span className="text-blue-700">{t('register')}</span>
           </Link>
         </p>
       </CardContent>

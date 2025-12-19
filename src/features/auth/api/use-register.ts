@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { InferRequestType, InferResponseType } from 'hono';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
@@ -11,12 +12,13 @@ type RequestType = InferRequestType<(typeof client.api.auth.register)['$post']>;
 export const useRegister = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const t = useTranslations('Notifications');
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ json }) => {
       const response = await client.api.auth.register['$post']({ json });
 
-      if (!response.ok) throw new Error('Failed to register!');
+      if (!response.ok) throw new Error(t('registerFailed'));
 
       return await response.json();
     },
@@ -30,7 +32,7 @@ export const useRegister = () => {
     onError: (error) => {
       console.error('[REGISTER]: ', error);
 
-      toast.error('Failed to register!');
+      toast.error(t('registerFailed'));
     },
   });
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { Pencil } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 import { Analytics } from '@/components/analytics';
@@ -15,6 +16,8 @@ import { TaskViewSwitcher } from '@/features/tasks/components/task-view-switcher
 
 export const ProjectIdClient = () => {
   const projectId = useProjectId();
+  const tErrors = useTranslations('Errors');
+  const tProjects = useTranslations('Projects');
 
   const { data: project, isLoading: isLoadingProject } = useGetProject({ projectId });
   const { data: projectAnalytics, isLoading: isLoadingProjectAnalytics } = useGetProjectAnalytics({ projectId });
@@ -23,7 +26,7 @@ export const ProjectIdClient = () => {
 
   if (isLoading) return <PageLoader />;
 
-  if (!project) return <PageError message="Project not found." />;
+  if (!project) return <PageError message={tErrors('projectNotFound')} />;
 
   return (
     <div className="flex flex-col gap-y-4">
@@ -38,7 +41,7 @@ export const ProjectIdClient = () => {
           <Button variant="secondary" size="sm" asChild>
             <Link href={`/workspaces/${project.workspaceId}/projects/${project.$id}/settings`}>
               <Pencil className="mr-2 size-4" />
-              Edit Project
+              {tProjects('editProject')}
             </Link>
           </Button>
         </div>

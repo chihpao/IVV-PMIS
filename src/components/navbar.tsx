@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 
 import { UserButton } from '@/features/auth/components/user-button';
@@ -8,33 +9,34 @@ import { MobileSidebar } from './mobile-sidebar';
 
 const pathnameMap = {
   tasks: {
-    title: 'My Tasks',
-    description: 'View all of your tasks here.',
+    titleKey: 'tasksTitle',
+    descriptionKey: 'tasksDescription',
   },
   projects: {
-    title: 'My Project',
-    description: 'View tasks of your project here.',
+    titleKey: 'projectTitle',
+    descriptionKey: 'projectDescription',
   },
 };
 
 const defaultMap = {
-  title: 'Home',
-  description: 'Monitor all of your projects and tasks here.',
+  titleKey: 'homeTitle',
+  descriptionKey: 'homeDescription',
 };
 
 export const Navbar = () => {
   const pathname = usePathname();
+  const t = useTranslations('Nav');
   const pathnameParts = pathname.split('/');
   const pathnameKey = pathnameParts[3] as keyof typeof pathnameMap;
 
-  const { title, description } = pathnameMap[pathnameKey] || defaultMap;
+  const { titleKey, descriptionKey } = pathnameMap[pathnameKey] || defaultMap;
 
   return (
     <nav className="flex items-center justify-between px-6 pt-4">
       <div className="hidden flex-col lg:flex">
-        <h1 className="text-2xl font-semibold">{title}</h1>
+        <h1 className="text-2xl font-semibold">{t(titleKey)}</h1>
 
-        <p className="text-muted-foreground">{description}</p>
+        <p className="text-muted-foreground">{t(descriptionKey)}</p>
       </div>
 
       <MobileSidebar />

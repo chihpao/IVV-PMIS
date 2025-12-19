@@ -1,17 +1,19 @@
 import { z } from 'zod';
 
+import messages from '../../../messages/zh-TW.json';
+
 export const createProjectSchema = z.object({
-  name: z.string().trim().min(1, 'Project name is required.'),
+  name: z.string().trim().min(1, messages.Validation.projectNameRequired),
   image: z.union([z.instanceof(File), z.string().transform((value) => (value === '' ? undefined : value))]).optional(),
   workspaceId: z.string({
-    message: 'Workspace id is required.',
+    message: messages.Validation.workspaceIdRequired,
   }),
 });
 
 export const updateProjectSchema = z.object({
-  name: z.string().trim().min(1, 'Project name is required.').optional(),
+  name: z.string().trim().min(1, messages.Validation.projectNameRequired).optional(),
   image: z.union([z.instanceof(File), z.string().transform((value) => (value === '' ? undefined : value))]).optional(),
   workspaceId: z.string({
-    message: 'Workspace id is required.',
+    message: messages.Validation.workspaceIdRequired,
   }),
 });

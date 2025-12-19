@@ -1,4 +1,5 @@
 import { SearchIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 import { Input } from '@/components/ui/input';
@@ -7,6 +8,7 @@ import { useDebounce } from '@/hooks/use-debounce';
 
 export const DataSearch = () => {
   const [value, setValue] = useState('');
+  const tTasks = useTranslations('Tasks');
 
   const debouncedValue = useDebounce(value);
   const [_filters, setFilters] = useTaskFilters();
@@ -24,7 +26,7 @@ export const DataSearch = () => {
         type="search"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        placeholder="Search for a task"
+        placeholder={tTasks('searchPlaceholder')}
         className="h-8 w-full px-8 lg:w-[320px]"
       />
     </div>

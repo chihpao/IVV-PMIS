@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -20,6 +21,8 @@ export const JoinWorkspaceForm = ({ initialValues }: JoinWorkspaceFormProps) => 
   const router = useRouter();
   const workspaceId = useWorkspaceId();
   const inviteCode = useInviteCode();
+  const tCommon = useTranslations('Common');
+  const tWorkspaces = useTranslations('Workspaces');
 
   const { mutate: joinWorkspace, isPending } = useJoinWorkspace();
 
@@ -40,11 +43,9 @@ export const JoinWorkspaceForm = ({ initialValues }: JoinWorkspaceFormProps) => 
   return (
     <Card className="size-full border-none shadow-none">
       <CardHeader className="p-7">
-        <CardTitle className="text-xl font-bold">Join workspace</CardTitle>
+        <CardTitle className="text-xl font-bold">{tWorkspaces('joinWorkspace')}</CardTitle>
 
-        <CardDescription>
-          You&apos;ve been invited to join <strong>{initialValues.name}</strong> workspace.
-        </CardDescription>
+        <CardDescription>{tWorkspaces('joinWorkspaceDescription', { name: initialValues.name })}</CardDescription>
       </CardHeader>
 
       <div className="px-7">
@@ -54,11 +55,11 @@ export const JoinWorkspaceForm = ({ initialValues }: JoinWorkspaceFormProps) => 
       <CardContent className="p-7">
         <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
           <Button disabled={isPending} size="lg" variant="secondary" type="button" className="w-full md:w-fit" asChild>
-            <Link href="/">Cancel</Link>
+            <Link href="/">{tCommon('cancel')}</Link>
           </Button>
 
           <Button disabled={isPending} size="lg" type="button" onClick={handleJoinWorkspace} className="w-full md:w-fit">
-            Join Workspace
+            {tWorkspaces('joinWorkspace')}
           </Button>
         </div>
       </CardContent>

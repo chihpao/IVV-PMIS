@@ -1,4 +1,5 @@
 import { ExternalLink, PencilIcon, Trash } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import type { PropsWithChildren } from 'react';
 
@@ -16,9 +17,10 @@ interface TaskActionsProps {
 export const TaskActions = ({ id, projectId, children }: PropsWithChildren<TaskActionsProps>) => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
+  const tTasks = useTranslations('Tasks');
 
   const { open } = useEditTaskModal();
-  const [ConfirmDialog, confirm] = useConfirm('Delete task', 'This action cannot be undone.', 'destructive');
+  const [ConfirmDialog, confirm] = useConfirm(tTasks('deleteTask'), tTasks('deleteTaskWarning'), 'destructive');
 
   const { mutate: deleteTask, isPending } = useDeleteTask();
 
@@ -49,22 +51,22 @@ export const TaskActions = ({ id, projectId, children }: PropsWithChildren<TaskA
         <DropdownMenuContent align="end" className="w-48">
           <DropdownMenuItem onClick={onOpenTask} disabled={isPending} className="p-[10px] font-medium">
             <ExternalLink className="mr-2 size-4 stroke-2" />
-            Task Details
+            {tTasks('taskDetails')}
           </DropdownMenuItem>
 
           <DropdownMenuItem onClick={onOpenProject} disabled={isPending} className="p-[10px] font-medium">
             <ExternalLink className="mr-2 size-4 stroke-2" />
-            Open Project
+            {tTasks('openProject')}
           </DropdownMenuItem>
 
           <DropdownMenuItem onClick={() => open(id)} disabled={isPending} className="p-[10px] font-medium">
             <PencilIcon className="mr-2 size-4 stroke-2" />
-            Edit Task
+            {tTasks('editTaskAction')}
           </DropdownMenuItem>
 
           <DropdownMenuItem onClick={onDelete} disabled={isPending} className="p-[10px] font-medium text-amber-700 focus:text-amber-700">
             <Trash className="mr-2 size-4 stroke-2" />
-            Delete Task
+            {tTasks('deleteTask')}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

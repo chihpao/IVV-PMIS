@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 
 import { client } from '@/lib/hono';
 
@@ -7,6 +8,7 @@ interface useGetWorkspaceInfoProps {
 }
 
 export const useGetWorkspaceInfo = ({ workspaceId }: useGetWorkspaceInfoProps) => {
+  const tErrors = useTranslations('Errors');
   const query = useQuery({
     queryKey: ['workspace-info', workspaceId],
     queryFn: async () => {
@@ -14,7 +16,7 @@ export const useGetWorkspaceInfo = ({ workspaceId }: useGetWorkspaceInfoProps) =
         param: { workspaceId },
       });
 
-      if (!response.ok) throw new Error('Failed to fetch workspace info.');
+      if (!response.ok) throw new Error(tErrors('fetchWorkspaceInfoFailed'));
 
       const { data } = await response.json();
 

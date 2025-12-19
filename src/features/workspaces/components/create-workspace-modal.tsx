@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { ResponsiveModal } from '@/components/responsive-modal';
 import { useCreateWorkspaceModal } from '@/features/workspaces/hooks/use-create-workspace-modal';
 
@@ -7,9 +9,15 @@ import { CreateWorkspaceForm } from './create-workspace-form';
 
 export const CreateWorkspaceModal = () => {
   const { isOpen, setIsOpen, close } = useCreateWorkspaceModal();
+  const tWorkspaces = useTranslations('Workspaces');
 
   return (
-    <ResponsiveModal title="Create Workspace" description="Create a new workspace to get started." open={isOpen} onOpenChange={setIsOpen}>
+    <ResponsiveModal
+      title={tWorkspaces('createWorkspace')}
+      description={tWorkspaces('createWorkspaceDescription')}
+      open={isOpen}
+      onOpenChange={setIsOpen}
+    >
       <CreateWorkspaceForm onCancel={close} />
     </ResponsiveModal>
   );

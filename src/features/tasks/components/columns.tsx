@@ -2,24 +2,25 @@
 
 import type { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, MoreVertical } from 'lucide-react';
+import type { _Translator as Translator } from 'use-intl/core';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MemberAvatar } from '@/features/members/components/member-avatar';
 import { ProjectAvatar } from '@/features/projects/components/project-avatar';
 import type { Task } from '@/features/tasks/types';
-import { snakeCaseToTitleCase } from '@/lib/utils';
+import { TaskStatus } from '@/features/tasks/types';
 
 import { TaskActions } from './task-actions';
 import { TaskDate } from './task-date';
 
-export const columns: ColumnDef<Task>[] = [
+export const createColumns = (tTasks: Translator, tCommon: Translator): ColumnDef<Task>[] => [
   {
     accessorKey: 'name',
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          Task Name
+          {tTasks('taskName')}
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -35,7 +36,7 @@ export const columns: ColumnDef<Task>[] = [
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          Project
+          {tTasks('project')}
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -44,7 +45,7 @@ export const columns: ColumnDef<Task>[] = [
       const project = row.original.project;
 
       if (!project) {
-        return <p className="text-sm text-muted-foreground">No project</p>;
+        return <p className="text-sm text-muted-foreground">{tCommon('noProject')}</p>;
       }
 
       return (
@@ -61,7 +62,7 @@ export const columns: ColumnDef<Task>[] = [
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          Assignee
+          {tTasks('assignee')}
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -70,7 +71,7 @@ export const columns: ColumnDef<Task>[] = [
       const assignee = row.original.assignee;
 
       if (!assignee) {
-        return <p className="text-sm text-muted-foreground">Unassigned</p>;
+        return <p className="text-sm text-muted-foreground">{tCommon('unassigned')}</p>;
       }
 
       return (
@@ -87,7 +88,7 @@ export const columns: ColumnDef<Task>[] = [
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          Due Date
+          {tTasks('dueDate')}
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -103,15 +104,22 @@ export const columns: ColumnDef<Task>[] = [
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          Status
+          {tTasks('status')}
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
       const status = row.original.status;
+      const statusLabels: Record<TaskStatus, string> = {
+        [TaskStatus.BACKLOG]: tTasks('statusBacklog'),
+        [TaskStatus.TODO]: tTasks('statusTodo'),
+        [TaskStatus.IN_PROGRESS]: tTasks('statusInProgress'),
+        [TaskStatus.IN_REVIEW]: tTasks('statusInReview'),
+        [TaskStatus.DONE]: tTasks('statusDone'),
+      };
 
-      return <Badge variant={status}>{snakeCaseToTitleCase(status)}</Badge>;
+      return <Badge variant={status}>{statusLabels[status]}</Badge>;
     },
   },
   {

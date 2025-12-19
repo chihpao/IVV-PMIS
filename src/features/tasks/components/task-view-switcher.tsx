@@ -1,6 +1,7 @@
 'use client';
 
 import { Loader2, PlusIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useQueryState } from 'nuqs';
 import { useCallback } from 'react';
 
@@ -14,7 +15,7 @@ import { useTaskFilters } from '@/features/tasks/hooks/use-task-filters';
 import type { TaskStatus } from '@/features/tasks/types';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 
-import { columns } from './columns';
+import { createColumns } from './columns';
 import { DataCalendar } from './data-calendar';
 import { DataFilters } from './data-filters';
 import { DataKanban } from './data-kanban';
@@ -30,6 +31,8 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
   const [view, setView] = useQueryState('task-view', {
     defaultValue: 'table',
   });
+  const tTasks = useTranslations('Tasks');
+  const tCommon = useTranslations('Common');
   const [{ status, assigneeId, projectId: filteredProjectId, dueDate, search }] = useTaskFilters();
 
   const workspaceId = useWorkspaceId();
@@ -61,21 +64,21 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
         <div className="flex flex-col items-center justify-between gap-y-2 lg:flex-row">
           <TabsList className="w-full lg:w-auto">
             <TabsTrigger className="h-8 w-full lg:w-auto" value="table">
-              Table
+              {tTasks('table')}
             </TabsTrigger>
 
             <TabsTrigger className="h-8 w-full lg:w-auto" value="kanban">
-              Kanban
+              {tTasks('kanban')}
             </TabsTrigger>
 
             <TabsTrigger className="h-8 w-full lg:w-auto" value="calendar">
-              Calendar
+              {tTasks('calendar')}
             </TabsTrigger>
           </TabsList>
 
           <Button onClick={() => open()} size="sm" className="w-full lg:w-auto">
             <PlusIcon className="size-4" />
-            New
+            {tCommon('new')}
           </Button>
         </div>
         <DottedSeparator className="my-4" />
@@ -94,7 +97,7 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
         ) : (
           <>
             <TabsContent value="table" className="mt-0">
-              <DataTable columns={columns} data={tasks?.documents ?? []} />
+              <DataTable columns={createColumns(tTasks, tCommon)} data={tasks?.documents ?? []} />
             </TabsContent>
 
             <TabsContent value="kanban" className="mt-0">

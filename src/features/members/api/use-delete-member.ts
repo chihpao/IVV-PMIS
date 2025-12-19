@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { InferRequestType, InferResponseType } from 'hono';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 import { client } from '@/lib/hono';
@@ -9,17 +10,18 @@ type RequestType = InferRequestType<(typeof client.api.members)[':memberId']['$d
 
 export const useDeleteMember = () => {
   const queryClient = useQueryClient();
+  const t = useTranslations('Notifications');
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ param }) => {
       const response = await client.api.members[':memberId']['$delete']({ param });
 
-      if (!response.ok) throw new Error('Failed to delete member.');
+      if (!response.ok) throw new Error(t('memberDeleteFailed'));
 
       return await response.json();
     },
     onSuccess: ({ data }) => {
-      toast.success('Member deleted.');
+      toast.success(t('memberDeleted'));
 
       queryClient.invalidateQueries({
         queryKey: ['members', data.workspaceId],
@@ -29,7 +31,7 @@ export const useDeleteMember = () => {
     onError: (error) => {
       console.error('[DELETE_MEMBER]: ', error);
 
-      toast.error('Failed to delete member.');
+      toast.error(t('memberDeleteFailed'));
     },
   });
 

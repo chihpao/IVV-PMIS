@@ -1,6 +1,7 @@
 'use client';
 
 import { Settings, UsersIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { GoCheckCircle, GoCheckCircleFill, GoHome, GoHomeFill } from 'react-icons/go';
@@ -10,25 +11,25 @@ import { cn } from '@/lib/utils';
 
 const routes = [
   {
-    label: 'Home',
+    labelKey: 'home',
     href: '',
     icon: GoHome,
     activeIcon: GoHomeFill,
   },
   {
-    label: 'My Tasks',
+    labelKey: 'myTasks',
     href: '/tasks',
     icon: GoCheckCircle,
     activeIcon: GoCheckCircleFill,
   },
   {
-    label: 'Settings',
+    labelKey: 'settings',
     href: '/settings',
     icon: Settings,
     activeIcon: Settings,
   },
   {
-    label: 'Members',
+    labelKey: 'members',
     href: '/members',
     icon: UsersIcon,
     activeIcon: UsersIcon,
@@ -38,6 +39,7 @@ const routes = [
 export const Navigation = () => {
   const pathname = usePathname();
   const workspaceId = useWorkspaceId();
+  const t = useTranslations('Nav');
 
   return (
     <ul className="flex flex-col">
@@ -56,7 +58,7 @@ export const Navigation = () => {
               )}
             >
               <Icon className="size-5 text-neutral-500" />
-              {route.label}
+              {t(route.labelKey)}
             </Link>
           </li>
         );

@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 
 import { client } from '@/lib/hono';
 
@@ -7,6 +8,7 @@ interface useGetTaskProps {
 }
 
 export const useGetTask = ({ taskId }: useGetTaskProps) => {
+  const tErrors = useTranslations('Errors');
   const query = useQuery({
     queryKey: ['task', taskId],
     queryFn: async () => {
@@ -16,7 +18,7 @@ export const useGetTask = ({ taskId }: useGetTaskProps) => {
         },
       });
 
-      if (!response.ok) throw new Error('Failed to fetch task.');
+      if (!response.ok) throw new Error(tErrors('fetchTaskFailed'));
 
       const { data } = await response.json();
 

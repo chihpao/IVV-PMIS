@@ -3,12 +3,13 @@ import { Hono } from 'hono';
 import { ID, Models, Query } from 'node-appwrite';
 import { z } from 'zod';
 
-import { DATABASE_ID, IMAGES_BUCKET_ID, MEMBERS_ID, PROJECTS_ID, TASKS_ID } from '@/config/db';
+import { DATABASE_ID, MEMBERS_ID, PROJECTS_ID, TASKS_ID } from '@/config/db';
 import { getMember } from '@/features/members/utils';
 import type { Project } from '@/features/projects/types';
 import { createTaskSchema } from '@/features/tasks/schema';
 import { type Task, TaskStatus } from '@/features/tasks/types';
 import { createAdminClient } from '@/lib/appwrite';
+import { getFileViewUrl } from '@/lib/appwrite-file-url';
 import { sessionMiddleware } from '@/lib/session-middleware';
 
 const app = new Hono()
@@ -24,15 +25,15 @@ const app = new Hono()
         status: z.nativeEnum(TaskStatus).nullish(),
         search: z.string().nullish(),
         dueDate: z.string().nullish(),
+        limit: z.coerce.number().int().positive().max(100).nullish(),
       }),
     ),
     async (ctx) => {
       const { users } = await createAdminClient();
       const databases = ctx.get('databases');
-      const storage = ctx.get('storage');
       const user = ctx.get('user');
 
-      const { workspaceId, projectId, assigneeId, status, search, dueDate } = ctx.req.valid('query');
+      const { workspaceId, projectId, assigneeId, status, search, dueDate, limit } = ctx.req.valid('query');
 
       const member = await getMember({
         databases,
@@ -55,6 +56,8 @@ const app = new Hono()
       if (dueDate) query.push(Query.equal('dueDate', dueDate));
 
       if (search) query.push(Query.search('name', search));
+
+      if (limit) query.push(Query.limit(limit));
 
       const tasks = await databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, query);
 
@@ -90,12 +93,7 @@ const app = new Hono()
           const project = projects.documents.find((project) => project.$id === task.projectId);
           const assignee = assignees.find((assignee) => assignee.$id === task.assigneeId);
 
-          let imageUrl: string | undefined = undefined;
-
-          if (project?.imageId) {
-            const arrayBuffer = await storage.getFileView(IMAGES_BUCKET_ID, project.imageId);
-            imageUrl = `data:image/png;base64,${Buffer.from(arrayBuffer).toString('base64')}`;
-          }
+          const imageUrl = project?.imageId ? getFileViewUrl(project.imageId) : undefined;
 
           const populatedProject = project ? { ...project, imageUrl } : undefined;
 

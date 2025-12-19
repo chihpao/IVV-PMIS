@@ -1,4 +1,5 @@
 import { MoreHorizontal } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { DottedSeparator } from '@/components/dotted-separator';
 import { MemberAvatar } from '@/features/members/components/member-avatar';
@@ -13,8 +14,9 @@ interface KanbanCardProps {
 }
 
 export const KanbanCard = ({ task }: KanbanCardProps) => {
-  const assigneeName = task.assignee?.name ?? 'Unassigned';
-  const projectName = task.project?.name ?? 'No project';
+  const tCommon = useTranslations('Common');
+  const assigneeName = task.assignee?.name ?? tCommon('unassigned');
+  const projectName = task.project?.name ?? tCommon('noProject');
 
   return (
     <div className="mb-1.5 space-y-3 rounded bg-white p-2.5 shadow-sm">

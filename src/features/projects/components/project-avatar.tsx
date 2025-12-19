@@ -14,7 +14,7 @@ export const ProjectAvatar = ({ image, name, className, fallbackClassName }: Pro
   if (image) {
     return (
       <div className={cn('relative size-5 overflow-hidden rounded-md', className)}>
-        <Image src={image} alt={name} fill className="object-cover" />
+        <Image src={image} alt={name} fill className="object-cover" unoptimized />
       </div>
     );
   }
