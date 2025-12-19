@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import type { PropsWithChildren } from 'react';
-import ExternalBrowserGate from '@/components/ExternalBrowserGate';
 
+import ExternalBrowserGate from '@/components/ExternalBrowserGate';
 import { QueryProvider } from '@/components/query-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { siteConfig } from '@/config';

@@ -122,14 +122,15 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.5",
     "@babel/eslint-parser": "^7.25.9",
     "@trivago/prettier-plugin-sort-imports": "^6.0.0",
     "@types/node": "^25",
     "@types/react": "^18",
     "@types/react-big-calendar": "^1.15.0",
     "@types/react-dom": "^18",
-    "eslint": "^9",
-    "eslint-config-next": "16.0.10",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.15",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.1",
     "postcss": "^8",

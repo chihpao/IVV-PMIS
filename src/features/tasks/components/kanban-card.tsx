@@ -13,6 +13,9 @@ interface KanbanCardProps {
 }
 
 export const KanbanCard = ({ task }: KanbanCardProps) => {
+  const assigneeName = task.assignee?.name ?? 'Unassigned';
+  const projectName = task.project?.name ?? 'No project';
+
   return (
     <div className="mb-1.5 space-y-3 rounded bg-white p-2.5 shadow-sm">
       <div className="flex items-start justify-between gap-x-2">
@@ -26,14 +29,14 @@ export const KanbanCard = ({ task }: KanbanCardProps) => {
       <DottedSeparator />
 
       <div className="flex items-center gap-x-1.5">
-        <MemberAvatar name={task.assignee.name} fallbackClassName="text-[10px]" />
+        <MemberAvatar name={assigneeName} fallbackClassName="text-[10px]" />
         <div aria-hidden className="size-1 rounded-full bg-neutral-300" />
         <TaskDate value={task.dueDate} className="text-xs" />
       </div>
 
       <div className="flex items-center gap-x-1.5">
-        <ProjectAvatar name={task.project.name} image={task.project.imageUrl} fallbackClassName="text-[10px]" />
-        <span className="text-xs font-medium">{task.project.name}</span>
+        <ProjectAvatar name={projectName} image={task.project?.imageUrl} fallbackClassName="text-[10px]" />
+        <span className="text-xs font-medium">{projectName}</span>
       </div>
     </div>
   );

@@ -12,7 +12,6 @@ const StandaloneLayout = ({ children }: PropsWithChildren) => {
 
           <div className="flex items-center gap-x-2.5">
             <UserButton />
-
           </div>
         </nav>
 

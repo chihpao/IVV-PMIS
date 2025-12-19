@@ -1,17 +1,15 @@
 import { useRouter } from 'next/navigation';
 
 import { MemberAvatar } from '@/features/members/components/member-avatar';
-import type { Member } from '@/features/members/types';
 import { ProjectAvatar } from '@/features/projects/components/project-avatar';
-import type { Project } from '@/features/projects/types';
-import { TaskStatus } from '@/features/tasks/types';
+import { type Task, TaskStatus } from '@/features/tasks/types';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 import { cn } from '@/lib/utils';
 
 interface EventCardProps {
   title: string;
-  assignee: Member;
-  project: Project;
+  assignee?: Task['assignee'];
+  project?: Task['project'];
   status: TaskStatus;
   id: string;
 }
@@ -27,6 +25,8 @@ const statusColorMap: Record<TaskStatus, string> = {
 export const EventCard = ({ title, assignee, project, status, id }: EventCardProps) => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
+  const assigneeName = assignee?.name ?? 'Unassigned';
+  const projectName = project?.name ?? 'No project';
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -46,10 +46,10 @@ export const EventCard = ({ title, assignee, project, status, id }: EventCardPro
         <p>{title}</p>
 
         <div className="flex items-center gap-x-1">
-          <MemberAvatar name={assignee?.name} />
+          <MemberAvatar name={assigneeName} />
 
           <div aria-hidden className="size-1 rounded-full bg-neutral-300" />
-          <ProjectAvatar name={project?.name} image={project?.imageUrl} />
+          <ProjectAvatar name={projectName} image={project?.imageUrl} />
         </div>
       </button>
     </div>

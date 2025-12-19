@@ -17,6 +17,7 @@ interface TaskOverviewProps {
 
 export const TaskOverview = ({ task }: TaskOverviewProps) => {
   const { open } = useEditTaskModal();
+  const assigneeName = task.assignee?.name ?? 'Unassigned';
 
   return (
     <div className="col-span-1 flex flex-col gap-y-4">
@@ -34,9 +35,9 @@ export const TaskOverview = ({ task }: TaskOverviewProps) => {
 
         <div className="flex flex-col gap-y-4">
           <OverviewProperty label="Assignee">
-            <MemberAvatar name={task.assignee.name} className="size-6" />
+            <MemberAvatar name={assigneeName} className="size-6" />
 
-            <p className="text-sm font-medium">{task.assignee.name}</p>
+            <p className="text-sm font-medium">{assigneeName}</p>
           </OverviewProperty>
 
           <OverviewProperty label="Due Date">

@@ -17,6 +17,7 @@ export const TaskIdClient = () => {
   if (isLoading) return <PageLoader />;
 
   if (!task) return <PageError message="Task not found." />;
+  if (!task.project) return <PageError message="Project not found." />;
 
   return (
     <div className="flex flex-col">

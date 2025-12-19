@@ -97,12 +97,11 @@ const app = new Hono()
             imageUrl = `data:image/png;base64,${Buffer.from(arrayBuffer).toString('base64')}`;
           }
 
+          const populatedProject = project ? { ...project, imageUrl } : undefined;
+
           return {
             ...task,
-            project: {
-              ...project,
-              imageUrl,
-            },
+            project: populatedProject,
             assignee,
           };
         }),
@@ -160,6 +159,7 @@ const app = new Hono()
     const databases = ctx.get('databases');
 
     const { name, status, workspaceId, projectId, dueDate, assigneeId } = ctx.req.valid('json');
+    const dueDateValue = dueDate.toISOString();
 
     const member = await getMember({
       databases,
@@ -185,7 +185,7 @@ const app = new Hono()
       status,
       workspaceId,
       projectId,
-      dueDate,
+      dueDate: dueDateValue,
       assigneeId,
       position: newPosition,
     });
@@ -197,6 +197,7 @@ const app = new Hono()
     const databases = ctx.get('databases');
 
     const { name, status, description, projectId, dueDate, assigneeId } = ctx.req.valid('json');
+    const dueDateValue = dueDate ? dueDate.toISOString() : undefined;
     const { taskId } = ctx.req.param();
 
     const existingTask = await databases.getDocument<Task>(DATABASE_ID, TASKS_ID, taskId);
@@ -215,7 +216,7 @@ const app = new Hono()
       name,
       status,
       projectId,
-      dueDate,
+      dueDate: dueDateValue,
       assigneeId,
       description,
     });
