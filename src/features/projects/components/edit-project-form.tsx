@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowLeft, ImageIcon } from 'lucide-react';
+import { ImageIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -96,15 +96,6 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
 
       <Card className="size-full border-none shadow-none">
         <CardHeader className="flex flex-row items-center gap-x-4 space-y-0 p-7">
-          <Button
-            size="sm"
-            variant="secondary"
-            onClick={onCancel ? onCancel : () => router.push(`/workspaces/${initialValues.workspaceId}/projects/${initialValues.$id}`)}
-            className="gap-x-1"
-          >
-            <ArrowLeft className="size-4" />
-            {tCommon('back')}
-          </Button>
 
           <CardTitle className="text-xl font-bold">{initialValues.name}</CardTitle>
         </CardHeader>

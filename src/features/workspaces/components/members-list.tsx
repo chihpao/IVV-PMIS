@@ -1,8 +1,7 @@
 'use client';
 
-import { ArrowLeft, MoreVertical } from 'lucide-react';
+import { MoreVertical } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
 import { Fragment } from 'react';
 
 import { DottedSeparator } from '@/components/dotted-separator';
@@ -57,12 +56,6 @@ export const MembersList = () => {
       <ConfirmDialog />
 
       <CardHeader className="flex flex-row items-center gap-x-4 space-y-0 p-7">
-        <Button variant="secondary" size="sm" asChild>
-          <Link href={`/workspaces/${workspaceId}`}>
-            <ArrowLeft className="mr-2 size-4" />
-            {tCommon('back')}
-          </Link>
-        </Button>
 
         <CardTitle className="text-xl font-bold">{tMembers('membersList')}</CardTitle>
       </CardHeader>
