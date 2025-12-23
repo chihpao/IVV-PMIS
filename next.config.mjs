@@ -10,6 +10,9 @@ const nextConfig = {
     };
     return config;
   },
+  experimental: {
+    optimizePackageImports: ['lodash', 'lucide-react', 'react-icons', '@radix-ui/react-icons'],
+  },
 };
 
 export default withNextIntl(nextConfig);

@@ -124,6 +124,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
                             alt={tProjects('projectLogoAlt')}
                             fill
                             className="object-cover"
+                            unoptimized
                           />
                         </div>
                       ) : (

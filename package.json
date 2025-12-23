@@ -1,7 +1,8 @@
 {
-  "name": "jira-clone",
-  "version": "0.1.0",
+  "name": "IVV-PMIS",
+  "version": "1.0.0",
   "private": true,
+  "author": "ChihPao Chang",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,75 +13,20 @@
     "format": "prettier --check . --config .prettierrc.mjs",
     "format:fix": "prettier --write . --config .prettierrc.mjs"
   },
-  "author": {
-    "name": "Sanidhya Kumar Verma",
-    "email": "sanidhya.verma12345@gmail.com",
-    "url": "https://github.com/sanidhyy"
-  },
-  "description": "Full-stack Jira Clone using Next.js 14 and Appwrite.",
+  "description": "IVV-PMIS using Next.js 14 and Appwrite.",
   "keywords": [
     "reactjs",
     "nextjs",
     "appwrite",
-    "appwrite-io",
-    "appwrite-auth",
-    "react-big-calendar",
-    "lucide-icons",
-    "react-icons",
-    "react-day-picker",
-    "shadcn-ui",
-    "radix-ui",
-    "tailwindcss",
-    "lodash",
-    "react-query",
-    "nuqs",
-    "sonner",
     "typescript",
     "javascript",
-    "vercel",
-    "postcss",
-    "prettier",
-    "eslint",
-    "react-dom",
-    "html",
-    "css",
-    "nuqs-state-management",
-    "infinite-query",
-    "real-time-features",
-    "organized-table",
-    "filter-table",
-    "paginate-table",
-    "tasks-management",
-    "projects-management",
-    "workspaces-management",
-    "ui/ux",
-    "appwrite-db",
-    "jira-clone",
-    "date-fns",
-    "cn",
-    "clsx",
-    "lucide-react"
+    "tailwindcss",
+    "project-management",
+    "pmis",
+    "react-query",
+    "shadcn-ui"
   ],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sanidhyy/jira-clone.git"
-  },
-  "homepage": "https://github.com/sanidhyy/jira-clone#readme",
-  "bugs": {
-    "url": "https://github.com/sanidhyy/jira-clone/issues",
-    "email": "sanidhya.verma12345@gmail.com"
-  },
-  "funding": [
-    {
-      "type": "patreon",
-      "url": "https://www.patreon.com/sanidhy"
-    },
-    {
-      "type": "Buy me a coffee",
-      "url": "https://www.buymeacoffee.com/sanidhy"
-    }
-  ],
+  "license": "UNLICENSED",
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
     "@hono/zod-validator": "^0.7.0",
@@ -104,7 +50,7 @@
     "date-fns": "^2.30.0",
     "hono": "^4.6.7",
     "lucide-react": "^0.561.0",
-    "next": "14.2.15",
+    "next": "^14.2.35",
     "next-intl": "^4.6.1",
     "next-themes": "^0.4.3",
     "node-appwrite": "^17.0.0",
@@ -132,7 +78,7 @@
     "@types/react-big-calendar": "^1.15.0",
     "@types/react-dom": "^18",
     "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.15",
+    "eslint-config-next": "^16.1.1",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.1",
     "postcss": "^8",

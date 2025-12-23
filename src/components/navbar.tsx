@@ -16,6 +16,14 @@ const pathnameMap = {
     titleKey: 'projectTitle',
     descriptionKey: 'projectDescription',
   },
+  settings: {
+    titleKey: 'settings',
+    descriptionKey: 'settingsDescription',
+  },
+  members: {
+    titleKey: 'members',
+    descriptionKey: 'membersDescription',
+  },
 };
 
 const defaultMap = {

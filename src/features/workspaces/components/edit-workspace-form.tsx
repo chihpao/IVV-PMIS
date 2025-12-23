@@ -167,6 +167,7 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
                               alt={tWorkspaces('workspaceLogoAlt')}
                               fill
                               className="object-cover"
+                              unoptimized
                             />
                           </div>
                         ) : (

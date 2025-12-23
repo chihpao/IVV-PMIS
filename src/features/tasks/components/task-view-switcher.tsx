@@ -2,6 +2,7 @@
 
 import { Loader2, PlusIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 import { useQueryState } from 'nuqs';
 import { useCallback } from 'react';
 
@@ -16,11 +17,19 @@ import type { TaskStatus } from '@/features/tasks/types';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 
 import { createColumns } from './columns';
-import { DataCalendar } from './data-calendar';
 import { DataFilters } from './data-filters';
 import { DataKanban } from './data-kanban';
 import { DataSearch } from './data-search';
 import { DataTable } from './data-table';
+
+const DataCalendar = dynamic(() => import('./data-calendar').then((m) => m.DataCalendar), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-full w-full items-center justify-center">
+      <Loader2 className="size-5 animate-spin text-muted-foreground" />
+    </div>
+  ),
+});
 
 interface TaskViewSwitcherProps {
   projectId?: string;

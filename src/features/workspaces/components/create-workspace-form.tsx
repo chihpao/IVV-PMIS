@@ -120,6 +120,7 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                             alt={tWorkspaces('workspaceLogoAlt')}
                             fill
                             className="object-cover"
+                            unoptimized
                           />
                         </div>
                       ) : (
