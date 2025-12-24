@@ -115,7 +115,6 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
 
       <Card className="size-full border-none shadow-none">
         <CardHeader className="flex flex-row items-center gap-x-4 space-y-0 p-7">
-
           <CardTitle className="text-xl font-bold">{initialValues.name}</CardTitle>
         </CardHeader>
 

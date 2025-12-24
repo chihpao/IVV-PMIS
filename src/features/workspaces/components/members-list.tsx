@@ -56,7 +56,6 @@ export const MembersList = () => {
       <ConfirmDialog />
 
       <CardHeader className="flex flex-row items-center gap-x-4 space-y-0 p-7">
-
         <CardTitle className="text-xl font-bold">{tMembers('membersList')}</CardTitle>
       </CardHeader>
 
