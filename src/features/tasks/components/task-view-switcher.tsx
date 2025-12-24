@@ -4,7 +4,7 @@ import { Loader2, PlusIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import { useQueryState } from 'nuqs';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { DottedSeparator } from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
@@ -56,6 +56,17 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
     search,
   });
 
+  const filteredTasks = useMemo(() => {
+    const documents = tasks?.documents ?? [];
+    const trimmedSearch = search?.trim();
+
+    if (!trimmedSearch) return documents;
+
+    const normalizedSearch = trimmedSearch.toLowerCase();
+
+    return documents.filter((task) => task.name.toLowerCase().includes(normalizedSearch));
+  }, [tasks?.documents, search]);
+
   const { mutate: bulkUpdateTasks } = useBulkUpdateTasks();
 
   const onKanbanChange = useCallback(
@@ -106,15 +117,15 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
         ) : (
           <>
             <TabsContent value="table" className="mt-0">
-              <DataTable columns={createColumns(tTasks, tCommon)} data={tasks?.documents ?? []} />
+              <DataTable columns={createColumns(tTasks, tCommon)} data={filteredTasks} />
             </TabsContent>
 
             <TabsContent value="kanban" className="mt-0">
-              <DataKanban data={tasks?.documents ?? []} onChange={onKanbanChange} />
+              <DataKanban data={filteredTasks} onChange={onKanbanChange} />
             </TabsContent>
 
             <TabsContent value="calendar" className="mt-0 h-full pb-4">
-              <DataCalendar data={tasks?.documents ?? []} />
+              <DataCalendar data={filteredTasks} />
             </TabsContent>
           </>
         )}

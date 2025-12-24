@@ -14,10 +14,18 @@ interface useGetTasksProps {
   limit?: number | null;
 }
 
-export const useGetTasks = ({ workspaceId, projectId, status, search, assigneeId, dueDate, limit }: useGetTasksProps) => {
+export const useGetTasks = ({
+  workspaceId,
+  projectId,
+  status,
+  search: _search,
+  assigneeId,
+  dueDate,
+  limit,
+}: useGetTasksProps) => {
   const tErrors = useTranslations('Errors');
   const query = useQuery({
-    queryKey: ['tasks', workspaceId, projectId, status, search, assigneeId, dueDate, limit],
+    queryKey: ['tasks', workspaceId, projectId, status, _search, assigneeId, dueDate, limit],
     enabled: !!workspaceId,
     queryFn: async () => {
       const response = await client.api.tasks.$get({
@@ -25,7 +33,6 @@ export const useGetTasks = ({ workspaceId, projectId, status, search, assigneeId
           workspaceId,
           projectId: projectId ?? undefined,
           status: status ?? undefined,
-          search: search ?? undefined,
           assigneeId: assigneeId ?? undefined,
           dueDate: dueDate ?? undefined,
           limit: limit ?? undefined,

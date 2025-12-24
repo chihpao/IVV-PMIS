@@ -58,7 +58,10 @@ export const createColumns = (tTasks: Translator, tCommon: Translator): ColumnDe
     },
   },
   {
-    accessorKey: 'assignee',
+    id: 'assignee',
+    accessorFn: (row) => row.assignee?.name ?? '',
+    sortingFn: 'alphanumeric',
+    sortUndefined: 'last',
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
