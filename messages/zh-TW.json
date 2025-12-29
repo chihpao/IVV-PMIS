@@ -143,7 +143,8 @@
     "allStatuses": "全部狀態",
     "allAssignees": "全部指派人",
     "allProjects": "全部專案",
-    "dueDate": "到期日"
+    "dueDate": "到期日",
+    "selectedCount": "已選 {count}"
   },
   "Tasks": {
     "taskName": "任務名稱",

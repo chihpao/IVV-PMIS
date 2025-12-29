@@ -1,11 +1,10 @@
-import { ExternalLink, PencilIcon, Trash } from 'lucide-react';
+import { ExternalLink, Trash } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import type { PropsWithChildren } from 'react';
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useDeleteTask } from '@/features/tasks/api/use-delete-task';
-import { useEditTaskModal } from '@/features/tasks/hooks/use-edit-task-modal';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 import { useConfirm } from '@/hooks/use-confirm';
 
@@ -19,7 +18,6 @@ export const TaskActions = ({ id, projectId, children }: PropsWithChildren<TaskA
   const workspaceId = useWorkspaceId();
   const tTasks = useTranslations('Tasks');
 
-  const { open } = useEditTaskModal();
   const [ConfirmDialog, confirm] = useConfirm(tTasks('deleteTask'), tTasks('deleteTaskWarning'), 'destructive');
 
   const { mutate: deleteTask, isPending } = useDeleteTask();
@@ -49,22 +47,38 @@ export const TaskActions = ({ id, projectId, children }: PropsWithChildren<TaskA
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="end" className="w-48">
-          <DropdownMenuItem onClick={onOpenTask} disabled={isPending} className="p-[10px] font-medium">
+          <DropdownMenuItem
+            onClick={(event) => {
+              event.stopPropagation();
+              onOpenTask();
+            }}
+            disabled={isPending}
+            className="p-[10px] font-medium"
+          >
             <ExternalLink className="mr-2 size-4 stroke-2" />
             {tTasks('taskDetails')}
           </DropdownMenuItem>
 
-          <DropdownMenuItem onClick={onOpenProject} disabled={isPending} className="p-[10px] font-medium">
+          <DropdownMenuItem
+            onClick={(event) => {
+              event.stopPropagation();
+              onOpenProject();
+            }}
+            disabled={isPending}
+            className="p-[10px] font-medium"
+          >
             <ExternalLink className="mr-2 size-4 stroke-2" />
             {tTasks('openProject')}
           </DropdownMenuItem>
 
-          <DropdownMenuItem onClick={() => open(id)} disabled={isPending} className="p-[10px] font-medium">
-            <PencilIcon className="mr-2 size-4 stroke-2" />
-            {tTasks('editTaskAction')}
-          </DropdownMenuItem>
-
-          <DropdownMenuItem onClick={onDelete} disabled={isPending} className="p-[10px] font-medium text-amber-700 focus:text-amber-700">
+          <DropdownMenuItem
+            onClick={(event) => {
+              event.stopPropagation();
+              onDelete();
+            }}
+            disabled={isPending}
+            className="p-[10px] font-medium text-amber-700 focus:text-amber-700"
+          >
             <Trash className="mr-2 size-4 stroke-2" />
             {tTasks('deleteTask')}
           </DropdownMenuItem>

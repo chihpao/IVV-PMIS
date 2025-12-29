@@ -1,7 +1,7 @@
 'use client';
 
 import type { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, MoreVertical } from 'lucide-react';
+import { ChevronDown, ChevronUp, MoreVertical } from 'lucide-react';
 import type { _Translator as Translator } from 'use-intl/core';
 
 import { Badge } from '@/components/ui/badge';
@@ -14,6 +14,18 @@ import { TaskStatus } from '@/features/tasks/types';
 import { TaskActions } from './task-actions';
 import { TaskDate } from './task-date';
 
+const SortIcon = ({ direction }: { direction: false | 'asc' | 'desc' }) => {
+  if (direction === 'asc') return <ChevronUp className="ml-2 h-4 w-4" />;
+  if (direction === 'desc') return <ChevronDown className="ml-2 h-4 w-4" />;
+
+  return (
+    <span className="ml-2 flex h-4 w-4 flex-col items-center justify-center text-muted-foreground">
+      <ChevronUp className="h-3 w-3" />
+      <ChevronDown className="-mt-1 h-3 w-3" />
+    </span>
+  );
+};
+
 export const createColumns = (tTasks: Translator, tCommon: Translator): ColumnDef<Task>[] => [
   {
     accessorKey: 'name',
@@ -21,7 +33,7 @@ export const createColumns = (tTasks: Translator, tCommon: Translator): ColumnDe
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
           {tTasks('taskName')}
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <SortIcon direction={column.getIsSorted()} />
         </Button>
       );
     },
@@ -37,7 +49,7 @@ export const createColumns = (tTasks: Translator, tCommon: Translator): ColumnDe
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
           {tTasks('project')}
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <SortIcon direction={column.getIsSorted()} />
         </Button>
       );
     },
@@ -66,7 +78,7 @@ export const createColumns = (tTasks: Translator, tCommon: Translator): ColumnDe
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
           {tTasks('assignee')}
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <SortIcon direction={column.getIsSorted()} />
         </Button>
       );
     },
@@ -92,7 +104,7 @@ export const createColumns = (tTasks: Translator, tCommon: Translator): ColumnDe
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
           {tTasks('dueDate')}
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <SortIcon direction={column.getIsSorted()} />
         </Button>
       );
     },
@@ -108,7 +120,7 @@ export const createColumns = (tTasks: Translator, tCommon: Translator): ColumnDe
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
           {tTasks('status')}
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <SortIcon direction={column.getIsSorted()} />
         </Button>
       );
     },
@@ -133,7 +145,13 @@ export const createColumns = (tTasks: Translator, tCommon: Translator): ColumnDe
 
       return (
         <TaskActions id={id} projectId={projectId}>
-          <Button variant="ghost" className="size-8 p-0">
+          <Button
+            variant="ghost"
+            className="size-8 p-0"
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          >
             <MoreVertical className="size-4" />
           </Button>
         </TaskActions>

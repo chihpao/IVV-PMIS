@@ -3,6 +3,10 @@ import type { Metadata } from 'next';
 export const siteConfig: Metadata = {
   title: 'IVV-PMIS',
   description: 'Full-stack using Next.js 14 and Appwrite.',
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+  },
   keywords: [
     'reactjs',
     'nextjs',

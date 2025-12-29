@@ -12,6 +12,15 @@ import { createAdminClient } from '@/lib/appwrite';
 import { getFileViewUrl } from '@/lib/appwrite-file-url';
 import { sessionMiddleware } from '@/lib/session-middleware';
 
+const parseAsStringArray = z.preprocess((value) => {
+  if (Array.isArray(value)) return value;
+  if (typeof value === 'string') {
+    const items = value.split(',').filter(Boolean);
+    return items.length > 0 ? items : undefined;
+  }
+  return value;
+}, z.array(z.string()).optional());
+
 const app = new Hono()
   .get(
     '/',
@@ -20,9 +29,19 @@ const app = new Hono()
       'query',
       z.object({
         workspaceId: z.string(),
-        projectId: z.string().nullish(),
-        assigneeId: z.string().nullish(),
-        status: z.nativeEnum(TaskStatus).nullish(),
+        projectId: parseAsStringArray,
+        assigneeId: parseAsStringArray,
+        status: z.preprocess(
+          (value) => {
+            if (Array.isArray(value)) return value;
+            if (typeof value === 'string') {
+              const items = value.split(',').filter(Boolean);
+              return items.length > 0 ? items : undefined;
+            }
+            return value;
+          },
+          z.array(z.nativeEnum(TaskStatus)).optional(),
+        ),
         search: z.string().nullish(),
         dueDate: z.string().nullish(),
         limit: z.coerce.number().int().positive().max(100).nullish(),
@@ -47,11 +66,11 @@ const app = new Hono()
 
       const query = [Query.equal('workspaceId', workspaceId), Query.orderDesc('$createdAt')];
 
-      if (projectId) query.push(Query.equal('projectId', projectId));
+      if (projectId?.length) query.push(Query.equal('projectId', projectId));
 
-      if (status) query.push(Query.equal('status', status));
+      if (status?.length) query.push(Query.equal('status', status));
 
-      if (assigneeId) query.push(Query.equal('assigneeId', assigneeId));
+      if (assigneeId?.length) query.push(Query.equal('assigneeId', assigneeId));
 
       if (dueDate) query.push(Query.equal('dueDate', dueDate));
 

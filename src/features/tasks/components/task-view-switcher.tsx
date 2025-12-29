@@ -51,7 +51,7 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
     workspaceId,
     status,
     assigneeId,
-    projectId: projectId ?? filteredProjectId,
+    projectId: projectId ? [projectId] : filteredProjectId,
     dueDate,
     search,
   });
@@ -117,7 +117,11 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
         ) : (
           <>
             <TabsContent value="table" className="mt-0">
-              <DataTable columns={createColumns(tTasks, tCommon)} data={filteredTasks} />
+              <DataTable
+                columns={createColumns(tTasks, tCommon)}
+                data={filteredTasks}
+                getRowHref={(task) => `/workspaces/${workspaceId}/tasks/${task.$id}`}
+              />
             </TabsContent>
 
             <TabsContent value="kanban" className="mt-0">
