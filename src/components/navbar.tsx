@@ -2,6 +2,7 @@
 
 import { PlusIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { Suspense } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { UserButton } from '@/features/auth/components/user-button';
@@ -30,7 +31,9 @@ export const Navbar = () => {
 
         <div className="flex w-full items-center gap-x-2 lg:justify-center">
           <div className="w-full max-w-[360px]">
-            <DataSearch />
+            <Suspense fallback={null}>
+              <DataSearch />
+            </Suspense>
           </div>
 
           <Button onClick={() => open()} size="sm" className="shrink-0">

@@ -1,7 +1,7 @@
 'use client';
 
 import type { PropsWithChildren } from 'react';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 
 import { ModalProvider } from '@/components/modal-provider';
 import { Navbar } from '@/components/navbar';
@@ -30,7 +30,9 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
           )}
         >
           <div className="mx-auto h-full max-w-screen-xl">
-            <Navbar />
+            <Suspense fallback={null}>
+              <Navbar />
+            </Suspense>
 
             <main className="flex h-full flex-col px-6 py-8">{children}</main>
           </div>

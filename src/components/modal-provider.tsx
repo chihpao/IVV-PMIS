@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
 import { CreateProjectModal } from '@/features/projects/components/create-project-modal';
 import { CreateTaskModal } from '@/features/tasks/components/create-task-modal';
@@ -17,11 +17,11 @@ export const ModalProvider = () => {
   if (!isMounted) return null;
 
   return (
-    <>
+    <Suspense fallback={null}>
       <CreateProjectModal />
       <CreateTaskModal />
       <EditTaskModal />
       <CreateWorkspaceModal />
-    </>
+    </Suspense>
   );
 };
