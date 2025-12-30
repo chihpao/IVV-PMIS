@@ -9,26 +9,18 @@ import { MobileSidebar } from './mobile-sidebar';
 
 const pathnameMap = {
   tasks: {
-    titleKey: 'tasksTitle',
-    descriptionKey: 'tasksDescription',
   },
   projects: {
     titleKey: 'projectTitle',
     descriptionKey: 'projectDescription',
   },
   settings: {
-    titleKey: 'settings',
-    descriptionKey: 'settingsDescription',
   },
   members: {
-    titleKey: 'members',
-    descriptionKey: 'membersDescription',
   },
 };
 
 const defaultMap = {
-  titleKey: 'homeTitle',
-  descriptionKey: 'homeDescription',
 };
 
 export const Navbar = () => {
@@ -42,9 +34,11 @@ export const Navbar = () => {
   return (
     <nav className="flex items-center justify-between px-6 pt-4">
       <div className="hidden flex-col lg:flex">
-        <h1 className="text-2xl font-semibold">{t(titleKey)}</h1>
+        {titleKey ? <h1 className="text-2xl font-semibold">{t(titleKey)}</h1> : null}
 
-        <p className="text-muted-foreground">{t(descriptionKey)}</p>
+        {descriptionKey ? (
+          <p className="text-muted-foreground">{t(descriptionKey)}</p>
+        ) : null}
       </div>
 
       <MobileSidebar />
