@@ -44,7 +44,7 @@ const app = new Hono()
         ),
         search: z.string().nullish(),
         dueDate: z.string().nullish(),
-        limit: z.coerce.number().int().positive().max(100).nullish(),
+        limit: z.coerce.number().int().positive().max(200).nullish(),
       }),
     ),
     async (ctx) => {

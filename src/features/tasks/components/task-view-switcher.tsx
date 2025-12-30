@@ -52,7 +52,6 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
     assigneeId,
     projectId: projectId ? [projectId] : filteredProjectId,
     dueDate,
-    search,
   });
 
   const filteredTasks = useMemo(() => {
