@@ -19,7 +19,6 @@ import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 import { createColumns } from './columns';
 import { DataFilters } from './data-filters';
 import { DataKanban } from './data-kanban';
-import { DataSearch } from './data-search';
 import { DataTable } from './data-table';
 
 const DataCalendar = dynamic(() => import('./data-calendar').then((m) => m.DataCalendar), {
@@ -105,8 +104,6 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
 
         <div className="flex flex-col justify-between gap-2 xl:flex-row xl:items-center">
           <DataFilters hideProjectFilter={hideProjectFilter} />
-
-          <DataSearch />
         </div>
 
         <DottedSeparator className="my-4" />

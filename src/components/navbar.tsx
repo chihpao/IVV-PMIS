@@ -1,50 +1,48 @@
 'use client';
 
+import { PlusIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { usePathname } from 'next/navigation';
 
+import { Logo } from '@/components/logo';
+import { Button } from '@/components/ui/button';
 import { UserButton } from '@/features/auth/components/user-button';
+import { DataSearch } from '@/features/tasks/components/data-search';
+import { useCreateTaskModal } from '@/features/tasks/hooks/use-create-task-modal';
 
 import { MobileSidebar } from './mobile-sidebar';
 
-const pathnameMap = {
-  tasks: {
-  },
-  projects: {
-    titleKey: 'projectTitle',
-    descriptionKey: 'projectDescription',
-  },
-  settings: {
-  },
-  members: {
-  },
-};
-
-const defaultMap = {
-};
-
 export const Navbar = () => {
-  const pathname = usePathname();
-  const t = useTranslations('Nav');
-  const pathnameParts = pathname.split('/');
-  const pathnameKey = pathnameParts[3] as keyof typeof pathnameMap;
-
-  const { titleKey, descriptionKey } = pathnameMap[pathnameKey] || defaultMap;
+  const tCommon = useTranslations('Common');
+  const { open } = useCreateTaskModal();
 
   return (
-    <nav className="flex items-center justify-between px-6 pt-4">
-      <div className="hidden flex-col lg:flex">
-        {titleKey ? <h1 className="text-2xl font-semibold">{t(titleKey)}</h1> : null}
+    <nav className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur lg:h-16">
+      <div className="flex flex-col gap-3 px-6 pb-4 pt-3 lg:grid lg:h-full lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center lg:gap-x-6 lg:py-0">
+        <div className="flex items-center justify-between gap-x-3">
+          <div className="flex items-center gap-x-3">
+            <MobileSidebar />
+            <Logo />
+          </div>
 
-        {descriptionKey ? (
-          <p className="text-muted-foreground">{t(descriptionKey)}</p>
-        ) : null}
-      </div>
+          <div className="flex items-center gap-x-2.5 lg:hidden">
+            <UserButton />
+          </div>
+        </div>
 
-      <MobileSidebar />
+        <div className="flex w-full items-center gap-x-2 lg:justify-center">
+          <div className="w-full max-w-[360px]">
+            <DataSearch />
+          </div>
 
-      <div className="flex items-center gap-x-2.5">
-        <UserButton />
+          <Button onClick={() => open()} size="sm" className="shrink-0">
+            <PlusIcon className="size-4" />
+            {tCommon('create')}
+          </Button>
+        </div>
+
+        <div className="hidden items-center justify-end gap-x-2.5 lg:flex">
+          <UserButton />
+        </div>
       </div>
     </nav>
   );
