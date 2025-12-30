@@ -36,7 +36,11 @@ const routes = [
   },
 ];
 
-export const Navigation = () => {
+interface NavigationProps {
+  isCollapsed?: boolean;
+}
+
+export const Navigation = ({ isCollapsed = false }: NavigationProps) => {
   const pathname = usePathname();
   const workspaceId = useWorkspaceId();
   const t = useTranslations('Nav');
@@ -52,13 +56,22 @@ export const Navigation = () => {
           <li key={fullHref}>
             <Link
               href={fullHref}
+              title={isCollapsed ? t(route.labelKey) : undefined}
               className={cn(
                 'flex items-center gap-2.5 rounded-md p-2.5 font-medium text-neutral-500 transition hover:text-primary',
+                isCollapsed && 'justify-center gap-0',
                 isActive && 'bg-white text-primary shadow-sm hover:opacity-100',
               )}
             >
               <Icon className="size-5 text-neutral-500" />
-              {t(route.labelKey)}
+              <span
+                className={cn(
+                  'whitespace-nowrap transition-[max-width,opacity] duration-200 ease-out',
+                  isCollapsed ? 'max-w-0 overflow-hidden opacity-0' : 'max-w-[160px] opacity-100',
+                )}
+              >
+                {t(route.labelKey)}
+              </span>
             </Link>
           </li>
         );

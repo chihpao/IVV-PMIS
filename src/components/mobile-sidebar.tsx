@@ -39,7 +39,7 @@ export const MobileSidebar = () => {
           </VisuallyHidden.Root>
         </SheetHeader>
 
-        <Sidebar />
+        <Sidebar isCollapsed={false} />
       </SheetContent>
     </Sheet>
   );

@@ -3,7 +3,6 @@
 import { PlusIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { UserButton } from '@/features/auth/components/user-button';
 import { DataSearch } from '@/features/tasks/components/data-search';
@@ -21,7 +20,6 @@ export const Navbar = () => {
         <div className="flex items-center justify-between gap-x-3">
           <div className="flex items-center gap-x-3">
             <MobileSidebar />
-            <Logo />
           </div>
 
           <div className="flex items-center gap-x-2.5 lg:hidden">
