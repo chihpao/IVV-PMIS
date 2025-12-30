@@ -17,7 +17,7 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
       <div className="flex size-full">
         <div
           className={[
-            'fixed left-0 top-0 hidden h-full overflow-auto transition-[width] duration-200 ease-out lg:block',
+            'fixed left-0 top-0 z-50 hidden h-full overflow-visible transition-[width] duration-200 ease-out lg:block',
             isSidebarCollapsed ? 'lg:w-[72px]' : 'lg:w-[264px]',
           ].join(' ')}
         >

@@ -56,10 +56,10 @@ export const Navigation = ({ isCollapsed = false }: NavigationProps) => {
           <li key={fullHref}>
             <Link
               href={fullHref}
-              title={isCollapsed ? t(route.labelKey) : undefined}
               className={cn(
                 'flex items-center gap-2.5 rounded-md p-2.5 font-medium text-neutral-500 transition hover:text-primary',
                 isActive && 'bg-blue-600 text-white shadow-sm hover:opacity-100',
+                isCollapsed && 'relative group',
               )}
             >
               <Icon className={cn('size-5 min-h-5 min-w-5 shrink-0', isActive ? 'text-white' : 'text-neutral-500')} />
@@ -71,6 +71,11 @@ export const Navigation = ({ isCollapsed = false }: NavigationProps) => {
               >
                 {t(route.labelKey)}
               </span>
+              {isCollapsed ? (
+                <span className="pointer-events-none absolute left-full top-1/2 z-50 ml-2 -translate-y-1/2 whitespace-nowrap rounded-md bg-neutral-900 px-2 py-1 text-xs text-white opacity-0 transition-none group-hover:opacity-100">
+                  {t(route.labelKey)}
+                </span>
+              ) : null}
             </Link>
           </li>
         );
