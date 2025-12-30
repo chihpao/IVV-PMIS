@@ -59,7 +59,7 @@ export const Navigation = ({ isCollapsed = false }: NavigationProps) => {
               className={cn(
                 'flex items-center gap-2.5 rounded-md p-2.5 font-medium text-neutral-500 transition hover:text-primary',
                 isActive && 'bg-blue-600 text-white shadow-sm hover:opacity-100',
-                isCollapsed && 'relative group',
+                isCollapsed && 'group relative',
               )}
             >
               <Icon className={cn('size-5 min-h-5 min-w-5 shrink-0', isActive ? 'text-white' : 'text-neutral-500')} />

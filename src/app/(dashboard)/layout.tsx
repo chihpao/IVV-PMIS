@@ -25,10 +25,9 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
         </div>
 
         <div
-          className={[
-            'w-full transition-[padding-left] duration-200 ease-out',
-            isSidebarCollapsed ? 'lg:pl-[72px]' : 'lg:pl-[264px]',
-          ].join(' ')}
+          className={['w-full transition-[padding-left] duration-200 ease-out', isSidebarCollapsed ? 'lg:pl-[72px]' : 'lg:pl-[264px]'].join(
+            ' ',
+          )}
         >
           <div className="mx-auto h-full max-w-screen-xl">
             <Navbar />

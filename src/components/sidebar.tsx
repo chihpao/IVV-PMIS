@@ -1,16 +1,16 @@
 'use client';
 
-import { Suspense } from 'react';
-
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
+import { Suspense } from 'react';
+
+import { cn } from '@/lib/utils';
 
 import { Navigation } from './navigation';
 import { Projects } from './projects';
 import { Button } from './ui/button';
 import { WorkspaceSwitcher } from './workspaces-switcher';
-import { cn } from '@/lib/utils';
 
 interface SidebarProps {
   isCollapsed?: boolean;
@@ -31,7 +31,7 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
         )}
 
         {onToggle ? (
-          <div className="relative ml-auto flex items-center group">
+          <div className="group relative ml-auto flex items-center">
             <Button
               type="button"
               variant="secondary"
