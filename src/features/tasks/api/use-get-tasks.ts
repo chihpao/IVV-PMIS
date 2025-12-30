@@ -29,6 +29,7 @@ export const useGetTasks = ({ workspaceId, projectId, status, search: _search, a
           projectId: projectId?.length ? projectId.join(',') : undefined,
           status: status?.length ? status.join(',') : undefined,
           assigneeId: assigneeId?.length ? assigneeId.join(',') : undefined,
+          search: _search ?? undefined,
           dueDate: dueDate ?? undefined,
           limit: limit ?? undefined,
         },

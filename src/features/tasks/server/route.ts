@@ -74,7 +74,9 @@ const app = new Hono()
 
       if (dueDate) query.push(Query.equal('dueDate', dueDate));
 
-      if (search) query.push(Query.search('name', search));
+      const shouldUseServerSearch = typeof search === 'string' && search.trim().length > 0 && /^[\x00-\x7F]+$/.test(search);
+
+      if (shouldUseServerSearch) query.push(Query.search('name', search));
 
       if (limit) query.push(Query.limit(limit));
 
