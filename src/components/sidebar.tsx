@@ -2,7 +2,6 @@
 
 import { Suspense } from 'react';
 
-import { DottedSeparator } from './dotted-separator';
 import { Logo } from './logo';
 import { Navigation } from './navigation';
 import { Projects } from './projects';
@@ -17,7 +16,7 @@ interface SidebarProps {
 
 export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
   return (
-    <aside className="size-full bg-neutral-100 p-4">
+    <aside className="size-full overflow-x-hidden bg-neutral-100 p-4">
       <div className="relative flex h-12 items-center">
         <div
           className={cn(
@@ -70,24 +69,22 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
         ) : null}
       </div>
 
-      {isCollapsed ? null : <DottedSeparator className="my-4" />}
-
-      {isCollapsed ? null : (
-        <Suspense>
-          <WorkspaceSwitcher />
-        </Suspense>
-      )}
-
-      {isCollapsed ? null : <DottedSeparator className="my-4" />}
-
       <Navigation isCollapsed={isCollapsed} />
 
-      {isCollapsed ? null : <DottedSeparator className="my-4" />}
+      {isCollapsed ? null : (
+        <div className="mt-6">
+          <Suspense>
+            <WorkspaceSwitcher />
+          </Suspense>
+        </div>
+      )}
 
       {isCollapsed ? null : (
-        <Suspense>
-          <Projects />
-        </Suspense>
+        <div className="mt-6">
+          <Suspense>
+            <Projects />
+          </Suspense>
+        </div>
       )}
     </aside>
   );
