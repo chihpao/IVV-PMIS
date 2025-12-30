@@ -15,12 +15,14 @@ export const Navbar = () => {
   const { open } = useCreateTaskModal();
 
   return (
-    <nav className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur lg:h-16">
-      <div className="flex flex-col gap-3 px-6 pb-4 pt-3 lg:grid lg:h-full lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center lg:gap-x-6 lg:py-0">
+    <nav className="sticky top-0 z-40 border-b border-border/60 bg-white/80 backdrop-blur shadow-[0_10px_30px_-24px_rgba(15,23,42,0.35)] lg:h-16">
+      <div className="flex flex-col gap-3 px-6 pb-4 pt-3 lg:grid lg:h-full lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center lg:gap-x-6 lg:px-8 lg:py-0">
         <div className="flex items-center justify-between gap-x-3">
           <div className="flex items-center gap-x-3">
             <MobileSidebar />
-            <span className="hidden text-lg font-semibold text-neutral-900 lg:inline">{tCommon('logoText')}</span>
+            <span className="hidden text-lg font-semibold text-foreground lg:inline font-display tracking-tight">
+              {tCommon('logoText')}
+            </span>
           </div>
 
           <div className="flex items-center gap-x-2.5 lg:hidden">

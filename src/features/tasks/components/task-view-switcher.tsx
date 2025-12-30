@@ -78,8 +78,12 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
   );
 
   return (
-    <Tabs defaultValue={view} onValueChange={setView} className="w-full flex-1 rounded-lg border">
-      <div className="flex h-full flex-col overflow-auto p-4">
+    <Tabs
+      defaultValue={view}
+      onValueChange={setView}
+      className="w-full flex-1 rounded-3xl border border-border/60 bg-white/70 shadow-sm backdrop-blur"
+    >
+      <div className="flex h-full flex-col overflow-auto p-5">
         <div className="flex flex-col items-center justify-between gap-y-2 lg:flex-row">
           <TabsList className="w-full lg:w-auto">
             <TabsTrigger className="h-8 w-full lg:w-auto" value="table">

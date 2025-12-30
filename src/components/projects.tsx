@@ -24,10 +24,10 @@ export const Projects = () => {
   return (
     <div className="flex flex-col gap-y-2">
       <div className="flex items-center justify-between">
-        <p className="text-xs uppercase text-neutral-500">{t('projects')}</p>
+        <p className="text-xs uppercase text-muted-foreground">{t('projects')}</p>
 
         <button onClick={open}>
-          <RiAddCircleFill className="size-5 cursor-pointer text-neutral-500 transition hover:opacity-75" />
+          <RiAddCircleFill className="size-5 cursor-pointer text-muted-foreground transition hover:text-foreground" />
         </button>
       </div>
 
@@ -39,8 +39,8 @@ export const Projects = () => {
           <Link href={href} key={project.$id}>
             <div
               className={cn(
-                'flex cursor-pointer items-center gap-2.5 rounded-md p-2.5 text-neutral-500 transition hover:opacity-75',
-                isActive && 'bg-blue-600 text-white shadow-sm hover:opacity-100',
+                'flex cursor-pointer items-center gap-2.5 rounded-lg p-2.5 text-foreground/70 transition hover:bg-muted/60 hover:text-foreground',
+                isActive && 'bg-primary text-primary-foreground shadow-sm hover:opacity-100',
               )}
             >
               <ProjectAvatar image={project.imageUrl} name={project.name} />

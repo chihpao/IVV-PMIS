@@ -30,10 +30,12 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
             isSidebarCollapsed ? 'lg:pl-[72px]' : 'lg:pl-[264px]',
           ].join(' ')}
         >
-          <div className="mx-auto h-full max-w-screen-xl">
+          <div className="mx-auto h-full max-w-screen-xl px-4 pb-8 lg:px-6">
             <Navbar />
 
-            <main className="flex h-full flex-col px-6 py-8">{children}</main>
+            <main className="mt-6 flex h-full flex-col rounded-3xl bg-white/80 p-6 shadow-[0_30px_80px_-60px_rgba(15,23,42,0.5)] ring-1 ring-border/60 backdrop-blur-lg animate-in fade-in-0 slide-in-from-bottom-2 duration-300 lg:p-8">
+              {children}
+            </main>
           </div>
         </div>
       </div>

@@ -110,7 +110,7 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
     <div className="flex flex-col gap-2 lg:flex-row">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="h-8 w-full justify-between lg:w-auto">
+          <Button variant="outline" className="h-10 w-full justify-between lg:w-auto">
             <span className="flex min-w-0 items-center">
               <ListChecks className="mr-2 size-4 shrink-0" />
               <span className="truncate">{statusLabelText}</span>
@@ -147,7 +147,7 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="h-8 w-full justify-between lg:w-auto">
+          <Button variant="outline" className="h-10 w-full justify-between lg:w-auto">
             <span className="flex min-w-0 items-center">
               <UserIcon className="mr-2 size-4 shrink-0" />
               <span className="truncate">{assigneeLabelText}</span>
@@ -186,7 +186,7 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
       {!hideProjectFilter && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="h-8 w-full justify-between lg:w-auto">
+            <Button variant="outline" className="h-10 w-full justify-between lg:w-auto">
               <span className="flex min-w-0 items-center">
                 <Folder className="mr-2 size-4 shrink-0" />
                 <span className="truncate">{projectLabelText}</span>
@@ -225,7 +225,7 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
 
       <DatePicker
         placeholder={tFilters('dueDate')}
-        className="h-8 w-full lg:w-auto"
+        className="h-10 w-full lg:w-auto"
         value={dueDate ? new Date(dueDate) : undefined}
         onChange={(date) => {
           setFilters({

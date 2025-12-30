@@ -57,12 +57,12 @@ export const Navigation = ({ isCollapsed = false }: NavigationProps) => {
             <Link
               href={fullHref}
               className={cn(
-                'flex items-center gap-2.5 rounded-md p-2.5 font-medium text-neutral-500 transition hover:text-primary',
-                isActive && 'bg-blue-600 text-white shadow-sm hover:opacity-100',
+                'flex items-center gap-2.5 rounded-lg p-2.5 font-medium text-foreground/70 transition hover:bg-muted/60 hover:text-foreground',
+                isActive && 'bg-primary text-primary-foreground shadow-sm hover:opacity-100',
                 isCollapsed && 'relative group',
               )}
             >
-              <Icon className={cn('size-5 min-h-5 min-w-5 shrink-0', isActive ? 'text-white' : 'text-neutral-500')} />
+              <Icon className={cn('size-5 min-h-5 min-w-5 shrink-0', isActive ? 'text-primary-foreground' : 'text-foreground/60')} />
               <span
                 className={cn(
                   'whitespace-nowrap transition-[max-width,opacity] duration-200 ease-out',

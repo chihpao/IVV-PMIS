@@ -21,7 +21,7 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
   const tCommon = useTranslations('Common');
 
   return (
-    <aside className="size-full bg-white p-4">
+    <aside className="size-full border-r border-border/60 bg-white p-4">
       <div className="flex h-12 items-center justify-between">
         {isCollapsed ? null : (
           <Link href="/" className="flex items-center">
@@ -37,7 +37,7 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
               variant="secondary"
               size="icon"
               onClick={onToggle}
-              className="h-10 w-10 rounded-md border-none bg-transparent text-neutral-500 shadow-none hover:bg-transparent [&_svg]:size-5"
+              className="h-10 w-10 rounded-md border-none bg-transparent text-foreground/60 shadow-none hover:bg-transparent [&_svg]:size-5"
             >
               {isCollapsed ? (
                 <svg

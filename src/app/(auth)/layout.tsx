@@ -14,9 +14,9 @@ const AuthLayout = ({ children }: PropsWithChildren) => {
   const t = useTranslations('Auth');
 
   return (
-    <main className="min-h-screen bg-neutral-100">
-      <div className="mx-auto max-w-screen-2xl p-4">
-        <nav className="flex items-center justify-between">
+    <main className="min-h-screen">
+      <div className="mx-auto max-w-screen-2xl p-6">
+        <nav className="flex items-center justify-between rounded-2xl bg-white/80 px-4 py-3 shadow-sm ring-1 ring-border/60 backdrop-blur">
           <Logo />
 
           <div className="flex items-center gap-x-2.5">

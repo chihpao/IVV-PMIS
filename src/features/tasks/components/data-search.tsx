@@ -20,14 +20,14 @@ export const DataSearch = () => {
 
   return (
     <div className="relative">
-      <SearchIcon className="absolute left-2.5 top-[20%] size-4 text-muted-foreground" />
+      <SearchIcon className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
 
       <Input
         type="search"
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder={tTasks('searchPlaceholder')}
-        className="h-8 w-full px-8 lg:w-[320px]"
+        className="h-10 w-full rounded-full px-9 lg:w-[360px]"
       />
     </div>
   );
