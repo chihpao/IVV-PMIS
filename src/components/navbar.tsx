@@ -20,6 +20,7 @@ export const Navbar = () => {
         <div className="flex items-center justify-between gap-x-3">
           <div className="flex items-center gap-x-3">
             <MobileSidebar />
+            <span className="hidden text-lg font-semibold text-neutral-900 lg:inline">{tCommon('logoText')}</span>
           </div>
 
           <div className="flex items-center gap-x-2.5 lg:hidden">

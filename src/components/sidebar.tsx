@@ -2,7 +2,10 @@
 
 import { Suspense } from 'react';
 
-import { Logo } from './logo';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+
 import { Navigation } from './navigation';
 import { Projects } from './projects';
 import { Button } from './ui/button';
@@ -15,17 +18,17 @@ interface SidebarProps {
 }
 
 export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
+  const tCommon = useTranslations('Common');
+
   return (
-    <aside className="size-full overflow-x-hidden bg-neutral-100 p-4">
-      <div className="relative flex h-12 items-center">
-        <div
-          className={cn(
-            'absolute left-0 top-1/2 -translate-y-1/2 transition-opacity duration-200 ease-out',
-            isCollapsed ? 'opacity-0 pointer-events-none' : 'opacity-100',
-          )}
-        >
-          <Logo />
-        </div>
+    <aside className="size-full overflow-x-hidden bg-white p-4">
+      <div className="flex h-12 items-center justify-between">
+        {isCollapsed ? null : (
+          <Link href="/" className="flex items-center">
+            <Image src="/icon.svg" alt={tCommon('logoAlt')} height={40} width={40} />
+            <span className="sr-only">{tCommon('logoText')}</span>
+          </Link>
+        )}
 
         {onToggle ? (
           <Button
@@ -69,7 +72,9 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
         ) : null}
       </div>
 
-      <Navigation isCollapsed={isCollapsed} />
+      <div className="mt-6">
+        <Navigation isCollapsed={isCollapsed} />
+      </div>
 
       {isCollapsed ? null : (
         <div className="mt-6">

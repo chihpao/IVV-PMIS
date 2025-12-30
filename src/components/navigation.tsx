@@ -59,11 +59,10 @@ export const Navigation = ({ isCollapsed = false }: NavigationProps) => {
               title={isCollapsed ? t(route.labelKey) : undefined}
               className={cn(
                 'flex items-center gap-2.5 rounded-md p-2.5 font-medium text-neutral-500 transition hover:text-primary',
-                isCollapsed && 'justify-center gap-0',
-                isActive && 'bg-white text-primary shadow-sm hover:opacity-100',
+                isActive && 'bg-blue-600 text-white shadow-sm hover:opacity-100',
               )}
             >
-              <Icon className="size-5 text-neutral-500" />
+              <Icon className={cn('size-5 min-h-5 min-w-5 shrink-0', isActive ? 'text-white' : 'text-neutral-500')} />
               <span
                 className={cn(
                   'whitespace-nowrap transition-[max-width,opacity] duration-200 ease-out',
