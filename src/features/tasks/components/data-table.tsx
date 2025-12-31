@@ -16,7 +16,6 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -46,56 +45,100 @@ export function DataTable<TData, TValue>({ columns, data, getRowHref }: DataTabl
   });
 
   return (
-    <div>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
+    <div className="space-y-4">
+      {/* Bento Grid Container */}
+      <div className="grid rounded-[var(--radius-card)] overflow-hidden shadow-card border border-[var(--border-subtle)]">
+        {/* Table Header */}
+        {table.getHeaderGroups().map((headerGroup) => {
+          const headerTemplate = headerGroup.headers
+            .map((header) => (header.column.id === 'actions' ? '64px' : 'minmax(0, 1fr)'))
+            .join(' ');
 
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                  className={getRowHref ? 'cursor-pointer transition-colors hover:bg-muted/50' : undefined}
-                  onClick={() => {
-                    if (!getRowHref) return;
-                    router.push(getRowHref(row.original));
-                  }}
+          return (
+          <div
+            key={headerGroup.id}
+            className="grid sticky top-0 z-10 border-b border-[var(--border-subtle)]"
+            style={{
+              gridTemplateColumns: headerTemplate,
+            }}
+          >
+            {headerGroup.headers.map((header) => (
+              <div
+                key={header.id}
+                className={[
+                  header.column.id === 'actions' ? 'px-2' : 'px-4',
+                  'py-3 bg-[var(--bg-surface)] text-[13px] font-medium text-[var(--text-secondary)] tracking-tight',
+                ].join(' ')}
+              >
+                {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+              </div>
+            ))}
+          </div>
+        );
+        })}
+
+        {/* Table Body */}
+        {table.getRowModel().rows?.length ? (
+          table.getRowModel().rows.map((row) => {
+            const rowTemplate = row
+              .getVisibleCells()
+              .map((cell) => (cell.column.id === 'actions' ? '64px' : 'minmax(0, 1fr)'))
+              .join(' ');
+
+            return (
+            <div
+              key={row.id}
+              className={[
+                'grid border-b border-[var(--border-subtle)] transition-colors duration-150 group last:border-b-0',
+                getRowHref ? 'cursor-pointer' : '',
+              ].join(' ')}
+              style={{
+                gridTemplateColumns: rowTemplate,
+              }}
+              onClick={() => {
+                if (!getRowHref) return; // router.push logic handled by children or parent link usually, but here we can push
+                router.push(getRowHref(row.original));
+              }}
+            >
+              {row.getVisibleCells().map((cell) => (
+                <div
+                  key={cell.id}
+                  className={[
+                    cell.column.id === 'actions' ? 'px-2' : 'px-4',
+                    'py-3 bg-[var(--bg-surface)] text-[14px] text-[var(--text-primary)] group-hover:bg-[var(--bg-hover)]',
+                  ].join(' ')}
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  {tCommon('noResults')}
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+                  <div className="tabular-data">{flexRender(cell.column.columnDef.cell, cell.getContext())}</div>
+                </div>
+              ))}
+            </div>
+            );
+          })
+        ) : (
+          <div className="bg-[var(--bg-surface)] px-4 py-12 text-center text-[var(--text-tertiary)] col-span-full">
+            {tCommon('noResults')}
+          </div>
+        )}
       </div>
 
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button variant="secondary" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+      {/* Pagination */}
+      <div className="flex items-center justify-end gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+          className="rounded-[var(--radius-button)]"
+        >
           {tCommon('previous')}
         </Button>
-        <Button variant="secondary" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+          className="rounded-[var(--radius-button)]"
+        >
           {tCommon('next')}
         </Button>
       </div>

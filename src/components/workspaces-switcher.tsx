@@ -32,7 +32,7 @@ export const WorkspaceSwitcher = () => {
       </div>
 
       <Select onValueChange={onSelect} value={workspaceId ?? ''}>
-        <SelectTrigger className="w-full border-none bg-white p-1 font-medium shadow-none">
+        <SelectTrigger className="w-full border-none bg-white p-1 font-medium shadow-none focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 [&>svg]:hidden">
           <SelectValue placeholder={t('noWorkspaceSelected')} />
         </SelectTrigger>
 

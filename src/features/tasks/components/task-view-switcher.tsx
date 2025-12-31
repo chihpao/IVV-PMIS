@@ -9,6 +9,8 @@ import { useCallback, useMemo } from 'react';
 import { DottedSeparator } from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useGetMembers } from '@/features/members/api/use-get-members';
+import { useGetProjects } from '@/features/projects/api/use-get-projects';
 import { useBulkUpdateTasks } from '@/features/tasks/api/use-bulk-update-tasks';
 import { useGetTasks } from '@/features/tasks/api/use-get-tasks';
 import { useCreateTaskModal } from '@/features/tasks/hooks/use-create-task-modal';
@@ -53,6 +55,8 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
     projectId: projectId ? [projectId] : filteredProjectId,
     dueDate,
   });
+  const { data: projects } = useGetProjects({ workspaceId });
+  const { data: members } = useGetMembers({ workspaceId });
 
   const filteredTasks = useMemo(() => {
     const documents = tasks?.documents ?? [];
@@ -114,9 +118,20 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
           <>
             <TabsContent value="table" className="mt-0">
               <DataTable
-                columns={createColumns(tTasks, tCommon)}
+                columns={createColumns(tTasks, tCommon, {
+                  projectOptions:
+                    projects?.documents.map((project) => ({
+                      id: project.$id,
+                      name: project.name,
+                      imageUrl: project.imageUrl,
+                    })) ?? [],
+                  memberOptions:
+                    members?.documents.map((member) => ({
+                      id: member.$id,
+                      name: member.name,
+                    })) ?? [],
+                })}
                 data={filteredTasks}
-                getRowHref={(task) => `/workspaces/${workspaceId}/tasks/${task.$id}`}
               />
             </TabsContent>
 

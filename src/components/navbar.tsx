@@ -2,6 +2,7 @@
 
 import { PlusIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 import { Suspense } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -16,12 +17,14 @@ export const Navbar = () => {
   const { open } = useCreateTaskModal();
 
   return (
-    <nav className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur lg:h-16">
+    <nav className="sticky top-0 z-40 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)]/95 backdrop-blur lg:h-16">
       <div className="flex flex-col gap-3 px-6 pb-4 pt-3 lg:grid lg:h-full lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center lg:gap-x-6 lg:py-0">
         <div className="flex items-center justify-between gap-x-3">
           <div className="flex items-center gap-x-3">
             <MobileSidebar />
-            <span className="hidden text-lg font-semibold text-neutral-900 lg:inline">{tCommon('logoText')}</span>
+            <Link href="/" className="hidden text-lg font-semibold text-[var(--text-primary)] lg:inline">
+              {tCommon('logoText')}
+            </Link>
           </div>
 
           <div className="flex items-center gap-x-2.5 lg:hidden">
@@ -36,7 +39,7 @@ export const Navbar = () => {
             </Suspense>
           </div>
 
-          <Button onClick={() => open()} size="sm" className="shrink-0">
+          <Button onClick={() => open()} variant="primary" size="sm" className="shrink-0 rounded-[var(--radius-button)]">
             <PlusIcon className="size-4" />
             {tCommon('create')}
           </Button>

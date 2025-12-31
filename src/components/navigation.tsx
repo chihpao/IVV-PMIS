@@ -46,7 +46,7 @@ export const Navigation = ({ isCollapsed = false }: NavigationProps) => {
   const t = useTranslations('Nav');
 
   return (
-    <ul className="flex flex-col">
+    <ul className={cn('flex flex-col gap-1', isCollapsed ? 'items-center px-0' : 'px-2')}>
       {routes.map((route) => {
         const fullHref = `/workspaces/${workspaceId}${route.href}`;
         const isActive = pathname === fullHref;
@@ -56,23 +56,24 @@ export const Navigation = ({ isCollapsed = false }: NavigationProps) => {
           <li key={fullHref}>
             <Link
               href={fullHref}
+              aria-label={t(route.labelKey)}
               className={cn(
-                'flex items-center gap-2.5 rounded-md p-2.5 font-medium text-neutral-500 transition hover:text-primary',
-                isActive && 'bg-blue-600 text-white shadow-sm hover:opacity-100',
-                isCollapsed && 'group relative',
+                'group relative flex h-10 items-center rounded-lg font-medium transition-colors duration-200',
+                isActive
+                  ? 'bg-[var(--bg-active)] text-[var(--text-primary)] shadow-sm'
+                  : 'text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]',
+                isCollapsed ? 'w-10 justify-center gap-0 p-0' : 'gap-2.5 px-2.5',
               )}
             >
-              <Icon className={cn('size-5 min-h-5 min-w-5 shrink-0', isActive ? 'text-white' : 'text-neutral-500')} />
-              <span
+              <Icon
                 className={cn(
-                  'whitespace-nowrap transition-[max-width,opacity] duration-200 ease-out',
-                  isCollapsed ? 'max-w-0 overflow-hidden opacity-0' : 'max-w-[160px] opacity-100',
+                  'size-5 min-h-5 min-w-5 shrink-0',
+                  isActive ? 'text-[var(--text-primary)]' : 'text-[var(--text-tertiary)] group-hover:text-[var(--text-primary)]',
                 )}
-              >
-                {t(route.labelKey)}
-              </span>
+              />
+              {isCollapsed ? null : <span className="whitespace-nowrap">{t(route.labelKey)}</span>}
               {isCollapsed ? (
-                <span className="pointer-events-none absolute left-full top-1/2 z-50 ml-2 -translate-y-1/2 whitespace-nowrap rounded-md bg-neutral-900 px-2 py-1 text-xs text-white opacity-0 transition-none group-hover:opacity-100">
+                <span className="pointer-events-none absolute left-full top-1/2 z-50 ml-2 -translate-y-1/2 whitespace-nowrap rounded-md bg-[var(--text-primary)] px-2 py-1 text-xs text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
                   {t(route.labelKey)}
                 </span>
               ) : null}

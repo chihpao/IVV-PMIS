@@ -21,82 +21,57 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
   const tCommon = useTranslations('Common');
 
   return (
-    <aside className="size-full bg-white p-4">
-      <div className="flex h-12 items-center justify-between">
+    <aside className="size-full bg-[var(--bg-surface)] p-4 flex flex-col">
+      <div
+        className={cn(
+          'flex h-12 items-center flex-shrink-0',
+          isCollapsed ? 'justify-center' : 'justify-between',
+        )}
+      >
         {isCollapsed ? null : (
-          <Link href="/" className="flex items-center">
-            <Image src="/icon.svg" alt={tCommon('logoAlt')} height={40} width={40} />
-            <span className="sr-only">{tCommon('logoText')}</span>
+          <Link href="/" aria-label={tCommon('logoText')} className="flex items-center gap-2">
+            <Image src="/icon.svg" alt={tCommon('logoAlt')} height={32} width={32} />
           </Link>
         )}
 
         {onToggle ? (
-          <div className="group relative ml-auto flex items-center">
+          <div className="group relative flex items-center">
             <Button
               type="button"
-              variant="secondary"
+              variant="ghost"
               size="icon"
               onClick={onToggle}
-              className="h-10 w-10 rounded-md border-none bg-transparent text-neutral-500 shadow-none hover:bg-transparent [&_svg]:size-5"
+              className="h-10 w-10 rounded-lg text-[var(--text-tertiary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)] transition-colors"
             >
               {isCollapsed ? (
-                <svg
-                  viewBox="0 0 20 20"
-                  aria-hidden="true"
-                  className="size-5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="3" y="3" width="14" height="14" rx="2.5" />
-                  <line x1="12.5" y1="5.5" x2="12.5" y2="14.5" />
+                <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
                 </svg>
               ) : (
-                <svg
-                  viewBox="0 0 20 20"
-                  aria-hidden="true"
-                  className="size-5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="3" y="3" width="14" height="14" rx="2.5" />
-                  <line x1="7.5" y1="5.5" x2="7.5" y2="14.5" />
+                <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M11 19l-7-7 7-7M19 19l-7-7 7-7" />
                 </svg>
               )}
             </Button>
-            {isCollapsed ? (
-              <span className="pointer-events-none absolute left-full top-1/2 z-50 ml-2 -translate-y-1/2 whitespace-nowrap rounded-md bg-neutral-900 px-2 py-1 text-xs text-white opacity-0 transition-none group-hover:opacity-100">
-                展開選單
-              </span>
-            ) : null}
           </div>
         ) : null}
       </div>
 
-      <div className="mt-6">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar mt-6 space-y-6">
         <Navigation isCollapsed={isCollapsed} />
+
+        {!isCollapsed && (
+          <div className="space-y-6">
+            <div className="h-[1px] bg-[var(--border-subtle)] mx-2" />
+            <Suspense>
+              <WorkspaceSwitcher />
+            </Suspense>
+            <Suspense>
+              <Projects />
+            </Suspense>
+          </div>
+        )}
       </div>
-
-      {isCollapsed ? null : (
-        <div className="mt-6">
-          <Suspense>
-            <WorkspaceSwitcher />
-          </Suspense>
-        </div>
-      )}
-
-      {isCollapsed ? null : (
-        <div className="mt-6">
-          <Suspense>
-            <Projects />
-          </Suspense>
-        </div>
-      )}
     </aside>
   );
 };
