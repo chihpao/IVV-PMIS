@@ -22,12 +22,7 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
 
   return (
     <aside className="size-full bg-[var(--bg-surface)] p-4 flex flex-col">
-      <div
-        className={cn(
-          'flex h-12 items-center flex-shrink-0',
-          isCollapsed ? 'justify-center' : 'justify-between',
-        )}
-      >
+      <div className={cn('flex h-12 items-center flex-shrink-0', isCollapsed ? 'justify-center' : 'justify-between')}>
         {isCollapsed ? null : (
           <Link href="/" aria-label={tCommon('logoText')} className="flex items-center gap-2">
             <Image src="/icon.svg" alt={tCommon('logoAlt')} height={32} width={32} />

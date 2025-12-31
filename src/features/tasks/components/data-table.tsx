@@ -55,26 +55,26 @@ export function DataTable<TData, TValue>({ columns, data, getRowHref }: DataTabl
             .join(' ');
 
           return (
-          <div
-            key={headerGroup.id}
-            className="grid sticky top-0 z-10 border-b border-[var(--border-subtle)]"
-            style={{
-              gridTemplateColumns: headerTemplate,
-            }}
-          >
-            {headerGroup.headers.map((header) => (
-              <div
-                key={header.id}
-                className={[
-                  header.column.id === 'actions' ? 'px-2' : 'px-4',
-                  'py-3 bg-[var(--bg-surface)] text-[13px] font-medium text-[var(--text-secondary)] tracking-tight',
-                ].join(' ')}
-              >
-                {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-              </div>
-            ))}
-          </div>
-        );
+            <div
+              key={headerGroup.id}
+              className="grid sticky top-0 z-10 border-b border-[var(--border-subtle)]"
+              style={{
+                gridTemplateColumns: headerTemplate,
+              }}
+            >
+              {headerGroup.headers.map((header) => (
+                <div
+                  key={header.id}
+                  className={[
+                    header.column.id === 'actions' ? 'px-2' : 'px-4',
+                    'py-3 bg-[var(--bg-surface)] text-[13px] font-medium text-[var(--text-secondary)] tracking-tight',
+                  ].join(' ')}
+                >
+                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                </div>
+              ))}
+            </div>
+          );
         })}
 
         {/* Table Body */}
@@ -86,32 +86,32 @@ export function DataTable<TData, TValue>({ columns, data, getRowHref }: DataTabl
               .join(' ');
 
             return (
-            <div
-              key={row.id}
-              className={[
-                'grid border-b border-[var(--border-subtle)] transition-colors duration-150 group last:border-b-0',
-                getRowHref ? 'cursor-pointer' : '',
-              ].join(' ')}
-              style={{
-                gridTemplateColumns: rowTemplate,
-              }}
-              onClick={() => {
-                if (!getRowHref) return; // router.push logic handled by children or parent link usually, but here we can push
-                router.push(getRowHref(row.original));
-              }}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <div
-                  key={cell.id}
-                  className={[
-                    cell.column.id === 'actions' ? 'px-2' : 'px-4',
-                    'py-3 bg-[var(--bg-surface)] text-[14px] text-[var(--text-primary)] group-hover:bg-[var(--bg-hover)]',
-                  ].join(' ')}
-                >
-                  <div className="tabular-data">{flexRender(cell.column.columnDef.cell, cell.getContext())}</div>
-                </div>
-              ))}
-            </div>
+              <div
+                key={row.id}
+                className={[
+                  'grid border-b border-[var(--border-subtle)] transition-colors duration-150 group last:border-b-0',
+                  getRowHref ? 'cursor-pointer' : '',
+                ].join(' ')}
+                style={{
+                  gridTemplateColumns: rowTemplate,
+                }}
+                onClick={() => {
+                  if (!getRowHref) return; // router.push logic handled by children or parent link usually, but here we can push
+                  router.push(getRowHref(row.original));
+                }}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <div
+                    key={cell.id}
+                    className={[
+                      cell.column.id === 'actions' ? 'px-2' : 'px-4',
+                      'py-3 bg-[var(--bg-surface)] text-[14px] text-[var(--text-primary)] group-hover:bg-[var(--bg-hover)]',
+                    ].join(' ')}
+                  >
+                    <div className="tabular-data">{flexRender(cell.column.columnDef.cell, cell.getContext())}</div>
+                  </div>
+                ))}
+              </div>
             );
           })
         ) : (

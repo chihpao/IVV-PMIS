@@ -118,15 +118,7 @@ const InlineTaskNameCell = ({ task }: { task: Task }) => {
   );
 };
 
-const InlineProjectCell = ({
-  task,
-  projectOptions,
-  tCommon,
-}: {
-  task: Task;
-  projectOptions: ProjectOption[];
-  tCommon: Translator;
-}) => {
+const InlineProjectCell = ({ task, projectOptions, tCommon }: { task: Task; projectOptions: ProjectOption[]; tCommon: Translator }) => {
   const { mutate: updateTask, isPending } = useUpdateTask();
   const selectedProject = useMemo(
     () => projectOptions.find((project) => project.id === task.projectId) ?? task.project,
@@ -146,10 +138,7 @@ const InlineProjectCell = ({
       }}
       disabled={isPending || projectOptions.length === 0}
     >
-      <SelectTrigger
-        onClick={(event) => event.stopPropagation()}
-        className={selectTriggerClassName}
-      >
+      <SelectTrigger onClick={(event) => event.stopPropagation()} className={selectTriggerClassName}>
         {selectedProject ? (
           <div className="flex items-center gap-x-2">
             <ProjectAvatar className="size-6" name={selectedProject.name} image={selectedProject.imageUrl} />
@@ -173,15 +162,7 @@ const InlineProjectCell = ({
   );
 };
 
-const InlineAssigneeCell = ({
-  task,
-  memberOptions,
-  tCommon,
-}: {
-  task: Task;
-  memberOptions: MemberOption[];
-  tCommon: Translator;
-}) => {
+const InlineAssigneeCell = ({ task, memberOptions, tCommon }: { task: Task; memberOptions: MemberOption[]; tCommon: Translator }) => {
   const { mutate: updateTask, isPending } = useUpdateTask();
   const selectedMember = useMemo(
     () => memberOptions.find((member) => member.id === task.assigneeId) ?? task.assignee,
@@ -201,10 +182,7 @@ const InlineAssigneeCell = ({
       }}
       disabled={isPending || memberOptions.length === 0}
     >
-      <SelectTrigger
-        onClick={(event) => event.stopPropagation()}
-        className={selectTriggerClassName}
-      >
+      <SelectTrigger onClick={(event) => event.stopPropagation()} className={selectTriggerClassName}>
         {selectedMember ? (
           <div className="flex items-center gap-x-2">
             <MemberAvatar fallbackClassName="text-xs" className="size-6" name={selectedMember.name} />
@@ -253,15 +231,7 @@ const InlineDueDateCell = ({ task, tTasks }: { task: Task; tTasks: Translator })
   );
 };
 
-const InlineStatusCell = ({
-  task,
-  statusLabels,
-  tTasks,
-}: {
-  task: Task;
-  statusLabels: Record<TaskStatus, string>;
-  tTasks: Translator;
-}) => {
+const InlineStatusCell = ({ task, statusLabels, tTasks }: { task: Task; statusLabels: Record<TaskStatus, string>; tTasks: Translator }) => {
   const { mutate: updateTask, isPending } = useUpdateTask();
 
   return (
@@ -277,10 +247,7 @@ const InlineStatusCell = ({
       }}
       disabled={isPending}
     >
-      <SelectTrigger
-        onClick={(event) => event.stopPropagation()}
-        className={selectTriggerClassName}
-      >
+      <SelectTrigger onClick={(event) => event.stopPropagation()} className={selectTriggerClassName}>
         <Badge variant={task.status}>{statusLabels[task.status]}</Badge>
       </SelectTrigger>
       <SelectContent>
@@ -326,9 +293,7 @@ export const createColumns = (tTasks: Translator, tCommon: Translator, options: 
           </Button>
         );
       },
-      cell: ({ row }) => (
-        <InlineProjectCell task={row.original} projectOptions={options.projectOptions} tCommon={tCommon} />
-      ),
+      cell: ({ row }) => <InlineProjectCell task={row.original} projectOptions={options.projectOptions} tCommon={tCommon} />,
     },
     {
       id: 'assignee',
@@ -343,9 +308,7 @@ export const createColumns = (tTasks: Translator, tCommon: Translator, options: 
           </Button>
         );
       },
-      cell: ({ row }) => (
-        <InlineAssigneeCell task={row.original} memberOptions={options.memberOptions} tCommon={tCommon} />
-      ),
+      cell: ({ row }) => <InlineAssigneeCell task={row.original} memberOptions={options.memberOptions} tCommon={tCommon} />,
     },
     {
       accessorKey: 'dueDate',
