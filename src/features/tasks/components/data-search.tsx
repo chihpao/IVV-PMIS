@@ -20,7 +20,7 @@ export const DataSearch = () => {
   const debouncedValue = useDebounce(value);
   const [_filters, setFilters] = useTaskFilters();
   const projectIdParam = params.projectId;
-  const projectId = Array.isArray(projectIdParam) ? projectIdParam[0] ?? '' : projectIdParam ?? '';
+  const projectId = Array.isArray(projectIdParam) ? (projectIdParam[0] ?? '') : (projectIdParam ?? '');
   const isTasksListPage = pathname.endsWith('/tasks');
   const isProjectOverviewPage = !!projectId && pathname.endsWith(`/projects/${projectId}`);
   const isSearchTargetPage = isTasksListPage || isProjectOverviewPage;
