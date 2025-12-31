@@ -1,16 +1,20 @@
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+import dynamic from 'next/dynamic';
 import type { PropsWithChildren } from 'react';
 
 import ExternalBrowserGate from '@/components/ExternalBrowserGate';
-import { CommandPalette } from '@/components/command-palette';
 import { QueryProvider } from '@/components/query-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { siteConfig } from '@/config';
 import { cn } from '@/lib/utils';
 
 import './globals.css';
+
+const CommandPalette = dynamic(() => import('@/components/command-palette').then((mod) => mod.CommandPalette), {
+  ssr: false,
+});
 
 export const metadata: Metadata = siteConfig;
 

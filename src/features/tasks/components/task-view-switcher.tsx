@@ -58,6 +58,24 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
   const { data: projects } = useGetProjects({ workspaceId });
   const { data: members } = useGetMembers({ workspaceId });
 
+  const projectOptions = useMemo(
+    () =>
+      projects?.documents.map((project) => ({
+        id: project.$id,
+        name: project.name,
+        imageUrl: project.imageUrl,
+      })) ?? [],
+    [projects?.documents],
+  );
+  const memberOptions = useMemo(
+    () =>
+      members?.documents.map((member) => ({
+        id: member.$id,
+        name: member.name,
+      })) ?? [],
+    [members?.documents],
+  );
+
   const filteredTasks = useMemo(() => {
     const documents = tasks?.documents ?? [];
     const trimmedSearch = search?.trim();
@@ -78,6 +96,15 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
       });
     },
     [bulkUpdateTasks],
+  );
+
+  const columns = useMemo(
+    () =>
+      createColumns(tTasks, tCommon, {
+        projectOptions,
+        memberOptions,
+      }),
+    [tTasks, tCommon, projectOptions, memberOptions],
   );
 
   return (
@@ -117,22 +144,7 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
         ) : (
           <>
             <TabsContent value="table" className="mt-0">
-              <DataTable
-                columns={createColumns(tTasks, tCommon, {
-                  projectOptions:
-                    projects?.documents.map((project) => ({
-                      id: project.$id,
-                      name: project.name,
-                      imageUrl: project.imageUrl,
-                    })) ?? [],
-                  memberOptions:
-                    members?.documents.map((member) => ({
-                      id: member.$id,
-                      name: member.name,
-                    })) ?? [],
-                })}
-                data={filteredTasks}
-              />
+              <DataTable columns={columns} data={filteredTasks} />
             </TabsContent>
 
             <TabsContent value="kanban" className="mt-0">

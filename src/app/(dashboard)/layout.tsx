@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import type { PropsWithChildren } from 'react';
 import { Suspense, useState } from 'react';
 
@@ -17,7 +16,7 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
 
       <div className="flex gap-[12px] h-[calc(100vh-32px)] w-full">
         {/* Sidebar Island */}
-        <motion.aside
+        <aside
           className="
             relative hidden lg:block
             bg-[var(--bg-surface)] 
@@ -26,19 +25,12 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
             shadow-card
             overflow-hidden
             flex-shrink-0
+            transition-[width] duration-200 ease-out
           "
-          initial={false}
-          animate={{
-            width: isSidebarCollapsed ? 72 : 264,
-          }}
-          transition={{
-            type: 'spring',
-            stiffness: 400,
-            damping: 25,
-          }}
+          style={{ width: isSidebarCollapsed ? 72 : 264 }}
         >
           <Sidebar isCollapsed={isSidebarCollapsed} onToggle={() => setIsSidebarCollapsed((prev) => !prev)} />
-        </motion.aside>
+        </aside>
 
         {/* Main Content Island */}
         <main

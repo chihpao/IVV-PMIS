@@ -1,5 +1,6 @@
 import { ChevronDown, Folder, ListChecks, UserIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
 
 import { DatePicker } from '@/components/date-picker';
 import { Button } from '@/components/ui/button';
@@ -21,6 +22,8 @@ interface DataFiltersProps {
   hideProjectFilter?: boolean;
 }
 
+const STATUS_OPTIONS: TaskStatus[] = [TaskStatus.BACKLOG, TaskStatus.TODO, TaskStatus.IN_PROGRESS, TaskStatus.IN_REVIEW, TaskStatus.DONE];
+
 export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
   const workspaceId = useWorkspaceId();
   const tFilters = useTranslations('Filters');
@@ -31,15 +34,23 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
 
   const isLoading = isLoadingProjects || isLoadingMembers;
 
-  const projectOptions = projects?.documents.map((project) => ({
-    value: project.$id,
-    label: project.name,
-  }));
+  const projectOptions = useMemo(
+    () =>
+      projects?.documents.map((project) => ({
+        value: project.$id,
+        label: project.name,
+      })) ?? [],
+    [projects?.documents],
+  );
 
-  const memberOptions = members?.documents.map((member) => ({
-    value: member.$id,
-    label: member.name,
-  }));
+  const memberOptions = useMemo(
+    () =>
+      members?.documents.map((member) => ({
+        value: member.$id,
+        label: member.name,
+      })) ?? [],
+    [members?.documents],
+  );
 
   const [{ status, assigneeId, projectId, dueDate }, setFilters] = useTaskFilters();
   const selectedStatuses = status ?? [];
@@ -49,18 +60,20 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
   const isAllAssignees = selectedAssignees.length === 0;
   const isAllProjects = selectedProjects.length === 0;
 
-  const statusLabelMap: Record<TaskStatus, string> = {
-    [TaskStatus.BACKLOG]: tTasks('statusBacklog'),
-    [TaskStatus.TODO]: tTasks('statusTodo'),
-    [TaskStatus.IN_PROGRESS]: tTasks('statusInProgress'),
-    [TaskStatus.IN_REVIEW]: tTasks('statusInReview'),
-    [TaskStatus.DONE]: tTasks('statusDone'),
-  };
+  const statusLabelMap = useMemo<Record<TaskStatus, string>>(
+    () => ({
+      [TaskStatus.BACKLOG]: tTasks('statusBacklog'),
+      [TaskStatus.TODO]: tTasks('statusTodo'),
+      [TaskStatus.IN_PROGRESS]: tTasks('statusInProgress'),
+      [TaskStatus.IN_REVIEW]: tTasks('statusInReview'),
+      [TaskStatus.DONE]: tTasks('statusDone'),
+    }),
+    [tTasks],
+  );
 
   const statusLabelText = isAllStatuses ? tFilters('allStatuses') : selectedStatuses.map((value) => statusLabelMap[value]).join(', ');
-  const statusOptions: TaskStatus[] = [TaskStatus.BACKLOG, TaskStatus.TODO, TaskStatus.IN_PROGRESS, TaskStatus.IN_REVIEW, TaskStatus.DONE];
-  const assigneeLabelMap = new Map(memberOptions?.map((member) => [member.value, member.label]) ?? []);
-  const projectLabelMap = new Map(projectOptions?.map((project) => [project.value, project.label]) ?? []);
+  const assigneeLabelMap = useMemo(() => new Map(memberOptions.map((member) => [member.value, member.label])), [memberOptions]);
+  const projectLabelMap = useMemo(() => new Map(projectOptions.map((project) => [project.value, project.label])), [projectOptions]);
   const assigneeLabelText = isAllAssignees
     ? tFilters('allAssignees')
     : selectedAssignees
@@ -132,7 +145,7 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
             {tFilters('allStatuses')}
           </DropdownMenuCheckboxItem>
           <DropdownMenuSeparator />
-          {statusOptions.map((statusValue) => (
+          {STATUS_OPTIONS.map((statusValue) => (
             <DropdownMenuCheckboxItem
               key={statusValue}
               checked={selectedStatuses.includes(statusValue)}
@@ -170,7 +183,7 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
           </DropdownMenuCheckboxItem>
           <DropdownMenuSeparator />
 
-          {memberOptions?.map((member) => (
+          {memberOptions.map((member) => (
             <DropdownMenuCheckboxItem
               key={member.value}
               checked={selectedAssignees.includes(member.value)}
@@ -209,7 +222,7 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
             </DropdownMenuCheckboxItem>
             <DropdownMenuSeparator />
 
-            {projectOptions?.map((project) => (
+            {projectOptions.map((project) => (
               <DropdownMenuCheckboxItem
                 key={project.value}
                 checked={selectedProjects.includes(project.value)}

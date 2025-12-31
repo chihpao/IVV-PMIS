@@ -2,7 +2,7 @@ import { addMonths, format, getDay, parse, startOfWeek, subMonths } from 'date-f
 import { zhTW } from 'date-fns/locale';
 import { CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
@@ -57,15 +57,23 @@ const CustomToolbar = ({ date, onNavigate }: CustomToolbarProps) => {
 export const DataCalendar = ({ data }: DataCalendarProps) => {
   const [value, setValue] = useState(data.length > 0 ? new Date(data[0].dueDate) : new Date());
 
-  const events = data.map((task) => ({
-    start: new Date(task.dueDate),
-    end: new Date(task.dueDate),
-    title: task.name,
-    project: task.project,
-    assignee: task.assignee,
-    status: task.status,
-    id: task.$id,
-  }));
+  const events = useMemo(
+    () =>
+      data.map((task) => ({
+        start: new Date(task.dueDate),
+        end: new Date(task.dueDate),
+        title: task.name,
+        project: task.project,
+        assignee: task.assignee,
+        status: task.status,
+        id: task.$id,
+      })),
+    [data],
+  );
+  const maxDate = useMemo(() => {
+    const now = new Date();
+    return new Date(now.setFullYear(now.getFullYear() + 1));
+  }, []);
 
   const handleNavigate = (action: 'PREV' | 'NEXT' | 'TODAY') => {
     if (action === 'PREV') setValue(subMonths(value, 1));
@@ -84,7 +92,7 @@ export const DataCalendar = ({ data }: DataCalendarProps) => {
       toolbar
       showAllEvents
       className="h-full"
-      max={new Date(new Date().setFullYear(new Date().getFullYear() + 1))}
+      max={maxDate}
       formats={{
         weekdayFormat: (date, culture, localizer) => localizer?.format(date, 'EEE', culture) ?? '',
       }}
