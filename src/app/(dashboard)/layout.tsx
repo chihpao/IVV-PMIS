@@ -19,10 +19,7 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
         <aside
           className="
             relative hidden lg:block
-            bg-[var(--bg-surface)] 
-            rounded-[12px] 
-            border border-[var(--border-default)]
-            shadow-card
+            bg-[var(--bg-base)] 
             overflow-hidden
             flex-shrink-0
             transition-[width] duration-200 ease-out
@@ -37,8 +34,7 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
           className="
           flex-1 
           bg-[var(--bg-surface)] 
-          rounded-[12px] 
-          border border-[var(--border-default)]
+          border border-[var(--border-strong)]
           shadow-card
           overflow-hidden
           flex flex-col

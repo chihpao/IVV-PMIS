@@ -1,5 +1,4 @@
 import { zValidator } from '@hono/zod-validator';
-import { endOfMonth, startOfMonth, subMonths } from 'date-fns';
 import { Hono } from 'hono';
 import { ID, Query } from 'node-appwrite';
 import { z } from 'zod';
@@ -301,109 +300,46 @@ const app = new Hono()
     }
 
     const now = new Date();
-    const thisMonthStart = startOfMonth(now);
-    const thisMonthEnd = endOfMonth(now);
-    const lastMonthStart = startOfMonth(subMonths(now, 1));
-    const lastMonthEnd = endOfMonth(subMonths(now, 1));
 
-    const [
-      thisMonthTasks,
-      lastMonthTasks,
-      thisMonthAssignedTasks,
-      lastMonthAssignedTasks,
-      thisMonthIncompleteTasks,
-      lastMonthIncompleteTasks,
-      thisMonthCompletedTasks,
-      lastMonthCompletedTasks,
-      thisMonthOverdueTasks,
-      lastMonthOverdueTasks,
-    ] = await Promise.all([
-      databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
-        Query.equal('workspaceId', workspaceId),
-        Query.greaterThanEqual('$createdAt', thisMonthStart.toISOString()),
-        Query.lessThanEqual('$createdAt', thisMonthEnd.toISOString()),
-        Query.limit(1),
-      ]),
-      databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
-        Query.equal('workspaceId', workspaceId),
-        Query.greaterThanEqual('$createdAt', lastMonthStart.toISOString()),
-        Query.lessThanEqual('$createdAt', lastMonthEnd.toISOString()),
-        Query.limit(1),
-      ]),
+    const [allTasks, assignedTasks, incompleteTasks, completedTasks, overdueTasks] = await Promise.all([
+      databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [Query.equal('workspaceId', workspaceId), Query.limit(1)]),
       databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
         Query.equal('workspaceId', workspaceId),
         Query.equal('assigneeId', member.$id),
-        Query.greaterThanEqual('$createdAt', thisMonthStart.toISOString()),
-        Query.lessThanEqual('$createdAt', thisMonthEnd.toISOString()),
-        Query.limit(1),
-      ]),
-      databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
-        Query.equal('workspaceId', workspaceId),
-        Query.equal('assigneeId', member.$id),
-        Query.greaterThanEqual('$createdAt', lastMonthStart.toISOString()),
-        Query.lessThanEqual('$createdAt', lastMonthEnd.toISOString()),
         Query.limit(1),
       ]),
       databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
         Query.equal('workspaceId', workspaceId),
         Query.notEqual('status', TaskStatus.DONE),
-        Query.greaterThanEqual('$createdAt', thisMonthStart.toISOString()),
-        Query.lessThanEqual('$createdAt', thisMonthEnd.toISOString()),
-        Query.limit(1),
-      ]),
-      databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
-        Query.equal('workspaceId', workspaceId),
-        Query.notEqual('status', TaskStatus.DONE),
-        Query.greaterThanEqual('$createdAt', lastMonthStart.toISOString()),
-        Query.lessThanEqual('$createdAt', lastMonthEnd.toISOString()),
         Query.limit(1),
       ]),
       databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
         Query.equal('workspaceId', workspaceId),
         Query.equal('status', TaskStatus.DONE),
-        Query.greaterThanEqual('$createdAt', thisMonthStart.toISOString()),
-        Query.lessThanEqual('$createdAt', thisMonthEnd.toISOString()),
-        Query.limit(1),
-      ]),
-      databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
-        Query.equal('workspaceId', workspaceId),
-        Query.notEqual('status', TaskStatus.DONE),
-        Query.greaterThanEqual('$createdAt', lastMonthStart.toISOString()),
-        Query.lessThanEqual('$createdAt', lastMonthEnd.toISOString()),
         Query.limit(1),
       ]),
       databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
         Query.equal('workspaceId', workspaceId),
         Query.notEqual('status', TaskStatus.DONE),
         Query.lessThan('dueDate', now.toISOString()),
-        Query.greaterThanEqual('$createdAt', thisMonthStart.toISOString()),
-        Query.lessThanEqual('$createdAt', thisMonthEnd.toISOString()),
-        Query.limit(1),
-      ]),
-      databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
-        Query.equal('workspaceId', workspaceId),
-        Query.notEqual('status', TaskStatus.DONE),
-        Query.lessThan('dueDate', now.toISOString()),
-        Query.greaterThanEqual('$createdAt', lastMonthStart.toISOString()),
-        Query.lessThanEqual('$createdAt', lastMonthEnd.toISOString()),
         Query.limit(1),
       ]),
     ]);
 
-    const taskCount = thisMonthTasks.total;
-    const taskDifference = taskCount - lastMonthTasks.total;
+    const taskCount = allTasks.total;
+    const taskDifference = 0;
 
-    const assignedTaskCount = thisMonthAssignedTasks.total;
-    const assignedTaskDifference = assignedTaskCount - lastMonthAssignedTasks.total;
+    const assignedTaskCount = assignedTasks.total;
+    const assignedTaskDifference = 0;
 
-    const incompleteTaskCount = thisMonthIncompleteTasks.total;
-    const incompleteTaskDifference = incompleteTaskCount - lastMonthIncompleteTasks.total;
+    const incompleteTaskCount = incompleteTasks.total;
+    const incompleteTaskDifference = 0;
 
-    const completedTaskCount = thisMonthCompletedTasks.total;
-    const completedTaskDifference = completedTaskCount - lastMonthCompletedTasks.total;
+    const completedTaskCount = completedTasks.total;
+    const completedTaskDifference = 0;
 
-    const overdueTaskCount = thisMonthOverdueTasks.total;
-    const overdueTaskDifference = overdueTaskCount - lastMonthOverdueTasks.total;
+    const overdueTaskCount = overdueTasks.total;
+    const overdueTaskDifference = 0;
 
     return ctx.json({
       data: {

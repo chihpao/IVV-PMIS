@@ -68,7 +68,7 @@ export const TaskList = ({ data, total }: TaskListProps) => {
 
   return (
     <div className="col-span-1 flex flex-col gap-y-4">
-      <div className="rounded-lg bg-muted p-4">
+      <div className="rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4">
         <div className="flex items-center justify-between">
           <p className="text-lg font-semibold">{tHome('tasksWithCount', { count: total })}</p>
 
@@ -77,7 +77,7 @@ export const TaskList = ({ data, total }: TaskListProps) => {
           </Button>
         </div>
 
-        <DottedSeparator className="my-4" />
+        <div className="my-4 h-px bg-[var(--border-subtle)]" />
 
         <ul className="flex flex-col gap-y-4">
           {data.map((task) => (
@@ -106,7 +106,7 @@ export const TaskList = ({ data, total }: TaskListProps) => {
           <li className="hidden text-center text-sm text-muted-foreground first-of-type:block">{tHome('noTasks')}</li>
         </ul>
 
-        <Button variant="muted" className="mt-4 w-full" asChild>
+        <Button variant="outline" className="mt-4 w-full" asChild>
           <Link href={`/workspaces/${workspaceId}/tasks`}>{tHome('showAll')}</Link>
         </Button>
       </div>
@@ -126,7 +126,7 @@ export const ProjectList = ({ data, total }: ProjectListProps) => {
 
   return (
     <div className="col-span-1 flex flex-col gap-y-4">
-      <div className="rounded-lg border bg-white p-4">
+      <div className="rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4">
         <div className="flex items-center justify-between">
           <p className="text-lg font-semibold">{tHome('projectsWithCount', { count: total })}</p>
 
@@ -135,7 +135,7 @@ export const ProjectList = ({ data, total }: ProjectListProps) => {
           </Button>
         </div>
 
-        <DottedSeparator className="my-4" />
+        <div className="my-4 h-px bg-[var(--border-subtle)]" />
 
         <ul className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           {data.map((project) => (
@@ -169,7 +169,7 @@ export const MemberList = ({ data, total }: MemberListProps) => {
 
   return (
     <div className="col-span-1 flex flex-col gap-y-4">
-      <div className="rounded-lg border bg-white p-4">
+      <div className="rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4">
         <div className="flex items-center justify-between">
           <p className="text-lg font-semibold">{tHome('membersWithCount', { count: total })}</p>
 
@@ -180,7 +180,7 @@ export const MemberList = ({ data, total }: MemberListProps) => {
           </Button>
         </div>
 
-        <DottedSeparator className="my-4" />
+        <div className="my-4 h-px bg-[var(--border-subtle)]" />
 
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {data.map((member) => (

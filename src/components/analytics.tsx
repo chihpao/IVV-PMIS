@@ -2,11 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { ProjectAnalyticsResponseType } from '@/features/projects/api/use-get-project-analytics';
-
-import { AnalyticsCard } from './analytics-card';
-import { DottedSeparator } from './dotted-separator';
 
 /* interface AnalyticsProps {
   data?: {
@@ -29,63 +25,21 @@ export const Analytics = ({ data }: ProjectAnalyticsResponseType) => {
   const t = useTranslations('Analytics');
 
   return (
-    <ScrollArea className="w-full shrink-0 whitespace-nowrap rounded-lg border">
-      <div className="flex w-full flex-row">
-        <div className="flex flex-1 items-center">
-          <AnalyticsCard
-            title={t('totalTasks')}
-            value={data.taskCount}
-            variant={data.taskDifference > 0 ? 'up' : 'down'}
-            increaseValue={data.taskDifference}
-          />
-
-          <DottedSeparator direction="vertical" />
-        </div>
-
-        <div className="flex flex-1 items-center">
-          <AnalyticsCard
-            title={t('assignedTasks')}
-            value={data.assignedTaskCount}
-            variant={data.assignedTaskDifference > 0 ? 'up' : 'down'}
-            increaseValue={data.assignedTaskDifference}
-          />
-
-          <DottedSeparator direction="vertical" />
-        </div>
-
-        <div className="flex flex-1 items-center">
-          <AnalyticsCard
-            title={t('completedTasks')}
-            value={data.completedTaskCount}
-            variant={data.completedTaskDifference > 0 ? 'up' : 'down'}
-            increaseValue={data.completedTaskDifference}
-          />
-
-          <DottedSeparator direction="vertical" />
-        </div>
-
-        <div className="flex flex-1 items-center">
-          <AnalyticsCard
-            title={t('overdueTasks')}
-            value={data.overdueTaskCount}
-            variant={data.overdueTaskDifference > 0 ? 'up' : 'down'}
-            increaseValue={data.overdueTaskDifference}
-          />
-
-          <DottedSeparator direction="vertical" />
-        </div>
-
-        <div className="flex flex-1 items-center">
-          <AnalyticsCard
-            title={t('incompleteTasks')}
-            value={data.incompleteTaskCount}
-            variant={data.incompleteTaskDifference > 0 ? 'up' : 'down'}
-            increaseValue={data.incompleteTaskDifference}
-          />
-        </div>
+    <div className="w-full rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)]">
+      <div className="grid grid-cols-5 gap-x-6 px-4 pt-3 text-sm text-[var(--text-secondary)]">
+        <span>{t('totalTasks')}</span>
+        <span>{t('assignedTasks')}</span>
+        <span>{t('completedTasks')}</span>
+        <span>{t('overdueTasks')}</span>
+        <span>{t('incompleteTasks')}</span>
       </div>
-
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
+      <div className="grid grid-cols-5 gap-x-6 px-4 pb-3 text-lg text-[var(--text-primary)]">
+        <span className="tabular-data">{data.taskCount}</span>
+        <span className="tabular-data">{data.assignedTaskCount}</span>
+        <span className="tabular-data">{data.completedTaskCount}</span>
+        <span className="tabular-data">{data.overdueTaskCount}</span>
+        <span className="tabular-data">{data.incompleteTaskCount}</span>
+      </div>
+    </div>
   );
 };
