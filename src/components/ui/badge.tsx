@@ -13,7 +13,6 @@ const badgeVariants = cva(
         secondary: 'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
         destructive: 'border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80',
         outline: 'text-foreground',
-        [TaskStatus.TODO]: 'border-transparent bg-red-400 text-red-50 hover:bg-red-400/80',
         [TaskStatus.IN_PROGRESS]: 'border-transparent bg-yellow-400 text-yellow-50 hover:bg-yellow-400/80',
         [TaskStatus.IN_REVIEW]: 'border-transparent bg-blue-400 text-blue-50 hover:bg-blue-400/80',
         [TaskStatus.DONE]: 'border-transparent bg-emerald-400 text-emerald-50 hover:bg-emerald-400/80',

@@ -179,7 +179,6 @@
     "editTaskAction": "編輯任務",
     "taskNamePlaceholder": "輸入任務名稱",
     "statusBacklog": "待處理",
-    "statusTodo": "待辦",
     "statusInProgress": "進行中",
     "statusInReview": "審核中",
     "statusDone": "已完成",

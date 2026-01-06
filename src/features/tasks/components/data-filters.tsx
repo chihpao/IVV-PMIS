@@ -22,7 +22,7 @@ interface DataFiltersProps {
   hideProjectFilter?: boolean;
 }
 
-const STATUS_OPTIONS: TaskStatus[] = [TaskStatus.BACKLOG, TaskStatus.TODO, TaskStatus.IN_PROGRESS, TaskStatus.IN_REVIEW, TaskStatus.DONE];
+const STATUS_OPTIONS: TaskStatus[] = [TaskStatus.BACKLOG, TaskStatus.IN_PROGRESS, TaskStatus.IN_REVIEW, TaskStatus.DONE];
 
 export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
   const workspaceId = useWorkspaceId();
@@ -63,7 +63,6 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
   const statusLabelMap = useMemo<Record<TaskStatus, string>>(
     () => ({
       [TaskStatus.BACKLOG]: tTasks('statusBacklog'),
-      [TaskStatus.TODO]: tTasks('statusTodo'),
       [TaskStatus.IN_PROGRESS]: tTasks('statusInProgress'),
       [TaskStatus.IN_REVIEW]: tTasks('statusInReview'),
       [TaskStatus.DONE]: tTasks('statusDone'),

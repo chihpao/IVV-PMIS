@@ -252,7 +252,6 @@ const InlineStatusCell = ({ task, statusLabels, tTasks }: { task: Task; statusLa
       </SelectTrigger>
       <SelectContent>
         <SelectItem value={TaskStatus.BACKLOG}>{tTasks('statusBacklog')}</SelectItem>
-        <SelectItem value={TaskStatus.TODO}>{tTasks('statusTodo')}</SelectItem>
         <SelectItem value={TaskStatus.IN_PROGRESS}>{tTasks('statusInProgress')}</SelectItem>
         <SelectItem value={TaskStatus.IN_REVIEW}>{tTasks('statusInReview')}</SelectItem>
         <SelectItem value={TaskStatus.DONE}>{tTasks('statusDone')}</SelectItem>
@@ -264,7 +263,6 @@ const InlineStatusCell = ({ task, statusLabels, tTasks }: { task: Task; statusLa
 export const createColumns = (tTasks: Translator, tCommon: Translator, options: ColumnOptions): ColumnDef<Task>[] => {
   const statusLabels: Record<TaskStatus, string> = {
     [TaskStatus.BACKLOG]: tTasks('statusBacklog'),
-    [TaskStatus.TODO]: tTasks('statusTodo'),
     [TaskStatus.IN_PROGRESS]: tTasks('statusInProgress'),
     [TaskStatus.IN_REVIEW]: tTasks('statusInReview'),
     [TaskStatus.DONE]: tTasks('statusDone'),

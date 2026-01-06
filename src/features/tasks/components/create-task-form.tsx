@@ -164,7 +164,6 @@ export const CreateTaskForm = ({ initialStatus, onCancel, memberOptions, project
                         <SelectItem value={TaskStatus.BACKLOG}>{tTasks('statusBacklog')}</SelectItem>
                         <SelectItem value={TaskStatus.IN_PROGRESS}>{tTasks('statusInProgress')}</SelectItem>
                         <SelectItem value={TaskStatus.IN_REVIEW}>{tTasks('statusInReview')}</SelectItem>
-                        <SelectItem value={TaskStatus.TODO}>{tTasks('statusTodo')}</SelectItem>
                         <SelectItem value={TaskStatus.DONE}>{tTasks('statusDone')}</SelectItem>
                       </SelectContent>
                     </Select>

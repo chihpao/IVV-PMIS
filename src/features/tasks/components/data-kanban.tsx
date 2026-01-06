@@ -6,7 +6,7 @@ import { type Task, TaskStatus } from '@/features/tasks/types';
 import { KanbanCard } from './kanban-card';
 import { KanbanColumnHeader } from './kanban-column-header';
 
-const boards: TaskStatus[] = [TaskStatus.BACKLOG, TaskStatus.TODO, TaskStatus.IN_PROGRESS, TaskStatus.IN_REVIEW, TaskStatus.DONE];
+const boards: TaskStatus[] = [TaskStatus.BACKLOG, TaskStatus.IN_PROGRESS, TaskStatus.IN_REVIEW, TaskStatus.DONE];
 
 type TasksState = {
   [key in TaskStatus]: Task[];
@@ -21,7 +21,6 @@ export const DataKanban = ({ data, onChange }: DataKanbanProps) => {
   const [tasks, setTasks] = useState<TasksState>(() => {
     const initialTasks: TasksState = {
       [TaskStatus.BACKLOG]: [],
-      [TaskStatus.TODO]: [],
       [TaskStatus.IN_PROGRESS]: [],
       [TaskStatus.IN_REVIEW]: [],
       [TaskStatus.DONE]: [],
@@ -41,7 +40,6 @@ export const DataKanban = ({ data, onChange }: DataKanbanProps) => {
   useEffect(() => {
     const newTasks: TasksState = {
       [TaskStatus.BACKLOG]: [],
-      [TaskStatus.TODO]: [],
       [TaskStatus.IN_PROGRESS]: [],
       [TaskStatus.IN_REVIEW]: [],
       [TaskStatus.DONE]: [],
@@ -143,7 +141,7 @@ export const DataKanban = ({ data, onChange }: DataKanbanProps) => {
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="custom-scrollbar flex overflow-x-auto">
         {boards.map((board) => (
-          <div key={board} className="mx-2 min-w-[200px] flex-1 rounded-md bg-muted p-1.5">
+          <div key={board} className="mx-2 min-w-[200px] flex-1 rounded-md bg-[var(--bg-surface)] p-1.5">
             <KanbanColumnHeader board={board} taskCount={tasks[board].length} />
 
             <Droppable droppableId={board}>

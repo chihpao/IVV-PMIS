@@ -23,7 +23,6 @@ export const TaskOverview = ({ task }: TaskOverviewProps) => {
   const assigneeName = task.assignee?.name ?? tCommon('unassigned');
   const statusLabels: Record<TaskStatus, string> = {
     [TaskStatus.BACKLOG]: tTasks('statusBacklog'),
-    [TaskStatus.TODO]: tTasks('statusTodo'),
     [TaskStatus.IN_PROGRESS]: tTasks('statusInProgress'),
     [TaskStatus.IN_REVIEW]: tTasks('statusInReview'),
     [TaskStatus.DONE]: tTasks('statusDone'),
