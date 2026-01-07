@@ -23,22 +23,22 @@ export const WorkspaceSwitcher = () => {
   };
 
   return (
-    <div className="flex flex-col gap-y-2">
+    <div className="flex flex-col gap-y-2 stagger-fade">
       <div className="flex items-center justify-between">
-        <p className="text-xs uppercase text-neutral-500">{t('workspaces')}</p>
+        <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-tertiary)]">{t('workspaces')}</p>
         <button onClick={open}>
-          <RiAddCircleFill className="size-5 cursor-pointer text-neutral-500 transition hover:opacity-75" />
+          <RiAddCircleFill className="size-5 cursor-pointer text-[var(--text-tertiary)] transition-colors hover:text-[var(--accent-primary)]" />
         </button>
       </div>
 
       <Select onValueChange={onSelect} value={workspaceId ?? ''}>
-        <SelectTrigger className="w-full border-none bg-[var(--bg-base)] p-1 font-medium shadow-none focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 [&>svg]:hidden">
+        <SelectTrigger className="w-full border-none bg-transparent px-2 font-medium text-[var(--text-primary)] shadow-none focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 [&>svg]:hidden">
           <SelectValue placeholder={t('noWorkspaceSelected')} />
         </SelectTrigger>
 
         <SelectContent>
           {workspaces?.documents.map((workspace) => (
-            <SelectItem key={workspace.$id} value={workspace.$id} className="data-[state=checked]:bg-[var(--bg-base)]">
+            <SelectItem key={workspace.$id} value={workspace.$id} className="data-[state=checked]:bg-[var(--bg-hover)]">
               <div className="flex items-center justify-start gap-3 font-medium">
                 <WorkspaceAvatar name={workspace.name} image={workspace.imageUrl} />
 

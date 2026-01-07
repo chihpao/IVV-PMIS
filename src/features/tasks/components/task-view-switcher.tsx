@@ -108,8 +108,8 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
   );
 
   return (
-    <Tabs defaultValue={view} onValueChange={setView} className="w-full flex-1 rounded-lg">
-      <div className="flex h-full flex-col overflow-auto p-4">
+    <Tabs defaultValue={view} onValueChange={setView} className="w-full flex-1 rounded-none">
+      <div className="flex flex-col p-4">
         <div className="flex flex-col items-center justify-between gap-y-2 lg:flex-row">
           <TabsList className="w-full lg:w-auto">
             <TabsTrigger className="h-8 w-full lg:w-auto" value="table">
@@ -138,7 +138,7 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
 
         <DottedSeparator className="my-4" />
         {isLoadingTasks ? (
-          <div className="flex h-[200px] w-full flex-col items-center justify-center rounded-lg">
+          <div className="flex h-[200px] w-full flex-col items-center justify-center rounded-none">
             <Loader2 className="size-5 animate-spin text-muted-foreground" />
           </div>
         ) : (

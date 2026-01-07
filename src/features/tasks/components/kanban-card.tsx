@@ -5,21 +5,28 @@ import { DottedSeparator } from '@/components/dotted-separator';
 import { MemberAvatar } from '@/features/members/components/member-avatar';
 import { ProjectAvatar } from '@/features/projects/components/project-avatar';
 import type { Task } from '@/features/tasks/types';
+import { cn } from '@/lib/utils';
 
 import { TaskActions } from './task-actions';
 import { TaskDate } from './task-date';
 
 interface KanbanCardProps {
   task: Task;
+  isDragging?: boolean;
 }
 
-export const KanbanCard = ({ task }: KanbanCardProps) => {
+export const KanbanCard = ({ task, isDragging }: KanbanCardProps) => {
   const tCommon = useTranslations('Common');
   const assigneeName = task.assignee?.name ?? tCommon('unassigned');
   const projectName = task.project?.name ?? tCommon('noProject');
 
   return (
-    <div className="mb-1.5 space-y-3 rounded bg-white p-2.5 shadow-sm">
+    <div
+      className={cn(
+        'space-y-3 rounded-none border border-neutral-300/70 bg-white p-3 shadow-sm hover:shadow-md',
+        !isDragging && 'transition-shadow',
+      )}
+    >
       <div className="flex items-start justify-between gap-x-2">
         <p className="line-clamp-2 text-sm">{task.name}</p>
 
@@ -32,7 +39,7 @@ export const KanbanCard = ({ task }: KanbanCardProps) => {
 
       <div className="flex items-center gap-x-1.5">
         <MemberAvatar name={assigneeName} fallbackClassName="text-[10px]" />
-        <div aria-hidden className="size-1 rounded-full bg-neutral-300" />
+        <div aria-hidden className="size-1 rounded-none bg-neutral-300" />
         <TaskDate value={task.dueDate} className="text-xs" />
       </div>
 

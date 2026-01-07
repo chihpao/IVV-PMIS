@@ -5,8 +5,8 @@ import { UserButton } from '@/features/auth/components/user-button';
 
 const StandaloneLayout = ({ children }: PropsWithChildren) => {
   return (
-    <main className="min-h-screen bg-neutral-100">
-      <div className="mx-auto max-w-screen-2xl px-4">
+    <main className="min-h-screen bg-transparent">
+      <div className="mx-auto max-w-screen-2xl px-6">
         <nav className="flex h-[73px] items-center justify-between">
           <Logo />
 
@@ -15,7 +15,7 @@ const StandaloneLayout = ({ children }: PropsWithChildren) => {
           </div>
         </nav>
 
-        <div className="flex flex-col items-center justify-center py-4">{children}</div>
+        <div className="flex flex-col items-center justify-center py-4 animate-fade-up">{children}</div>
       </div>
     </main>
   );

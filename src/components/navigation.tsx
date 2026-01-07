@@ -46,7 +46,7 @@ export const Navigation = ({ isCollapsed = false }: NavigationProps) => {
   const t = useTranslations('Nav');
 
   return (
-    <ul className={cn('flex flex-col gap-1', isCollapsed ? 'items-center px-0' : 'px-2')}>
+    <ul className={cn('flex flex-col gap-1 stagger-fade', isCollapsed ? 'items-center px-0' : 'px-2')}>
       {routes.map((route) => {
         const fullHref = `/workspaces/${workspaceId}${route.href}`;
         const isActive = pathname === fullHref;
@@ -58,9 +58,9 @@ export const Navigation = ({ isCollapsed = false }: NavigationProps) => {
               href={fullHref}
               aria-label={t(route.labelKey)}
               className={cn(
-                'group relative flex h-10 items-center rounded-lg font-medium transition-colors duration-200',
+                'group relative flex h-10 items-center rounded-none font-medium transition-colors duration-200',
                 isActive
-                  ? 'bg-[var(--bg-active)] text-[var(--text-primary)] shadow-sm'
+                  ? 'bg-[var(--accent-subtle)] text-[var(--text-primary)] shadow-sm'
                   : 'text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]',
                 isCollapsed ? 'w-10 justify-center gap-0 p-0' : 'gap-2.5 px-2.5',
               )}
@@ -68,12 +68,12 @@ export const Navigation = ({ isCollapsed = false }: NavigationProps) => {
               <Icon
                 className={cn(
                   'size-5 min-h-5 min-w-5 shrink-0',
-                  isActive ? 'text-[var(--text-primary)]' : 'text-[var(--text-tertiary)] group-hover:text-[var(--text-primary)]',
+                  isActive ? 'text-[var(--accent-primary)]' : 'text-[var(--text-tertiary)] group-hover:text-[var(--text-primary)]',
                 )}
               />
               {isCollapsed ? null : <span className="whitespace-nowrap">{t(route.labelKey)}</span>}
               {isCollapsed ? (
-                <span className="pointer-events-none absolute left-full top-1/2 z-50 ml-2 -translate-y-1/2 whitespace-nowrap rounded-md bg-[var(--text-primary)] px-2 py-1 text-xs text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
+                <span className="pointer-events-none absolute left-full top-1/2 z-50 ml-2 -translate-y-1/2 whitespace-nowrap rounded-none border border-[var(--border-subtle)] bg-[var(--bg-surface)] px-2 py-1 text-xs text-[var(--text-primary)] opacity-0 shadow-card transition-opacity group-hover:opacity-100">
                   {t(route.labelKey)}
                 </span>
               ) : null}

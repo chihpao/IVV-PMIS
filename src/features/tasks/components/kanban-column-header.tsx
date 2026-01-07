@@ -34,7 +34,7 @@ export const KanbanColumnHeader = ({ board, taskCount }: KanbanColumnHeaderProps
         {icon}
         <h2 className="text-sm font-medium">{statusLabels[board]}</h2>
 
-        <div className="flex size-5 items-center justify-center rounded-md bg-neutral-200 text-xs font-medium text-neutral-700">
+        <div className="flex size-5 items-center justify-center rounded-none bg-neutral-200 text-xs font-medium text-neutral-700">
           {taskCount}
         </div>
       </div>

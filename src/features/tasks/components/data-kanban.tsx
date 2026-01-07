@@ -2,6 +2,7 @@ import { DragDropContext, Draggable, type DropResult, Droppable } from '@hello-p
 import { useCallback, useEffect, useState } from 'react';
 
 import { type Task, TaskStatus } from '@/features/tasks/types';
+import { cn } from '@/lib/utils';
 
 import { KanbanCard } from './kanban-card';
 import { KanbanColumnHeader } from './kanban-column-header';
@@ -139,19 +140,24 @@ export const DataKanban = ({ data, onChange }: DataKanbanProps) => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="custom-scrollbar flex overflow-x-auto">
+      <div className="custom-scrollbar flex gap-4 overflow-x-auto p-4">
         {boards.map((board) => (
-          <div key={board} className="mx-2 min-w-[200px] flex-1 rounded-md bg-[var(--bg-surface)] p-1.5">
+          <div key={board} className="min-w-[280px] flex-1 rounded-none border border-neutral-300/50 bg-[var(--bg-hover)] p-2">
             <KanbanColumnHeader board={board} taskCount={tasks[board].length} />
 
             <Droppable droppableId={board}>
               {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef} className="min-h-[200px] py-1.5">
+                <div {...provided.droppableProps} ref={provided.innerRef} className="flex min-h-[200px] flex-col gap-y-2 py-1.5">
                   {tasks[board].map((task, index) => (
                     <Draggable key={task.$id} draggableId={task.$id} index={index}>
-                      {(provided) => (
-                        <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                          <KanbanCard task={task} />
+                      {(provided, snapshot) => (
+                        <div
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          ref={provided.innerRef}
+                          className={cn(snapshot.isDragging && 'z-50')}
+                        >
+                          <KanbanCard task={task} isDragging={snapshot.isDragging} />
                         </div>
                       )}
                     </Draggable>

@@ -37,7 +37,7 @@ export const TaskDescription = ({ task }: TaskDescriptionProps) => {
   };
 
   return (
-    <div className="rounded-lg border p-4">
+    <div className="rounded-none border p-4">
       <div className="flex items-center justify-between">
         <p className="text-lg font-semibold">{tTasks('description')}</p>
 

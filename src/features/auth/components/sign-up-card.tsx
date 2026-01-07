@@ -64,17 +64,17 @@ export const SignUpCard = () => {
   const isPending = isRegistering || isRedirecting;
 
   return (
-    <Card className="size-full border-none shadow-none md:w-[487px]">
+    <Card className="size-full md:w-[487px]">
       <CardHeader className="flex items-center justify-center p-7 text-center">
         <CardTitle className="text-2xl">{t('createAccount')}</CardTitle>
         <CardDescription>
           {t('agreeTo')}{' '}
           <Link href="#">
-            <span className="text-blue-700">{t('privacyPolicy')}</span>
+            <span className="text-[var(--accent-primary)] transition-colors hover:text-[var(--accent-hover)]">{t('privacyPolicy')}</span>
           </Link>{' '}
           {t('and')}{' '}
           <Link href="#">
-            <span className="text-blue-700">{t('termsOfService')}</span>
+            <span className="text-[var(--accent-primary)] transition-colors hover:text-[var(--accent-hover)]">{t('termsOfService')}</span>
           </Link>
         </CardDescription>
       </CardHeader>
@@ -157,10 +157,10 @@ export const SignUpCard = () => {
       </div>
 
       <CardContent className="flex items-center justify-center p-7">
-        <p>
+        <p className="text-sm text-[var(--text-secondary)]">
           {t('alreadyHaveAccount')}{' '}
           <Link href="/sign-in">
-            <span className="text-blue-700">{t('login')}</span>
+            <span className="text-[var(--accent-primary)] transition-colors hover:text-[var(--accent-hover)]">{t('login')}</span>
           </Link>
         </p>
       </CardContent>

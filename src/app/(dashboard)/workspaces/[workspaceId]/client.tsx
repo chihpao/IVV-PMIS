@@ -44,7 +44,7 @@ export const WorkspaceIdClient = () => {
       {workspaceAnalytics ? (
         <Analytics data={workspaceAnalytics} />
       ) : (
-        <div className="h-[72px] w-full rounded-lg border bg-muted/50" aria-busy={isLoadingAnalytics} />
+        <div className="h-[72px] w-full rounded-none border bg-muted/50" aria-busy={isLoadingAnalytics} />
       )}
 
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
@@ -68,7 +68,7 @@ export const TaskList = ({ data, total }: TaskListProps) => {
 
   return (
     <div className="col-span-1 flex flex-col gap-y-4">
-      <div className="rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4">
+      <div className="rounded-none border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4">
         <div className="flex items-center justify-between">
           <p className="text-lg font-semibold">{tHome('tasksWithCount', { count: total })}</p>
 
@@ -83,14 +83,14 @@ export const TaskList = ({ data, total }: TaskListProps) => {
           {data.map((task) => (
             <li key={task.$id}>
               <Link href={`/workspaces/${workspaceId}/tasks/${task.$id}`}>
-                <Card className="rounded-lg shadow-none transition hover:opacity-75">
+                <Card className="rounded-none shadow-none transition hover:opacity-75">
                   <CardContent className="p-4">
                     <p className="truncate text-lg font-medium">{task.name}</p>
 
                     <div className="flex items-center gap-x-2">
                       <p>{task.project?.name}</p>
 
-                      <div aria-hidden className="size-1 rounded-full bg-neutral-300" />
+                      <div aria-hidden className="size-1 rounded-none bg-neutral-300" />
 
                       <div className="flex items-center text-sm text-muted-foreground">
                         <CalendarIcon className="mr-1 size-3" />
@@ -126,7 +126,7 @@ export const ProjectList = ({ data, total }: ProjectListProps) => {
 
   return (
     <div className="col-span-1 flex flex-col gap-y-4">
-      <div className="rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4">
+      <div className="rounded-none border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4">
         <div className="flex items-center justify-between">
           <p className="text-lg font-semibold">{tHome('projectsWithCount', { count: total })}</p>
 
@@ -141,7 +141,7 @@ export const ProjectList = ({ data, total }: ProjectListProps) => {
           {data.map((project) => (
             <li key={project.$id}>
               <Link href={`/workspaces/${workspaceId}/projects/${project.$id}`}>
-                <Card className="rounded-lg shadow-none transition hover:opacity-75">
+                <Card className="rounded-none shadow-none transition hover:opacity-75">
                   <CardContent className="flex items-center gap-x-2.5 p-4">
                     <ProjectAvatar name={project.name} image={project.imageUrl} className="size-12" fallbackClassName="text-lg" />
                     <p className="truncate text-lg font-medium">{project.name}</p>
@@ -169,7 +169,7 @@ export const MemberList = ({ data, total }: MemberListProps) => {
 
   return (
     <div className="col-span-1 flex flex-col gap-y-4">
-      <div className="rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4">
+      <div className="rounded-none border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4">
         <div className="flex items-center justify-between">
           <p className="text-lg font-semibold">{tHome('membersWithCount', { count: total })}</p>
 
@@ -185,7 +185,7 @@ export const MemberList = ({ data, total }: MemberListProps) => {
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {data.map((member) => (
             <li key={member.$id}>
-              <Card className="overflow-hidden rounded-lg shadow-none">
+              <Card className="overflow-hidden rounded-none shadow-none">
                 <CardContent className="flex flex-col items-center gap-x-2 p-3">
                   <MemberAvatar name={member.name} className="size-12" />
 

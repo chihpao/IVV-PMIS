@@ -21,7 +21,7 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
   const tCommon = useTranslations('Common');
 
   return (
-    <aside className="size-full bg-[var(--bg-base)] p-4 flex flex-col">
+    <aside className="size-full bg-transparent p-4 flex flex-col">
       <div className={cn('flex h-12 items-center flex-shrink-0', isCollapsed ? 'justify-center' : 'justify-between')}>
         {isCollapsed ? null : (
           <Link href="/" aria-label={tCommon('logoText')} className="flex items-center gap-2">
@@ -36,7 +36,7 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
               variant="ghost"
               size="icon"
               onClick={onToggle}
-              className="h-10 w-10 rounded-lg text-[var(--text-tertiary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)] transition-colors"
+              className="h-10 w-10 rounded-none text-[var(--text-tertiary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)] transition-colors"
             >
               {isCollapsed ? (
                 <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2">

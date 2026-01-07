@@ -16,7 +16,7 @@ export const UserButton = () => {
 
   if (isLoading) {
     return (
-      <div className="flex size-10 items-center justify-center rounded-full border border-neutral-300 bg-neutral-200">
+      <div className="flex size-10 items-center justify-center rounded-none border border-neutral-300 bg-neutral-200">
         <Loader2 className="size-4 animate-spin text-muted-foreground" />
       </div>
     );
@@ -30,9 +30,9 @@ export const UserButton = () => {
 
   return (
     <DropdownMenu modal={false}>
-      <DropdownMenuTrigger disabled={isPending} className="relative rounded-full outline-none focus-visible:ring-1 focus-visible:ring-ring">
-        <Avatar className="size-10 border border-neutral-300 transition hover:opacity-75">
-          <AvatarFallback className="flex items-center justify-center bg-neutral-200 font-medium text-neutral-500">
+      <DropdownMenuTrigger disabled={isPending} className="relative rounded-none outline-none focus-visible:ring-1 focus-visible:ring-ring">
+        <Avatar className="size-10 rounded-none border border-neutral-300 transition hover:opacity-75">
+          <AvatarFallback className="flex items-center justify-center rounded-none bg-neutral-200 font-medium text-neutral-500">
             {avatarFallback}
           </AvatarFallback>
         </Avatar>
@@ -40,8 +40,8 @@ export const UserButton = () => {
 
       <DropdownMenuContent align="end" side="bottom" className="w-60" sideOffset={10}>
         <div className="flex flex-col items-center justify-center gap-2 px-2.5 py-4">
-          <Avatar className="size-[52px] border border-neutral-300">
-            <AvatarFallback className="flex items-center justify-center bg-neutral-200 text-xl font-medium text-neutral-500">
+          <Avatar className="size-[52px] rounded-none border border-neutral-300">
+            <AvatarFallback className="flex items-center justify-center rounded-none bg-neutral-200 text-xl font-medium text-neutral-500">
               {avatarFallback}
             </AvatarFallback>
           </Avatar>

@@ -47,7 +47,7 @@ export function DataTable<TData, TValue>({ columns, data, getRowHref }: DataTabl
   return (
     <div className="space-y-4">
       {/* Bento Grid Container */}
-      <div className="grid rounded-[var(--radius-card)] overflow-hidden shadow-card border border-[var(--border-subtle)]">
+      <div className="grid rounded-none overflow-hidden shadow-card border border-[var(--border-subtle)]">
         {/* Table Header */}
         {table.getHeaderGroups().map((headerGroup) => {
           const headerTemplate = headerGroup.headers
@@ -128,17 +128,11 @@ export function DataTable<TData, TValue>({ columns, data, getRowHref }: DataTabl
           size="sm"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
-          className="rounded-[var(--radius-button)]"
+          className="rounded-none"
         >
           {tCommon('previous')}
         </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-          className="rounded-[var(--radius-button)]"
-        >
+        <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className="rounded-none">
           {tCommon('next')}
         </Button>
       </div>

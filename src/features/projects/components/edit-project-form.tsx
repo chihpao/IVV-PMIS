@@ -132,7 +132,7 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
                     <div className="flex flex-col gap-y-2">
                       <div className="flex items-center gap-x-5">
                         {field.value ? (
-                          <div className="relative size-[72px] overflow-hidden rounded-md">
+                          <div className="relative size-[72px] overflow-hidden rounded-none">
                             <Image
                               src={field.value instanceof File ? URL.createObjectURL(field.value) : field.value}
                               alt={tProjects('projectLogoAlt')}

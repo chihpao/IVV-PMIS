@@ -14,8 +14,8 @@ const AuthLayout = ({ children }: PropsWithChildren) => {
   const t = useTranslations('Auth');
 
   return (
-    <main className="min-h-screen bg-neutral-100">
-      <div className="mx-auto max-w-screen-2xl p-4">
+    <main className="min-h-screen bg-transparent">
+      <div className="mx-auto max-w-screen-2xl p-6">
         <nav className="flex items-center justify-between">
           <Logo />
 
@@ -26,7 +26,7 @@ const AuthLayout = ({ children }: PropsWithChildren) => {
           </div>
         </nav>
 
-        <div className="flex flex-col items-center justify-center p-4 md:pt-14">{children}</div>
+        <div className="flex flex-col items-center justify-center p-4 md:pt-14 animate-fade-up">{children}</div>
       </div>
     </main>
   );

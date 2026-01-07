@@ -14,13 +14,13 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
     <div className="min-h-screen bg-[var(--bg-base)] p-[16px] overflow-hidden">
       <ModalProvider />
 
-      <div className="flex gap-[12px] h-[calc(100vh-32px)] w-full">
+      <div className="flex gap-4 h-[calc(100vh-32px)] w-full">
         {/* Sidebar Island */}
         <aside
           className="
             relative hidden lg:block
-            bg-[var(--bg-base)] 
-            overflow-hidden
+            bg-[var(--bg-base)]
+            rounded-none
             flex-shrink-0
             transition-[width] duration-200 ease-out
           "
@@ -34,8 +34,9 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
           className="
           flex-1 
           bg-[var(--bg-surface)] 
-          border border-[var(--border-strong)]
-          shadow-card
+          border border-[var(--border-subtle)]
+          rounded-none
+          shadow-sm
           overflow-hidden
           flex flex-col
         "

@@ -28,7 +28,7 @@ export const CommandPalette = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/20 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/20"
             onClick={() => setIsOpen(false)}
           />
 
@@ -45,8 +45,7 @@ export const CommandPalette = () => {
             className="
               relative w-full max-w-[600px] 
               bg-[var(--bg-surface)] 
-              backdrop-blur-xl 
-              rounded-[12px] 
+              rounded-none 
               border border-[var(--border-default)] 
               shadow-modal 
               overflow-hidden
@@ -68,7 +67,7 @@ export const CommandPalette = () => {
                   placeholder:text-[var(--text-tertiary)]
                 "
               />
-              <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-[var(--bg-hover)] px-1.5 font-mono text-[10px] font-medium text-[var(--text-secondary)] opacity-100">
+              <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded-none border bg-[var(--bg-hover)] px-1.5 font-mono text-[10px] font-medium text-[var(--text-secondary)] opacity-100">
                 <span className="text-xs">ESC</span>
               </kbd>
             </div>
@@ -76,11 +75,11 @@ export const CommandPalette = () => {
             {/* Results Placeholder (Visual Only as per Task 2 requirements) */}
             <div className="max-h-[300px] overflow-y-auto p-2">
               <div className="px-2 py-1.5 text-xs font-semibold text-[var(--text-tertiary)]">建議搜尋</div>
-              <div className="flex cursor-pointer select-none items-center rounded-sm px-2 py-2 text-sm outline-none hover:bg-[var(--bg-hover)] text-[var(--text-secondary)]">
+              <div className="flex cursor-pointer select-none items-center rounded-none px-2 py-2 text-sm outline-none hover:bg-[var(--bg-hover)] text-[var(--text-secondary)]">
                 <span className="mr-2 flex h-4 w-4 items-center justify-center">📄</span>
                 <span>我的任務</span>
               </div>
-              <div className="flex cursor-pointer select-none items-center rounded-sm px-2 py-2 text-sm outline-none hover:bg-[var(--bg-hover)] text-[var(--text-secondary)]">
+              <div className="flex cursor-pointer select-none items-center rounded-none px-2 py-2 text-sm outline-none hover:bg-[var(--bg-hover)] text-[var(--text-secondary)]">
                 <span className="mr-2 flex h-4 w-4 items-center justify-center">📁</span>
                 <span>近期專案</span>
               </div>

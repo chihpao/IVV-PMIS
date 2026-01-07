@@ -40,7 +40,7 @@ export const EventCard = ({ title, assignee, project, status, id }: EventCardPro
       <button
         onClick={onClick}
         className={cn(
-          'flex cursor-pointer flex-col gap-y-1.5 rounded-md border border-l-4 bg-white p-1.5 text-xs text-primary transition hover:opacity-75',
+          'flex cursor-pointer flex-col gap-y-1.5 rounded-none border border-l-4 bg-white p-1.5 text-xs text-primary transition hover:opacity-75',
           statusColorMap[status],
         )}
       >
@@ -49,7 +49,7 @@ export const EventCard = ({ title, assignee, project, status, id }: EventCardPro
         <div className="flex items-center gap-x-1">
           <MemberAvatar name={assigneeName} />
 
-          <div aria-hidden className="size-1 rounded-full bg-neutral-300" />
+          <div aria-hidden className="size-1 rounded-none bg-neutral-300" />
           <ProjectAvatar name={projectName} image={project?.imageUrl} />
         </div>
       </button>

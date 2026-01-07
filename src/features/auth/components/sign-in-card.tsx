@@ -64,7 +64,7 @@ export const SignInCard = () => {
   const isPending = isLoggingIn || isRedirecting;
 
   return (
-    <Card className="size-full border-none shadow-none md:w-[487px]">
+    <Card className="size-full md:w-[487px]">
       <CardHeader className="flex items-center justify-center p-7 text-center">
         <CardTitle className="text-2xl">{t('welcomeBack')}</CardTitle>
       </CardHeader>
@@ -132,10 +132,10 @@ export const SignInCard = () => {
       </div>
 
       <CardContent className="flex items-center justify-center p-7">
-        <p>
+        <p className="text-sm text-[var(--text-secondary)]">
           {t('noAccount')}{' '}
           <Link href="/sign-up">
-            <span className="text-blue-700">{t('register')}</span>
+            <span className="text-[var(--accent-primary)] transition-colors hover:text-[var(--accent-hover)]">{t('register')}</span>
           </Link>
         </p>
       </CardContent>

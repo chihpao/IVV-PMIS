@@ -22,12 +22,12 @@ export const Projects = () => {
   });
 
   return (
-    <div className="flex flex-col gap-y-2">
+    <div className="flex flex-col gap-y-2 stagger-fade">
       <div className="flex items-center justify-between">
-        <p className="text-xs uppercase text-neutral-500">{t('projects')}</p>
+        <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-tertiary)]">{t('projects')}</p>
 
         <button onClick={open}>
-          <RiAddCircleFill className="size-5 cursor-pointer text-neutral-500 transition hover:opacity-75" />
+          <RiAddCircleFill className="size-5 cursor-pointer text-[var(--text-tertiary)] transition-colors hover:text-[var(--accent-primary)]" />
         </button>
       </div>
 
@@ -39,9 +39,9 @@ export const Projects = () => {
           <Link href={href} key={project.$id}>
             <div
               className={cn(
-                'flex cursor-pointer items-center gap-2.5 rounded-md p-2.5 text-[var(--text-secondary)] transition-colors',
+                'flex cursor-pointer items-center gap-2.5 rounded-none p-2.5 text-[var(--text-secondary)] transition-colors',
                 isActive
-                  ? 'bg-[var(--bg-active)] text-[var(--text-primary)] shadow-sm'
+                  ? 'bg-[var(--accent-subtle)] text-[var(--text-primary)] shadow-sm'
                   : 'hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]',
               )}
             >
