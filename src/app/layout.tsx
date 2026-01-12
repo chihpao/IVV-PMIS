@@ -3,10 +3,11 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import dynamic from 'next/dynamic';
 import type { PropsWithChildren } from 'react';
+import 'sonner/dist/styles.css';
 
 import ExternalBrowserGate from '@/components/ExternalBrowserGate';
 import { QueryProvider } from '@/components/query-provider';
-import { Toaster } from '@/components/ui/sonner';
+import { SonnerToaster } from '@/components/sonner-toaster';
 import { siteConfig } from '@/config';
 import { cn } from '@/lib/utils';
 
@@ -27,7 +28,7 @@ const RootLayout = async ({ children }: Readonly<PropsWithChildren>) => {
         <NextIntlClientProvider messages={messages}>
           <QueryProvider>
             <ExternalBrowserGate />
-            <Toaster theme="light" richColors closeButton />
+            <SonnerToaster />
             <CommandPalette />
             {children}
           </QueryProvider>
