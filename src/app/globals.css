@@ -103,22 +103,6 @@ body > *:not([data-sonner-toaster]) {
   z-index: 1;
 }
 
-/* Ensure Sonner toasts are anchored to the viewport and visible */
-[data-sonner-toaster] {
-  position: fixed !important;
-  right: 16px !important;
-  bottom: 16px !important;
-  left: auto !important;
-  top: auto !important;
-  z-index: 999999 !important;
-  pointer-events: none;
-}
-
-[data-sonner-toaster] [data-sonner-toast] {
-  pointer-events: auto;
-  transform: translateY(0) !important;
-  opacity: 1 !important;
-}
 
 @layer utilities {
   .text-balance {
