@@ -15,7 +15,7 @@ const StandaloneLayout = ({ children }: PropsWithChildren) => {
           </div>
         </nav>
 
-        <div className="flex flex-col items-center justify-center py-4 animate-fade-up">{children}</div>
+        <div className="animate-fade-up flex flex-col items-center justify-center py-4">{children}</div>
       </div>
     </main>
   );

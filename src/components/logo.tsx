@@ -18,7 +18,7 @@ export const Logo = () => {
   return (
     <Link href="/" className="flex items-center gap-x-1.5">
       <Image src="/icon.svg" alt={t('logoAlt')} height={40} width={40} />
-      <p className={cn('text-2xl font-bold text-[var(--text-primary)] tracking-tight', font.className)}>{t('logoText')}</p>
+      <p className={cn('text-2xl font-bold tracking-tight text-[var(--text-primary)]', font.className)}>{t('logoText')}</p>
     </Link>
   );
 };

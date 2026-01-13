@@ -4,11 +4,11 @@ import { ID, Models, Query } from 'node-appwrite';
 import { z } from 'zod';
 
 import { DATABASE_ID, MEMBERS_ID, PROJECTS_ID, TASKS_ID } from '@/config/db';
+import { type Member, MemberRole } from '@/features/members/types';
 import { getMember } from '@/features/members/utils';
 import type { Project } from '@/features/projects/types';
 import { createTaskSchema } from '@/features/tasks/schema';
 import { type Task, TaskStatus } from '@/features/tasks/types';
-import { createAdminClient } from '@/lib/appwrite';
 import { getFileViewUrl } from '@/lib/appwrite-file-url';
 import { sessionMiddleware } from '@/lib/session-middleware';
 
@@ -48,7 +48,6 @@ const app = new Hono()
       }),
     ),
     async (ctx) => {
-      const { users } = await createAdminClient();
       const databases = ctx.get('databases');
       const user = ctx.get('user');
 
@@ -91,23 +90,13 @@ const app = new Hono()
         projectIds.length > 0 ? [Query.contains('$id', projectIds)] : [],
       );
 
-      const members = await databases.listDocuments(
+      const members = await databases.listDocuments<Member>(
         DATABASE_ID,
         MEMBERS_ID,
         assigneeIds.length > 0 ? [Query.contains('$id', assigneeIds)] : [],
       );
 
-      const assignees = await Promise.all(
-        members.documents.map(async (member) => {
-          const user = await users.get(member.userId);
-
-          return {
-            ...member,
-            name: user.name,
-            email: user.email,
-          };
-        }),
-      );
+      const assignees = members.documents;
 
       const populatedTasks: (Models.Document & Task)[] = await Promise.all(
         tasks.documents.map(async (task) => {
@@ -139,8 +128,6 @@ const app = new Hono()
     const currentUser = ctx.get('user');
     const databases = ctx.get('databases');
 
-    const { users } = await createAdminClient();
-
     const task = await databases.getDocument<Task>(DATABASE_ID, TASKS_ID, taskId);
 
     const currentMember = await getMember({
@@ -155,15 +142,9 @@ const app = new Hono()
 
     const project = await databases.getDocument<Project>(DATABASE_ID, PROJECTS_ID, task.projectId);
 
-    const member = await databases.getDocument(DATABASE_ID, MEMBERS_ID, task.assigneeId);
+    const member = await databases.getDocument<Member>(DATABASE_ID, MEMBERS_ID, task.assigneeId);
 
-    const user = await users.get(member.userId);
-
-    const assignee = {
-      ...member,
-      name: user.name,
-      email: user.email,
-    };
+    const assignee = member;
 
     return ctx.json({
       data: {

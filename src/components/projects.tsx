@@ -22,7 +22,7 @@ export const Projects = () => {
   });
 
   return (
-    <div className="flex flex-col gap-y-2 stagger-fade">
+    <div className="stagger-fade flex flex-col gap-y-2">
       <div className="flex items-center justify-between">
         <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-tertiary)]">{t('projects')}</p>
 

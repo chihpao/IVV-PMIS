@@ -26,7 +26,7 @@ const AuthLayout = ({ children }: PropsWithChildren) => {
           </div>
         </nav>
 
-        <div className="flex flex-col items-center justify-center p-4 md:pt-14 animate-fade-up">{children}</div>
+        <div className="animate-fade-up flex flex-col items-center justify-center p-4 md:pt-14">{children}</div>
       </div>
     </main>
   );

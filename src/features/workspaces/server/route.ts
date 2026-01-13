@@ -76,6 +76,8 @@ const app = new Hono()
       userId: user.$id,
       workspaceId: workspace.$id,
       role: MemberRole.ADMIN,
+      name: user.name,
+      email: user.email,
     });
 
     return ctx.json({ data: workspace });
@@ -279,6 +281,8 @@ const app = new Hono()
         workspaceId,
         userId: user.$id,
         role: MemberRole.MEMBER,
+        name: user.name,
+        email: user.email,
       });
 
       return ctx.json({ data: workspace });

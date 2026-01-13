@@ -70,7 +70,12 @@ export const MembersList = () => {
               <MemberAvatar name={member.name} className="size-10" fallbackClassName="text-lg" />
 
               <div className="flex flex-col">
-                <p className="text-sm font-medium">{member.name}</p>
+                <div className="flex items-center gap-2">
+                  <p className="text-sm font-medium">{member.name}</p>
+                  <span className="rounded-sm bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+                    {member.role === MemberRole.ADMIN ? tMembers('admin') : tMembers('member')}
+                  </span>
+                </div>
                 <p className="to-muted-foreground text-xs">{member.email}</p>
               </div>
 

@@ -6,7 +6,6 @@ import { z } from 'zod';
 import { DATABASE_ID, MEMBERS_ID } from '@/config/db';
 import { type Member, MemberRole } from '@/features/members/types';
 import { getMember } from '@/features/members/utils';
-import { createAdminClient } from '@/lib/appwrite';
 import { sessionMiddleware } from '@/lib/session-middleware';
 
 const app = new Hono()
@@ -21,7 +20,6 @@ const app = new Hono()
       }),
     ),
     async (ctx) => {
-      const { users } = await createAdminClient();
       const databases = ctx.get('databases');
       const user = ctx.get('user');
       const { workspaceId, limit } = ctx.req.valid('query');
@@ -42,18 +40,10 @@ const app = new Hono()
 
       const members = await databases.listDocuments<Member>(DATABASE_ID, MEMBERS_ID, query);
 
-      const populatedMembers = await Promise.all(
-        members.documents.map(async (member) => {
-          const user = await users.get(member.userId);
-
-          return { ...member, name: user.name, email: user.email };
-        }),
-      );
-
       return ctx.json({
         data: {
           ...members,
-          documents: populatedMembers,
+          documents: members.documents,
         },
       });
     },

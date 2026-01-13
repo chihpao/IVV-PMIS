@@ -39,19 +39,14 @@ export const Navbar = () => {
             onClick={() => open()}
             variant="primary"
             size="icon"
-            className="group relative shrink-0 rounded-none h-10 w-10"
+            className="group relative h-10 w-10 shrink-0 rounded-none"
             aria-label={tTasks('createTask')}
           >
             <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
             </svg>
             <span
-              className="
-                pointer-events-none absolute right-0 top-full mt-2
-                whitespace-nowrap rounded-none border border-[var(--border-subtle)]
-                bg-[var(--bg-surface)] px-2 py-1 text-xs text-[var(--text-primary)]
-                opacity-0 shadow-card transition-none group-hover:opacity-100
-              "
+              className="pointer-events-none absolute right-0 top-full mt-2 whitespace-nowrap rounded-none border border-[var(--border-subtle)] bg-[var(--bg-surface)] px-2 py-1 text-xs text-[var(--text-primary)] opacity-0 shadow-card transition-none group-hover:opacity-100"
               role="tooltip"
             >
               {tTasks('createTask')}

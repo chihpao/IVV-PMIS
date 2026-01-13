@@ -46,7 +46,7 @@ export const Navigation = ({ isCollapsed = false }: NavigationProps) => {
   const t = useTranslations('Nav');
 
   return (
-    <ul className={cn('flex flex-col gap-1 stagger-fade', isCollapsed ? 'items-center px-0' : 'px-2')}>
+    <ul className={cn('stagger-fade flex flex-col gap-1', isCollapsed ? 'items-center px-0' : 'px-2')}>
       {routes.map((route) => {
         const fullHref = `/workspaces/${workspaceId}${route.href}`;
         const isActive = pathname === fullHref;

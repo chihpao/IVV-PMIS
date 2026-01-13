@@ -239,7 +239,9 @@
     "viewOptions": "檢視選項",
     "setAsAdmin": "設為管理員",
     "setAsMember": "設為成員",
-    "removeMemberWithName": "移除 {name}"
+    "removeMemberWithName": "移除 {name}",
+    "admin": "管理員",
+    "member": "成員"
   },
   "Calendar": {
     "previousMonth": "上一個月",

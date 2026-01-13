@@ -9,6 +9,7 @@ import ExternalBrowserGate from '@/components/ExternalBrowserGate';
 import { QueryProvider } from '@/components/query-provider';
 import { SonnerToaster } from '@/components/sonner-toaster';
 import { siteConfig } from '@/config';
+import { fontBody, fontDisplay, fontMono, fontSans } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 
 import './globals.css';
@@ -24,7 +25,7 @@ const RootLayout = async ({ children }: Readonly<PropsWithChildren>) => {
 
   return (
     <html lang="zh-TW">
-      <body className={cn('min-h-screen antialiased')}>
+      <body className={cn('min-h-screen antialiased', fontBody.variable, fontDisplay.variable, fontMono.variable, fontSans.variable)}>
         <NextIntlClientProvider messages={messages}>
           <QueryProvider>
             <ExternalBrowserGate />

@@ -47,7 +47,7 @@ export function DataTable<TData, TValue>({ columns, data, getRowHref }: DataTabl
   return (
     <div className="space-y-4">
       {/* Bento Grid Container */}
-      <div className="grid rounded-none overflow-hidden shadow-card border border-[var(--border-subtle)]">
+      <div className="grid overflow-hidden rounded-none border border-[var(--border-subtle)] shadow-card">
         {/* Table Header */}
         {table.getHeaderGroups().map((headerGroup) => {
           const headerTemplate = headerGroup.headers
@@ -57,7 +57,7 @@ export function DataTable<TData, TValue>({ columns, data, getRowHref }: DataTabl
           return (
             <div
               key={headerGroup.id}
-              className="grid sticky top-0 z-10 border-b border-[var(--border-subtle)]"
+              className="sticky top-0 z-10 grid border-b border-[var(--border-subtle)]"
               style={{
                 gridTemplateColumns: headerTemplate,
               }}
@@ -67,7 +67,7 @@ export function DataTable<TData, TValue>({ columns, data, getRowHref }: DataTabl
                   key={header.id}
                   className={[
                     header.column.id === 'actions' ? 'px-2' : 'px-4',
-                    'py-3 bg-[var(--bg-surface)] text-[13px] font-medium text-[var(--text-secondary)] tracking-tight',
+                    'bg-[var(--bg-surface)] py-3 text-[13px] font-medium tracking-tight text-[var(--text-secondary)]',
                   ].join(' ')}
                 >
                   {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
@@ -89,7 +89,7 @@ export function DataTable<TData, TValue>({ columns, data, getRowHref }: DataTabl
               <div
                 key={row.id}
                 className={[
-                  'grid border-b border-[var(--border-subtle)] transition-colors duration-150 group last:border-b-0',
+                  'group grid border-b border-[var(--border-subtle)] transition-colors duration-150 last:border-b-0',
                   getRowHref ? 'cursor-pointer' : '',
                 ].join(' ')}
                 style={{
@@ -105,7 +105,7 @@ export function DataTable<TData, TValue>({ columns, data, getRowHref }: DataTabl
                     key={cell.id}
                     className={[
                       cell.column.id === 'actions' ? 'px-2' : 'px-4',
-                      'py-3 bg-[var(--bg-surface)] text-[14px] text-[var(--text-primary)] group-hover:bg-[var(--bg-hover)]',
+                      'bg-[var(--bg-surface)] py-3 text-[14px] text-[var(--text-primary)] group-hover:bg-[var(--bg-hover)]',
                     ].join(' ')}
                   >
                     <div className="tabular-data">{flexRender(cell.column.columnDef.cell, cell.getContext())}</div>
@@ -115,7 +115,7 @@ export function DataTable<TData, TValue>({ columns, data, getRowHref }: DataTabl
             );
           })
         ) : (
-          <div className="bg-[var(--bg-surface)] px-4 py-12 text-center text-[var(--text-tertiary)] col-span-full">
+          <div className="col-span-full bg-[var(--bg-surface)] px-4 py-12 text-center text-[var(--text-tertiary)]">
             {tCommon('noResults')}
           </div>
         )}

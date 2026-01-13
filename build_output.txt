@@ -1,0 +1,23 @@
+
+> IVV-PMIS@1.0.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+[31;1m[0m
+[31;1mFailed to compile.[0m
+[31;1m[0m
+[31;1m./src/app/(dashboard)/layout.tsx[0m
+[31;1m4:1  Error: Delete `⏎`  prettier/prettier[0m
+[31;1m8:1  Error: Replace `const·ModalProvider·=·dynamic(()·=>·import('@/components/modal-provider').then(mod·=>·mod.ModalProvider),·{·` with `import·{·Navbar·}·from·'@/components/navbar';⏎import·{·Sidebar·}·from·'@/components/sidebar';⏎⏎const·ModalProvider·=·dynamic(()·=>·import('@/components/modal-provider').then((mod)·=>·mod.ModalProvider),·{`  prettier/prettier[0m
+[31;1m9:13  Error: Replace `·` with `,`  prettier/prettier[0m
+[31;1m10:3  Error: Delete `;⏎import·{·Navbar·}·from·'@/components/navbar';⏎import·{·Sidebar·}·from·'@/components/sidebar'`  prettier/prettier[0m
+[31;1m[0m
+[31;1m./src/lib/fonts.ts[0m
+[31;1m10:1  Error: Delete `·`  prettier/prettier[0m
+[31;1m[0m
+[31;1minfo  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules[0m

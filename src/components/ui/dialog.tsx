@@ -47,7 +47,7 @@ const DialogContent = React.forwardRef<
             event.preventDefault();
           }}
           className={cn(
-            'relative grid w-full max-h-[84vh] max-w-lg gap-4 overflow-y-auto rounded-none border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-6 shadow-modal duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
+            'shadow-modal relative grid max-h-[84vh] w-full max-w-lg gap-4 overflow-y-auto rounded-none border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-6 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
             className,
           )}
           {...props}

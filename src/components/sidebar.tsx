@@ -21,8 +21,8 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
   const tCommon = useTranslations('Common');
 
   return (
-    <aside className="size-full bg-transparent p-4 flex flex-col">
-      <div className={cn('flex h-12 items-center flex-shrink-0', isCollapsed ? 'justify-center' : 'justify-between')}>
+    <aside className="flex size-full flex-col bg-transparent p-4">
+      <div className={cn('flex h-12 flex-shrink-0 items-center', isCollapsed ? 'justify-center' : 'justify-between')}>
         {isCollapsed ? null : (
           <Link href="/" aria-label={tCommon('logoText')} className="flex items-center gap-2">
             <Image src="/icon.svg" alt={tCommon('logoAlt')} height={32} width={32} />
@@ -36,7 +36,7 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
               variant="ghost"
               size="icon"
               onClick={onToggle}
-              className="h-10 w-10 rounded-none text-[var(--text-tertiary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)] transition-colors"
+              className="h-10 w-10 rounded-none text-[var(--text-tertiary)] transition-colors hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]"
             >
               {isCollapsed ? (
                 <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2">
@@ -56,12 +56,12 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
         ) : null}
       </div>
 
-      <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar mt-6 space-y-6">
+      <div className="custom-scrollbar mt-6 flex-1 space-y-6 overflow-y-auto overflow-x-hidden">
         <Navigation isCollapsed={isCollapsed} />
 
         {!isCollapsed && (
           <div className="space-y-6">
-            <div className="h-[1px] bg-[var(--border-subtle)] mx-2" />
+            <div className="mx-2 h-[1px] bg-[var(--border-subtle)]" />
             <Suspense>
               <WorkspaceSwitcher />
             </Suspense>

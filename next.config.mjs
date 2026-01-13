@@ -8,6 +8,9 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
+  poweredByHeader: false,
+  compress: true,
   webpack: (config) => {
     config.infrastructureLogging = {
       level: 'error',
@@ -15,7 +18,18 @@ const nextConfig = {
     return config;
   },
   experimental: {
-    optimizePackageImports: ['lodash', 'lucide-react', 'react-icons', '@radix-ui/react-icons'],
+    optimizePackageImports: [
+      'lodash',
+      'lucide-react',
+      'react-icons',
+      '@radix-ui/react-icons',
+      'date-fns',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-dropdown-menu',
+      '@radix-ui/react-popover',
+      '@radix-ui/react-select',
+      '@radix-ui/react-tabs',
+    ],
   },
 };
 
