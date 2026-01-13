@@ -13,7 +13,7 @@ export async function onOAuth(provider: OAuthProvider.Github | OAuthProvider.Goo
   const redirectUrl = await account.createOAuth2Token(
     provider,
     `${origin}/api/auth?next=${encodeURIComponent(next ?? '')}`,
-    `${origin}/sign-in`
+    `${origin}/sign-in`,
   );
 
   return redirect(redirectUrl);

@@ -6,10 +6,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { GoCheckCircle, GoCheckCircleFill, GoHome, GoHomeFill } from 'react-icons/go';
 
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 import { cn } from '@/lib/utils';
-
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const routes = [
   {
@@ -65,17 +64,13 @@ export const Navigation = ({ isCollapsed = false }: NavigationProps) => {
                       aria-label={t(route.labelKey)}
                       className={cn(
                         'group relative flex h-10 items-center justify-center rounded-none font-medium transition-colors duration-200 hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)] w-10 gap-0 p-0',
-                        isActive
-                          ? 'bg-[var(--accent-subtle)] text-[var(--accent-primary)] shadow-sm'
-                          : 'text-[var(--text-secondary)]',
+                        isActive ? 'bg-[var(--accent-subtle)] text-[var(--accent-primary)] shadow-sm' : 'text-[var(--text-secondary)]',
                       )}
                     >
                       <Icon className="size-5 min-h-5 min-w-5 shrink-0" />
                     </Link>
                   </TooltipTrigger>
-                  <TooltipContent side="right">
-                    {t(route.labelKey)}
-                  </TooltipContent>
+                  <TooltipContent side="right">{t(route.labelKey)}</TooltipContent>
                 </Tooltip>
               ) : (
                 <Link

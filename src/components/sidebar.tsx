@@ -5,9 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
-import { cn } from '@/lib/utils';
-
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
 
 import { Navigation } from './navigation';
 import { Projects } from './projects';
@@ -59,9 +58,7 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
                     )}
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent side="right">
-                  {isCollapsed ? tSidebar('expand') : tSidebar('collapse')}
-                </TooltipContent>
+                <TooltipContent side="right">{isCollapsed ? tSidebar('expand') : tSidebar('collapse')}</TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </div>

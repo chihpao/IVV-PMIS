@@ -31,34 +31,19 @@ export const Analytics = ({ data }: ProjectAnalyticsResponseType) => {
     <ScrollArea className="w-full shrink-0 whitespace-nowrap rounded-lg border-none bg-white">
       <div className="flex w-full flex-row gap-x-4 p-4">
         <div className="flex flex-1 items-center">
-          <AnalyticsCard
-            title={t('totalTasks')}
-            value={data.taskCount}
-          />
+          <AnalyticsCard title={t('totalTasks')} value={data.taskCount} />
         </div>
         <div className="flex flex-1 items-center">
-          <AnalyticsCard
-            title={t('assignedTasks')}
-            value={data.assignedTaskCount}
-          />
+          <AnalyticsCard title={t('assignedTasks')} value={data.assignedTaskCount} />
         </div>
         <div className="flex flex-1 items-center">
-          <AnalyticsCard
-            title={t('completedTasks')}
-            value={data.completedTaskCount}
-          />
+          <AnalyticsCard title={t('completedTasks')} value={data.completedTaskCount} />
         </div>
         <div className="flex flex-1 items-center">
-          <AnalyticsCard
-            title={t('overdueTasks')}
-            value={data.overdueTaskCount}
-          />
+          <AnalyticsCard title={t('overdueTasks')} value={data.overdueTaskCount} />
         </div>
         <div className="flex flex-1 items-center">
-          <AnalyticsCard
-            title={t('incompleteTasks')}
-            value={data.incompleteTaskCount}
-          />
+          <AnalyticsCard title={t('incompleteTasks')} value={data.incompleteTaskCount} />
         </div>
       </div>
       <ScrollBar orientation="horizontal" />
