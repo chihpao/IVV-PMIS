@@ -98,7 +98,7 @@ body::before {
   opacity: 0.6;
 }
 
-body > *:not([data-sonner-toaster]) {
+body > *:not([data-sonner-toaster]):not([data-radix-portal]) {
   position: relative;
   z-index: 1;
 }
