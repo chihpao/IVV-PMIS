@@ -1,7 +1,6 @@
 import { type QueryKey, useMutation, useQueryClient } from '@tanstack/react-query';
 import { InferRequestType, InferResponseType } from 'hono';
 import { useTranslations } from 'next-intl';
-import { toast } from '@/lib/sonner';
 
 import { DATABASE_ID, TASKS_ID } from '@/config/db';
 import {
@@ -13,6 +12,7 @@ import {
 } from '@/features/tasks/api/task-cache';
 import type { Task } from '@/features/tasks/types';
 import { client } from '@/lib/hono';
+import { toast } from '@/lib/sonner';
 
 type ResponseType = InferResponseType<(typeof client.api.tasks)['$post'], 200>;
 type RequestType = InferRequestType<(typeof client.api.tasks)['$post']>;

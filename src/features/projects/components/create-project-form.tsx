@@ -7,7 +7,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from '@/lib/sonner';
 import { z } from 'zod';
 
 import { DottedSeparator } from '@/components/dotted-separator';
@@ -19,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import { useCreateProject } from '@/features/projects/api/use-create-project';
 import { createProjectSchema } from '@/features/projects/schema';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
+import { toast } from '@/lib/sonner';
 import { cn } from '@/lib/utils';
 
 interface CreateProjectFormProps {

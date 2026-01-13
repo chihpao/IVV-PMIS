@@ -2,9 +2,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { InferRequestType, InferResponseType } from 'hono';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { toast } from '@/lib/sonner';
 
 import { client } from '@/lib/hono';
+import { toast } from '@/lib/sonner';
 
 type ResponseType = InferResponseType<(typeof client.api.auth.register)['$post']>;
 type RequestType = InferRequestType<(typeof client.api.auth.register)['$post']>;

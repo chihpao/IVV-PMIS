@@ -7,7 +7,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from '@/lib/sonner';
 import { z } from 'zod';
 
 import { DottedSeparator } from '@/components/dotted-separator';
@@ -21,6 +20,7 @@ import { useUpdateProject } from '@/features/projects/api/use-update-project';
 import { updateProjectSchema } from '@/features/projects/schema';
 import type { Project } from '@/features/projects/types';
 import { useConfirm } from '@/hooks/use-confirm';
+import { toast } from '@/lib/sonner';
 import { cn } from '@/lib/utils';
 
 interface EditProjectFormProps {

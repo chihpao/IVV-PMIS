@@ -8,7 +8,6 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
-import { toast } from '@/lib/sonner';
 import { z } from 'zod';
 
 import { DottedSeparator } from '@/components/dotted-separator';
@@ -19,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import { useRegister } from '@/features/auth/api/use-register';
 import { signUpFormSchema } from '@/features/auth/schema';
 import { onOAuth } from '@/lib/oauth';
+import { toast } from '@/lib/sonner';
 
 export const SignUpCard = () => {
   const t = useTranslations('Auth');

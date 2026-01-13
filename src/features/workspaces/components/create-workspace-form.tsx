@@ -7,7 +7,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from '@/lib/sonner';
 import { z } from 'zod';
 
 import { DottedSeparator } from '@/components/dotted-separator';
@@ -18,6 +17,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { useCreateWorkspace } from '@/features/workspaces/api/use-create-workspace';
 import { createWorkspaceSchema } from '@/features/workspaces/schema';
+import { toast } from '@/lib/sonner';
 import { cn } from '@/lib/utils';
 
 interface CreateWorkspaceFormProps {

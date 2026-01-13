@@ -1,11 +1,11 @@
 import { type QueryKey, useMutation, useQueryClient } from '@tanstack/react-query';
 import { InferRequestType, InferResponseType } from 'hono';
 import { useTranslations } from 'next-intl';
-import { toast } from '@/lib/sonner';
 
 import { taskMatchesFilters, updateTaskLists } from '@/features/tasks/api/task-cache';
 import type { Task } from '@/features/tasks/types';
 import { client } from '@/lib/hono';
+import { toast } from '@/lib/sonner';
 
 type ResponseType = InferResponseType<(typeof client.api.tasks)['bulk-update']['$post'], 200>;
 type RequestType = InferRequestType<(typeof client.api.tasks)['bulk-update']['$post']>;

@@ -14,8 +14,5 @@ export const SonnerToaster = () => {
 
   if (!mounted) return null;
 
-  return createPortal(
-    <Toaster richColors closeButton position="bottom-right" theme="light" />,
-    document.body
-  );
+  return createPortal(<Toaster richColors closeButton position="bottom-right" theme="light" />, document.body);
 };
