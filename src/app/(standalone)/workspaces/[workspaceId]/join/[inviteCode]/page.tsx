@@ -4,10 +4,19 @@ import { getCurrent } from '@/features/auth/queries';
 
 import { WorkspaceIdJoinClient } from './client';
 
-const WorkspaceIdJoinPage = async () => {
+interface WorkspaceIdJoinPageProps {
+  params: {
+    workspaceId: string;
+    inviteCode: string;
+  };
+}
+
+const WorkspaceIdJoinPage = async ({ params }: WorkspaceIdJoinPageProps) => {
   const user = await getCurrent();
 
-  if (!user) redirect('/sign-in');
+  if (!user) {
+    redirect(`/sign-in?next=${encodeURIComponent(`/workspaces/${params.workspaceId}/join/${params.inviteCode}`)}`);
+  }
 
   return <WorkspaceIdJoinClient />;
 };

@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
 
 import { SignUpCard } from '@/features/auth/components/sign-up-card';
 import { getCurrent } from '@/features/auth/queries';
@@ -8,7 +9,11 @@ const SignUpPage = async () => {
 
   if (user) redirect('/');
 
-  return <SignUpCard />;
+  return (
+    <Suspense>
+      <SignUpCard />
+    </Suspense>
+  );
 };
 
 export default SignUpPage;

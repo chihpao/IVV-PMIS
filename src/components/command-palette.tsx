@@ -63,7 +63,7 @@ export const CommandPalette = () => {
               <div className="px-2 py-1.5 text-xs font-semibold text-[var(--text-tertiary)]">建議搜尋</div>
               <div className="flex cursor-pointer select-none items-center rounded-none px-2 py-2 text-sm text-[var(--text-secondary)] outline-none hover:bg-[var(--bg-hover)]">
                 <span className="mr-2 flex h-4 w-4 items-center justify-center">📄</span>
-                <span>我的任務</span>
+                <span>任務</span>
               </div>
               <div className="flex cursor-pointer select-none items-center rounded-none px-2 py-2 text-sm text-[var(--text-secondary)] outline-none hover:bg-[var(--bg-hover)]">
                 <span className="mr-2 flex h-4 w-4 items-center justify-center">📁</span>

@@ -76,7 +76,7 @@ export const MembersList = () => {
                     {member.role === MemberRole.ADMIN ? tMembers('admin') : tMembers('member')}
                   </span>
                 </div>
-                <p className="to-muted-foreground text-xs">{member.email}</p>
+                <p className="text-xs text-muted-foreground break-all">{member.email}</p>
               </div>
 
               <DropdownMenu>

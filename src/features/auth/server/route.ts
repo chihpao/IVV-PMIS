@@ -17,10 +17,11 @@ const app = new Hono()
       z.object({
         userId: z.string().trim().min(1),
         secret: z.string().trim().min(1),
+        next: z.string().optional(),
       }),
     ),
     async (ctx) => {
-      const { userId, secret } = ctx.req.valid('query');
+      const { userId, secret, next } = ctx.req.valid('query');
 
       const { account } = await createAdminClient();
       const session = await account.createSession(userId, secret);
@@ -33,7 +34,13 @@ const app = new Hono()
         maxAge: 60 * 60 * 24 * 30,
       });
 
-      return ctx.redirect(process.env.NEXT_PUBLIC_APP_BASE_URL);
+      let redirectUrl = process.env.NEXT_PUBLIC_APP_BASE_URL;
+
+      if (next && next.length > 0) {
+        redirectUrl = `${process.env.NEXT_PUBLIC_APP_BASE_URL}${next.startsWith('/') ? next : `/${next}`}`;
+      }
+
+      return ctx.redirect(redirectUrl);
     },
   )
   .get('/current', sessionMiddleware, (ctx) => {

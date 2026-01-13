@@ -4,6 +4,9 @@ import { useTranslations } from 'next-intl';
 
 import { ProjectAnalyticsResponseType } from '@/features/projects/api/use-get-project-analytics';
 
+import { AnalyticsCard } from './analytics-card';
+import { ScrollArea, ScrollBar } from './ui/scroll-area';
+
 /* interface AnalyticsProps {
   data?: {
     taskCount: number;
@@ -25,21 +28,40 @@ export const Analytics = ({ data }: ProjectAnalyticsResponseType) => {
   const t = useTranslations('Analytics');
 
   return (
-    <div className="w-full rounded-none border border-[var(--border-strong)] bg-[var(--bg-surface)]">
-      <div className="grid grid-cols-5 gap-x-6 px-4 pt-3 text-sm text-[var(--text-secondary)]">
-        <span>{t('totalTasks')}</span>
-        <span>{t('assignedTasks')}</span>
-        <span>{t('completedTasks')}</span>
-        <span>{t('overdueTasks')}</span>
-        <span>{t('incompleteTasks')}</span>
+    <ScrollArea className="w-full shrink-0 whitespace-nowrap rounded-lg border-none bg-white">
+      <div className="flex w-full flex-row gap-x-4 p-4">
+        <div className="flex flex-1 items-center">
+          <AnalyticsCard
+            title={t('totalTasks')}
+            value={data.taskCount}
+          />
+        </div>
+        <div className="flex flex-1 items-center">
+          <AnalyticsCard
+            title={t('assignedTasks')}
+            value={data.assignedTaskCount}
+          />
+        </div>
+        <div className="flex flex-1 items-center">
+          <AnalyticsCard
+            title={t('completedTasks')}
+            value={data.completedTaskCount}
+          />
+        </div>
+        <div className="flex flex-1 items-center">
+          <AnalyticsCard
+            title={t('overdueTasks')}
+            value={data.overdueTaskCount}
+          />
+        </div>
+        <div className="flex flex-1 items-center">
+          <AnalyticsCard
+            title={t('incompleteTasks')}
+            value={data.incompleteTaskCount}
+          />
+        </div>
       </div>
-      <div className="grid grid-cols-5 gap-x-6 px-4 pb-3 text-lg text-[var(--text-primary)]">
-        <span className="tabular-data">{data.taskCount}</span>
-        <span className="tabular-data">{data.assignedTaskCount}</span>
-        <span className="tabular-data">{data.completedTaskCount}</span>
-        <span className="tabular-data">{data.overdueTaskCount}</span>
-        <span className="tabular-data">{data.incompleteTaskCount}</span>
-      </div>
-    </div>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   );
 };

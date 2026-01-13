@@ -7,6 +7,8 @@ import { Suspense } from 'react';
 
 import { cn } from '@/lib/utils';
 
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+
 import { Navigation } from './navigation';
 import { Projects } from './projects';
 import { Button } from './ui/button';
@@ -19,6 +21,7 @@ interface SidebarProps {
 
 export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
   const tCommon = useTranslations('Common');
+  const tSidebar = useTranslations('Sidebar');
 
   return (
     <aside className="flex size-full flex-col bg-transparent p-4">
@@ -31,27 +34,36 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
 
         {onToggle ? (
           <div className="group relative flex items-center">
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={onToggle}
-              className="h-10 w-10 rounded-none text-[var(--text-tertiary)] transition-colors hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]"
-            >
-              {isCollapsed ? (
-                <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 5v14" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 12H7" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="m15 18 6-6-6-6" />
-                </svg>
-              ) : (
-                <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="m9 6-6 6 6 6" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h14" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 19V5" />
-                </svg>
-              )}
-            </Button>
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={onToggle}
+                    className="h-10 w-10 rounded-none text-[var(--text-tertiary)] transition-colors hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]"
+                  >
+                    {isCollapsed ? (
+                      <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 5v14" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 12H7" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m15 18 6-6-6-6" />
+                      </svg>
+                    ) : (
+                      <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m9 6-6 6 6 6" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h14" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 19V5" />
+                      </svg>
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right">
+                  {isCollapsed ? tSidebar('expand') : tSidebar('collapse')}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         ) : null}
       </div>

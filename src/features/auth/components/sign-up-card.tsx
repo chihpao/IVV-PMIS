@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { OAuthProvider } from 'node-appwrite';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -23,6 +24,8 @@ import { toast } from '@/lib/sonner';
 export const SignUpCard = () => {
   const t = useTranslations('Auth');
   const tErrors = useTranslations('Errors');
+  const searchParams = useSearchParams();
+  const next = searchParams.get('next');
   const [isRedirecting, setIsRedirecting] = useState(false);
   const { mutate: register, isPending: isRegistering } = useRegister();
   const signUpForm = useForm<z.infer<typeof signUpFormSchema>>({
@@ -53,7 +56,7 @@ export const SignUpCard = () => {
   const handleOAuth = (provider: OAuthProvider.Github | OAuthProvider.Google) => {
     setIsRedirecting(true);
 
-    onOAuth(provider)
+    onOAuth(provider, next ? next : undefined)
       .catch((error) => {
         console.error(error);
         toast.error(tErrors('somethingWentWrong'));

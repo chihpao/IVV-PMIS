@@ -3,8 +3,8 @@
     "home": "首頁",
     "homeTitle": "首頁",
     "homeDescription": "在這裡總覽你的專案與任務。",
-    "myTasks": "我的任務",
-    "tasksTitle": "我的任務",
+    "myTasks": "任務",
+    "tasksTitle": "任務",
     "tasksDescription": "在這裡查看你的所有任務。",
     "projectTitle": "我的專案",
     "projectDescription": "在這裡查看此專案的任務。",
@@ -21,7 +21,7 @@
   "Navbar": {
     "homeTitle": "首頁",
     "homeDescription": "在這裡總覽你的專案與任務。",
-    "tasksTitle": "我的任務",
+    "tasksTitle": "任務",
     "tasksDescription": "在這裡查看你的所有任務。",
     "projectTitle": "我的專案",
     "projectDescription": "在這裡查看此專案的任務。"
@@ -31,7 +31,9 @@
     "projects": "專案",
     "noWorkspaceSelected": "尚未選擇工作空間",
     "mobileTitle": "側邊欄選單",
-    "mobileDescription": "使用側邊欄選單瀏覽各功能"
+    "mobileDescription": "使用側邊欄選單瀏覽各功能",
+    "expand": "展開",
+    "collapse": "摺疊"
   },
   "Home": {
     "tasks": "任務",
