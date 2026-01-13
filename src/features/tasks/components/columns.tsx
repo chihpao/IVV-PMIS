@@ -282,7 +282,8 @@ export const createColumns = (tTasks: Translator, tCommon: Translator, options: 
       cell: ({ row }) => <InlineTaskNameCell task={row.original} />,
     },
     {
-      accessorKey: 'project',
+      id: 'project',
+      accessorFn: (row) => row.project?.name ?? '',
       header: ({ column }) => {
         return (
           <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
