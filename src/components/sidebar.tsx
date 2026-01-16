@@ -40,7 +40,10 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
                     type="button"
                     variant="ghost"
                     size="icon"
-                    onClick={onToggle}
+                    onClick={(e) => {
+                      e.currentTarget.blur();
+                      onToggle?.();
+                    }}
                     className="h-10 w-10 rounded-none text-[var(--text-tertiary)] transition-colors hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]"
                   >
                     {isCollapsed ? (

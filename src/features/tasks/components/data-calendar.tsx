@@ -4,9 +4,12 @@ import { CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
+import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
+import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import { Button } from '@/components/ui/button';
+import { useUpdateTask } from '@/features/tasks/api/use-update-task';
 import type { Task } from '@/features/tasks/types';
 
 import './data-calendar.css';
@@ -23,6 +26,8 @@ const localizer = dateFnsLocalizer({
   getDay,
   locales,
 });
+
+const DragAndDropCalendar = withDragAndDrop(Calendar);
 
 interface DataCalendarProps {
   data: Task[];
@@ -57,6 +62,8 @@ const CustomToolbar = ({ date, onNavigate }: CustomToolbarProps) => {
 export const DataCalendar = ({ data }: DataCalendarProps) => {
   const [value, setValue] = useState(data.length > 0 ? new Date(data[0].dueDate) : new Date());
 
+  const { mutate: updateTask } = useUpdateTask();
+
   const events = useMemo(
     () =>
       data.map((task) => ({
@@ -81,8 +88,22 @@ export const DataCalendar = ({ data }: DataCalendarProps) => {
     else if (action === 'TODAY') setValue(new Date());
   };
 
+  const onEventResize = ({ event, start, end }: any) => {
+    updateTask({
+      json: { dueDate: start },
+      param: { taskId: event.id },
+    });
+  };
+
+  const onEventDrop = ({ event, start, end }: any) => {
+    updateTask({
+      json: { dueDate: start },
+      param: { taskId: event.id },
+    });
+  };
+
   return (
-    <Calendar
+    <DragAndDropCalendar
       localizer={localizer}
       date={value}
       culture="zh-TW"
@@ -97,11 +118,15 @@ export const DataCalendar = ({ data }: DataCalendarProps) => {
         weekdayFormat: (date, culture, localizer) => localizer?.format(date, 'EEE', culture) ?? '',
       }}
       components={{
-        eventWrapper: ({ event }) => (
+        event: ({ event }: { event: any }) => (
           <EventCard id={event.id} title={event.title} assignee={event.assignee} project={event.project} status={event.status} />
         ),
         toolbar: () => <CustomToolbar date={value} onNavigate={handleNavigate} />,
       }}
+      resizable
+      selectable
+      onEventDrop={onEventDrop}
+      onEventResize={onEventResize}
     />
   );
 };

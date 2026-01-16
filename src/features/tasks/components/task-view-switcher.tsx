@@ -32,6 +32,15 @@ const DataCalendar = dynamic(() => import('./data-calendar').then((m) => m.DataC
   ),
 });
 
+const DataTimeline = dynamic(() => import('./data-timeline').then((m) => m.DataTimeline), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-full w-full items-center justify-center">
+      <Loader2 className="size-5 animate-spin text-muted-foreground" />
+    </div>
+  ),
+});
+
 interface TaskViewSwitcherProps {
   projectId?: string;
   hideProjectFilter?: boolean;
@@ -123,6 +132,10 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
             <TabsTrigger className="h-8 w-full lg:w-auto" value="calendar">
               {tTasks('calendar')}
             </TabsTrigger>
+
+            <TabsTrigger className="h-8 w-full lg:w-auto" value="timeline">
+              {tTasks('timeline')}
+            </TabsTrigger>
           </TabsList>
 
           <Button onClick={() => open()} size="sm" className="w-full lg:w-auto">
@@ -153,6 +166,10 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
 
             <TabsContent value="calendar" className="mt-0 h-full pb-4">
               <DataCalendar data={filteredTasks} />
+            </TabsContent>
+
+            <TabsContent value="timeline" className="mt-0 h-full pb-4">
+              <DataTimeline data={filteredTasks} />
             </TabsContent>
           </>
         )}

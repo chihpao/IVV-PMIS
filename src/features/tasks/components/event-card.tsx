@@ -40,7 +40,7 @@ export const EventCard = ({ title, assignee, project, status, id }: EventCardPro
       <button
         onClick={onClick}
         className={cn(
-          'flex cursor-pointer flex-col gap-y-1.5 rounded-none border border-l-4 bg-white p-1.5 text-xs text-primary transition hover:opacity-75',
+          'flex cursor-pointer flex-col gap-y-1.5 rounded-none border border-l-4 bg-white p-1.5 text-xs text-primary transition hover:opacity-75 shadow-sm',
           statusColorMap[status],
         )}
       >

@@ -34,3 +34,15 @@
 .rbc-off-range-bg {
   @apply bg-inherit;
 }
+
+.rbc-event {
+  @apply bg-transparent p-0 border-none !important;
+}
+
+.rbc-addons-dnd-drag-preview {
+  @apply bg-transparent p-0 border-none !important;
+  opacity: 0.8;
+}
+.rbc-addons-dnd-drag-preview .rbc-event-content {
+   /* Allow content to size itself */
+}
