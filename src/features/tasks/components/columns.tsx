@@ -321,6 +321,7 @@ export const createColumns = (tTasks: Translator, tCommon: Translator, options: 
       },
       cell: ({ row }) => <InlineDueDateCell task={row.original} tTasks={tTasks} />,
     },
+
     {
       accessorKey: 'status',
       header: ({ column }) => {

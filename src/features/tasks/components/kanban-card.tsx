@@ -37,6 +37,8 @@ export const KanbanCard = ({ task, isDragging }: KanbanCardProps) => {
 
       <DottedSeparator />
 
+      <DottedSeparator />
+
       <div className="flex items-center gap-x-1.5">
         <MemberAvatar name={assigneeName} fallbackClassName="text-[10px]" />
         <div aria-hidden className="size-1 rounded-none bg-neutral-300" />

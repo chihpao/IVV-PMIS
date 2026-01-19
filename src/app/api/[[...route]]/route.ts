@@ -7,6 +7,7 @@ import members from '@/features/members/server/route';
 import projects from '@/features/projects/server/route';
 import tasks from '@/features/tasks/server/route';
 import workspaces from '@/features/workspaces/server/route';
+import auditLogs from '@/features/audit-logs/server/route';
 
 export const runtime = 'nodejs';
 
@@ -18,7 +19,8 @@ const routes = app
   .route('/projects', projects)
   .route('/tasks', tasks)
   .route('/workspaces', workspaces)
-  .route('/comments', comments);
+  .route('/comments', comments)
+  .route('/audit-logs', auditLogs);
 
 export type AppType = typeof routes;
 

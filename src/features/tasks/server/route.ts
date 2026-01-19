@@ -193,7 +193,6 @@ const app = new Hono()
     });
 
     await logAudit({
-        databases,
         workspaceId,
         action: AuditAction.CREATE,
         entityId: task.$id,
@@ -234,7 +233,6 @@ const app = new Hono()
     });
 
     await logAudit({
-        databases,
         workspaceId: existingTask.workspaceId,
         action: AuditAction.UPDATE,
         entityId: task.$id,
@@ -303,7 +301,6 @@ const app = new Hono()
       
       // Log for bulk update? Maybe generic log.
       await logAudit({
-          databases,
           workspaceId,
           action: AuditAction.UPDATE,
           entityId: 'bulk',
@@ -336,7 +333,6 @@ const app = new Hono()
     await databases.deleteDocument(DATABASE_ID, TASKS_ID, taskId);
 
     await logAudit({
-        databases,
         workspaceId: task.workspaceId,
         action: AuditAction.DELETE,
         entityId: task.$id,

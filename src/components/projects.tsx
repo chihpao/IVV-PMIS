@@ -3,7 +3,8 @@
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocalStorage } from 'react-use';
 import { RiAddCircleFill, RiArrowRightSLine } from 'react-icons/ri';
 
 import { useGetProjects } from '@/features/projects/api/use-get-projects';
@@ -18,7 +19,18 @@ export const Projects = () => {
   const t = useTranslations('Nav');
   const tCommon = useTranslations('Common');
   
-  const [isOpen, setIsOpen] = useState(true);
+  // useLocalStorage returns [value, setValue, remove], we stick to isOpen, setIsOpen naming
+  const [isOpenStored, setIsOpenStored] = useLocalStorage('projects-expanded', true);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Prevent hydration mismatch: render 'true' (expanded) on server/initial client to match HTML
+  // After mount, switch to stored value.
+  const isOpen = isMounted ? (isOpenStored ?? true) : true;
+  const setIsOpen = setIsOpenStored;
 
   const { open } = useCreateProjectModal();
   const { data: projects } = useGetProjects({
@@ -28,8 +40,8 @@ export const Projects = () => {
   return (
     <div className="stagger-fade flex flex-col gap-y-2">
       <div 
-        className="flex cursor-pointer items-center gap-2.5 rounded-none p-2.5 text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]"
-        onClick={() => setIsOpen((prev) => !prev)}
+        className="flex cursor-pointer items-center gap-2.5 rounded-none p-2.5 text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)] select-none"
+        onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex w-full items-center justify-between">
             <span className="truncate">{t('projects')}</span>

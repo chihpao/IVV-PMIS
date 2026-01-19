@@ -10,6 +10,7 @@ import { TaskBreadcrumbs } from '@/features/tasks/components/task-breadcrumbs';
 import { TaskDescription } from '@/features/tasks/components/task-description';
 import { TaskOverview } from '@/features/tasks/components/task-overview';
 import { useTaskId } from '@/features/tasks/hooks/use-task-id';
+import { TaskActivity } from '@/features/tasks/components/task-activity';
 import { CommentList } from '@/features/comments/components/comment-list';
 
 export const TaskIdClient = () => {
@@ -33,6 +34,7 @@ export const TaskIdClient = () => {
         <TaskOverview task={task} />
         <div className="flex flex-col gap-4">
             <TaskDescription task={task} />
+            <TaskActivity task={task} />
             <CommentList taskId={taskId} workspaceId={task.workspaceId} />
         </div>
       </div>
