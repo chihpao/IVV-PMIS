@@ -5,10 +5,9 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { UserButton } from '@/features/auth/components/user-button';
 import { DataSearch } from '@/features/tasks/components/data-search';
 import { useCreateTaskModal } from '@/features/tasks/hooks/use-create-task-modal';
-
+import { WorkspaceSwitcher } from './workspaces-switcher';
 import { MobileSidebar } from './mobile-sidebar';
 
 export const Navbar = () => {
@@ -20,12 +19,8 @@ export const Navbar = () => {
     <nav className="sticky top-0 z-40 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)] lg:h-16">
       <div className="flex items-center gap-3 px-6 py-3 lg:grid lg:h-full lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center lg:gap-x-6 lg:py-0">
         <div className="flex items-center gap-x-3">
-          <div className="flex items-center gap-x-3">
-            <MobileSidebar />
-            <Link href="/" className="hidden text-lg font-semibold text-[var(--text-primary)] lg:inline">
-              {tCommon('logoText')}
-            </Link>
-          </div>
+          <MobileSidebar />
+          {/* WorkspaceSwitcher removed from here */}
         </div>
 
         <div className="flex min-w-0 flex-1 items-center gap-x-2 lg:justify-center">
@@ -55,7 +50,9 @@ export const Navbar = () => {
         </div>
 
         <div className="flex items-center justify-end gap-x-2.5">
-          <UserButton />
+           <Suspense fallback={null}>
+             <WorkspaceSwitcher />
+           </Suspense>
         </div>
       </div>
     </nav>

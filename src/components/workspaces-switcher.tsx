@@ -23,29 +23,28 @@ export const WorkspaceSwitcher = () => {
   };
 
   return (
-    <div className="stagger-fade flex flex-col gap-y-2">
-      <div className="flex items-center justify-between">
-        <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-tertiary)]">{t('workspaces')}</p>
-        <button onClick={open}>
-          <RiAddCircleFill className="size-5 cursor-pointer text-[var(--text-tertiary)] transition-colors hover:text-[var(--accent-primary)]" />
-        </button>
-      </div>
-
+    <div className="flex items-center gap-2">
       <Select onValueChange={onSelect} value={workspaceId ?? ''}>
-        <SelectTrigger className="w-full border-none bg-transparent px-2 font-medium text-[var(--text-primary)] shadow-none focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 [&>svg]:hidden">
+        <SelectTrigger className="w-auto border-none bg-transparent p-0 font-medium text-[var(--text-primary)] shadow-none focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 [&>svg]:hidden">
           <SelectValue placeholder={t('noWorkspaceSelected')} />
         </SelectTrigger>
 
         <SelectContent>
           {workspaces?.documents.map((workspace) => (
-            <SelectItem key={workspace.$id} value={workspace.$id} className="data-[state=checked]:bg-[var(--bg-hover)]">
+            <SelectItem key={workspace.$id} value={workspace.$id} className="cursor-pointer">
               <div className="flex items-center justify-start gap-3 font-medium">
                 <WorkspaceAvatar name={workspace.name} image={workspace.imageUrl} />
-
                 <span className="truncate">{workspace.name}</span>
               </div>
             </SelectItem>
           ))}
+          <div 
+            onClick={open}
+            className="flex cursor-pointer items-center gap-3 px-2 py-2 font-medium text-[var(--text-tertiary)] hover:text-[var(--text-primary)] relative select-none rounded-sm bg-transparent outline-none transition-colors hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+          >
+             <RiAddCircleFill className="size-5" />
+             <span className="truncate">{t('createWorkspace')}</span>
+          </div>
         </SelectContent>
       </Select>
     </div>

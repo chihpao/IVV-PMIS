@@ -4,6 +4,8 @@ import { ID, Models, Query } from 'node-appwrite';
 import { z } from 'zod';
 
 import { DATABASE_ID, MEMBERS_ID, PROJECTS_ID, TASKS_ID } from '@/config/db';
+import { logAudit } from '@/features/audit-logs/server/utils';
+import { AuditAction, AuditEntityType } from '@/features/audit-logs/types';
 import { type Member, MemberRole } from '@/features/members/types';
 import { getMember } from '@/features/members/utils';
 import type { Project } from '@/features/projects/types';
@@ -190,6 +192,16 @@ const app = new Hono()
       position: newPosition,
     });
 
+    await logAudit({
+        databases,
+        workspaceId,
+        action: AuditAction.CREATE,
+        entityId: task.$id,
+        entityType: AuditEntityType.TASK,
+        entityTitle: task.name,
+        user,
+    });
+
     return ctx.json({ data: task });
   })
   .patch('/:taskId', sessionMiddleware, zValidator('json', createTaskSchema.partial()), async (ctx) => {
@@ -221,8 +233,19 @@ const app = new Hono()
       description,
     });
 
+    await logAudit({
+        databases,
+        workspaceId: existingTask.workspaceId,
+        action: AuditAction.UPDATE,
+        entityId: task.$id,
+        entityType: AuditEntityType.TASK,
+        entityTitle: task.name,
+        user,
+    });
+
     return ctx.json({ data: task });
   })
+  // Bulk Update skipped for brevity, but should be added if needed.
   .post(
     '/bulk-update',
     sessionMiddleware,
@@ -239,11 +262,13 @@ const app = new Hono()
       }),
     ),
     async (ctx) => {
-      const databases = ctx.get('databases');
-      const user = ctx.get('user');
-      const { tasks } = ctx.req.valid('json');
+       // ... existing bulk update logic
+       // Bulk update logging is complex, maybe skipped or logged as "Bulk Update"
+       const databases = ctx.get('databases');
+       const user = ctx.get('user');
+       const { tasks } = ctx.req.valid('json');
 
-      const tasksToUpdate = await databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
+       const tasksToUpdate = await databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
         Query.contains(
           '$id',
           tasks.map((task: { $id: any }) => task.$id),
@@ -275,6 +300,17 @@ const app = new Hono()
           return databases.updateDocument<Task>(DATABASE_ID, TASKS_ID, $id, { status, position });
         }),
       );
+      
+      // Log for bulk update? Maybe generic log.
+      await logAudit({
+          databases,
+          workspaceId,
+          action: AuditAction.UPDATE,
+          entityId: 'bulk',
+          entityType: AuditEntityType.TASK,
+          entityTitle: 'Bulk Update',
+          user,
+      });
 
       return ctx.json({ data: { updatedTasks, workspaceId } });
     },
@@ -298,6 +334,16 @@ const app = new Hono()
     }
 
     await databases.deleteDocument(DATABASE_ID, TASKS_ID, taskId);
+
+    await logAudit({
+        databases,
+        workspaceId: task.workspaceId,
+        action: AuditAction.DELETE,
+        entityId: task.$id,
+        entityType: AuditEntityType.TASK,
+        entityTitle: task.name,
+        user,
+    });
 
     return ctx.json({ data: task });
   });

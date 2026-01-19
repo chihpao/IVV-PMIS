@@ -4,8 +4,8 @@ export const siteConfig: Metadata = {
   title: 'IVV-PMIS',
   description: 'Full-stack using Next.js 14 and Appwrite.',
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
   },
   keywords: [
     'reactjs',

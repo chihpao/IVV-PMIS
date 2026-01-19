@@ -89,7 +89,7 @@ export const DataTimeline = ({ data }: DataTimelineProps) => {
           viewMode={viewMode}
           onDateChange={handleDateChange}
           columnWidth={viewMode === ViewMode.Month ? 150 : 60}
-          listCellWidth="300px"
+          listCellWidth=""
           barCornerRadius={4}
           barFill={60}
           fontFamily="inherit"

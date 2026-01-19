@@ -16,7 +16,8 @@
     "projects": "專案",
     "noWorkspaceSelected": "尚未選擇工作空間",
     "mobileTitle": "側邊欄選單",
-    "mobileDescription": "使用側邊欄選單瀏覽各功能"
+    "mobileDescription": "使用側邊欄選單瀏覽各功能",
+    "createWorkspace": "建立工作空間"
   },
   "Navbar": {
     "homeTitle": "首頁",

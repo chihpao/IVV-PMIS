@@ -1,11 +1,12 @@
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
 import { deleteCookie, setCookie } from 'hono/cookie';
-import { ID } from 'node-appwrite';
+import { ID, Query } from 'node-appwrite';
 import { z } from 'zod';
 
+import { DATABASE_ID, MEMBERS_ID } from '@/config/db';
 import { AUTH_COOKIE } from '@/features/auth/constants';
-import { signInFormSchema, signUpFormSchema } from '@/features/auth/schema';
+import { signInFormSchema, signUpFormSchema, updateUserSchema } from '@/features/auth/schema';
 import { createAdminClient } from '@/lib/appwrite';
 import { sessionMiddleware } from '@/lib/session-middleware';
 
@@ -91,6 +92,40 @@ const app = new Hono()
     await account.deleteSession('current');
 
     return ctx.json({ success: true });
+  })
+  .patch('/current', sessionMiddleware, zValidator('json', updateUserSchema), async (ctx) => {
+    const { name } = ctx.req.valid('json');
+    const account = ctx.get('account');
+    const user = ctx.get('user');
+
+    if (name) {
+        await account.updateName(name);
+
+        // Sync name to all member records using Admin Client to bypass permissions
+        const { databases } = await createAdminClient();
+
+        const members = await databases.listDocuments(
+            DATABASE_ID, 
+            MEMBERS_ID, 
+            [Query.equal('userId', user.$id)]
+        );
+
+        if (members.total > 0) {
+            await Promise.all(
+                members.documents.map((member) => 
+                    databases.updateDocument(
+                        DATABASE_ID,
+                        MEMBERS_ID,
+                        member.$id,
+                        { name }
+                    )
+                )
+            );
+        }
+    }
+
+    const updatedUser = await account.get(); // Fetch updated user
+    return ctx.json({ data: updatedUser });
   });
 
 export default app;

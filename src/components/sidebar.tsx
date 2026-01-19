@@ -8,10 +8,11 @@ import { Suspense } from 'react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
+import { UserButton } from '@/features/auth/components/user-button'; // Import UserButton
 import { Navigation } from './navigation';
 import { Projects } from './projects';
 import { Button } from './ui/button';
-import { WorkspaceSwitcher } from './workspaces-switcher';
+// Removed WorkspaceSwitcher import
 
 interface SidebarProps {
   isCollapsed?: boolean;
@@ -75,13 +76,14 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
           <div className="space-y-6">
             <div className="mx-2 h-[1px] bg-[var(--border-subtle)]" />
             <Suspense>
-              <WorkspaceSwitcher />
-            </Suspense>
-            <Suspense>
               <Projects />
             </Suspense>
           </div>
         )}
+      </div>
+
+      <div className={cn("mt-auto flex items-center gap-2 p-4", isCollapsed && "justify-center")}>
+        <UserButton />
       </div>
     </aside>
   );
