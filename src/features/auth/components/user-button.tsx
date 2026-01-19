@@ -36,7 +36,10 @@ export const UserButton = () => {
     <>
       <EditProfileModal />
       <DropdownMenu modal={false}>
-        <DropdownMenuTrigger disabled={isPending} className="relative rounded-none outline-none focus-visible:ring-1 focus-visible:ring-ring">
+        <DropdownMenuTrigger
+          disabled={isPending}
+          className="relative rounded-none outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        >
           <Avatar className="size-10 rounded-none border border-neutral-300 transition hover:opacity-75">
             <AvatarFallback className="flex items-center justify-center rounded-none bg-neutral-200 font-medium text-neutral-500">
               {avatarFallback}

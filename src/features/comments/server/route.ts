@@ -42,7 +42,7 @@ const app = new Hono()
         Query.orderAsc('$createdAt'),
       ]);
 
-      const authorIds = [...new Set(comments.documents.map((comment) => comment.userId))];
+      const authorIds = Array.from(new Set(comments.documents.map((comment) => comment.userId)));
 
       const members = await databases.listDocuments<Member>(
         DATABASE_ID,
@@ -75,20 +75,20 @@ const app = new Hono()
     const { content, taskId, workspaceId } = ctx.req.valid('json');
 
     const member = await getMember({
-        databases,
-        workspaceId,
-        userId: user.$id,
+      databases,
+      workspaceId,
+      userId: user.$id,
     });
 
     if (!member) {
-        return ctx.json({ error: 'Unauthorized.' }, 401);
+      return ctx.json({ error: 'Unauthorized.' }, 401);
     }
 
     const comment = await databases.createDocument<Comment>(DATABASE_ID, COMMENTS_ID, ID.unique(), {
-        content,
-        taskId,
-        workspaceId,
-        userId: user.$id, // Store userId to link back to Member profile later
+      content,
+      taskId,
+      workspaceId,
+      userId: user.$id, // Store userId to link back to Member profile later
     });
 
     return ctx.json({ data: comment });

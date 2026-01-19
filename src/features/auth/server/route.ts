@@ -99,29 +99,16 @@ const app = new Hono()
     const user = ctx.get('user');
 
     if (name) {
-        await account.updateName(name);
+      await account.updateName(name);
 
-        // Sync name to all member records using Admin Client to bypass permissions
-        const { databases } = await createAdminClient();
+      // Sync name to all member records using Admin Client to bypass permissions
+      const { databases } = await createAdminClient();
 
-        const members = await databases.listDocuments(
-            DATABASE_ID, 
-            MEMBERS_ID, 
-            [Query.equal('userId', user.$id)]
-        );
+      const members = await databases.listDocuments(DATABASE_ID, MEMBERS_ID, [Query.equal('userId', user.$id)]);
 
-        if (members.total > 0) {
-            await Promise.all(
-                members.documents.map((member) => 
-                    databases.updateDocument(
-                        DATABASE_ID,
-                        MEMBERS_ID,
-                        member.$id,
-                        { name }
-                    )
-                )
-            );
-        }
+      if (members.total > 0) {
+        await Promise.all(members.documents.map((member) => databases.updateDocument(DATABASE_ID, MEMBERS_ID, member.$id, { name })));
+      }
     }
 
     const updatedUser = await account.get(); // Fetch updated user

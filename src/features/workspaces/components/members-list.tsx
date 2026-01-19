@@ -14,117 +14,117 @@ import { useGetMembers } from '@/features/members/api/use-get-members';
 import { useUpdateMember } from '@/features/members/api/use-update-member';
 import { MemberAvatar } from '@/features/members/components/member-avatar';
 import { MemberRole } from '@/features/members/types';
+import { InviteModal } from '@/features/workspaces/components/invite-modal';
+import { useInviteModal } from '@/features/workspaces/hooks/use-invite-modal';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 import { useConfirm } from '@/hooks/use-confirm';
-import { useInviteModal } from '@/features/workspaces/hooks/use-invite-modal';
-import { InviteModal } from '@/features/workspaces/components/invite-modal';
 
 export const MembersList = () => {
-    const workspaceId = useWorkspaceId();
-    const tMembers = useTranslations('Members');
-    const [ConfirmDialog, confirm] = useConfirm(tMembers('removeMember'), tMembers('removeMemberDescription'), 'destructive');
+  const workspaceId = useWorkspaceId();
+  const tMembers = useTranslations('Members');
+  const [ConfirmDialog, confirm] = useConfirm(tMembers('removeMember'), tMembers('removeMemberDescription'), 'destructive');
 
-    const { open: openInvite } = useInviteModal();
+  const { open: openInvite } = useInviteModal();
 
-    const { data: members } = useGetMembers({ workspaceId });
-    const { mutate: deleteMember, isPending: isDeletingMember } = useDeleteMember();
-    const { mutate: updateMember, isPending: isUpdatingMember } = useUpdateMember();
+  const { data: members } = useGetMembers({ workspaceId });
+  const { mutate: deleteMember, isPending: isDeletingMember } = useDeleteMember();
+  const { mutate: updateMember, isPending: isUpdatingMember } = useUpdateMember();
 
-    const handleDeleteMember = async (memberId: string) => {
-        const ok = await confirm();
+  const handleDeleteMember = async (memberId: string) => {
+    const ok = await confirm();
 
-        if (!ok) return;
+    if (!ok) return;
 
-        deleteMember(
-            { param: { memberId } },
-            {
-                onSuccess: () => {
-                    window.location.reload();
-                },
-            },
-        );
-    };
+    deleteMember(
+      { param: { memberId } },
+      {
+        onSuccess: () => {
+          window.location.reload();
+        },
+      },
+    );
+  };
 
-    const handleUpdateMember = (memberId: string, role: MemberRole) => {
-        updateMember({
-            json: { role },
-            param: { memberId },
-        });
-    };
+  const handleUpdateMember = (memberId: string, role: MemberRole) => {
+    updateMember({
+      json: { role },
+      param: { memberId },
+    });
+  };
 
-    const isPending = isDeletingMember || isUpdatingMember || members?.documents.length === 1;
+  const isPending = isDeletingMember || isUpdatingMember || members?.documents.length === 1;
 
-    return (
-        <Card className="size-full border-none shadow-none">
-            <InviteModal />
-            <ConfirmDialog />
+  return (
+    <Card className="size-full border-none shadow-none">
+      <InviteModal />
+      <ConfirmDialog />
 
-            <CardHeader className="flex flex-row items-center justify-between p-7">
-                <CardTitle className="text-xl font-bold">{tMembers('membersList')}</CardTitle>
-                <Button onClick={openInvite} size="sm">
-                    邀請成員
-                </Button>
-            </CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between p-7">
+        <CardTitle className="text-xl font-bold">{tMembers('membersList')}</CardTitle>
+        <Button onClick={openInvite} size="sm">
+          邀請成員
+        </Button>
+      </CardHeader>
 
-            <div className="px-7">
-                <DottedSeparator />
-            </div>
+      <div className="px-7">
+        <DottedSeparator />
+      </div>
 
-            <CardContent className="p-7">
-                {members?.documents.map((member, i) => (
-                    <Fragment key={member.$id}>
-                        <div className="flex items-center gap-2">
-                            <MemberAvatar name={member.name} className="size-10" fallbackClassName="text-lg" />
+      <CardContent className="p-7">
+        {members?.documents.map((member, i) => (
+          <Fragment key={member.$id}>
+            <div className="flex items-center gap-2">
+              <MemberAvatar name={member.name} className="size-10" fallbackClassName="text-lg" />
 
-                            <div className="flex flex-col">
-                                <div className="flex items-center gap-2">
-                                    <p className="text-sm font-medium">{member.name}</p>
-                                    <span className="rounded-sm bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+              <div className="flex flex-col">
+                <div className="flex items-center gap-2">
+                  <p className="text-sm font-medium">{member.name}</p>
+                  <span className="rounded-sm bg-muted px-2 py-0.5 text-xs text-muted-foreground">
                     {member.role === MemberRole.ADMIN ? tMembers('admin') : tMembers('member')}
                   </span>
-                                </div>
-                                <p className="text-xs text-muted-foreground break-all">{member.email}</p>
-                            </div>
+                </div>
+                <p className="text-xs text-muted-foreground break-all">{member.email}</p>
+              </div>
 
-                            <DropdownMenu>
-                                <DropdownMenuTrigger disabled={isPending} asChild>
-                                    <Button title={tMembers('viewOptions')} className="ml-auto" variant="secondary" size="icon">
-                                        <MoreVertical className="size-4 text-muted-foreground" />
-                                    </Button>
-                                </DropdownMenuTrigger>
+              <DropdownMenu>
+                <DropdownMenuTrigger disabled={isPending} asChild>
+                  <Button title={tMembers('viewOptions')} className="ml-auto" variant="secondary" size="icon">
+                    <MoreVertical className="size-4 text-muted-foreground" />
+                  </Button>
+                </DropdownMenuTrigger>
 
-                                <DropdownMenuContent side="bottom" align="end">
-                                    <DropdownMenuItem
-                                        className="font-medium"
-                                        onClick={() => handleUpdateMember(member.$id, MemberRole.ADMIN)}
-                                        disabled={isPending}
-                                    >
-                                        {tMembers('setAsAdmin')}
-                                    </DropdownMenuItem>
+                <DropdownMenuContent side="bottom" align="end">
+                  <DropdownMenuItem
+                    className="font-medium"
+                    onClick={() => handleUpdateMember(member.$id, MemberRole.ADMIN)}
+                    disabled={isPending}
+                  >
+                    {tMembers('setAsAdmin')}
+                  </DropdownMenuItem>
 
-                                    <DropdownMenuItem
-                                        className="font-medium"
-                                        onClick={() => handleUpdateMember(member.$id, MemberRole.MEMBER)}
-                                        disabled={isPending}
-                                    >
-                                        {tMembers('setAsMember')}
-                                    </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="font-medium"
+                    onClick={() => handleUpdateMember(member.$id, MemberRole.MEMBER)}
+                    disabled={isPending}
+                  >
+                    {tMembers('setAsMember')}
+                  </DropdownMenuItem>
 
-                                    <DropdownMenuItem
-                                        className="font-medium text-amber-700"
-                                        onClick={() => handleDeleteMember(member.$id)}
-                                        disabled={isPending}
-                                    >
-                                        {tMembers('removeMemberWithName', { name: member.name })}
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </div>
+                  <DropdownMenuItem
+                    className="font-medium text-amber-700"
+                    onClick={() => handleDeleteMember(member.$id)}
+                    disabled={isPending}
+                  >
+                    {tMembers('removeMemberWithName', { name: member.name })}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
 
-                        {i < (members?.documents.length ?? 0) - 1 && <Separator className="my-2.5" />}
-                    </Fragment>
-                ))}
-            </CardContent>
-        </Card>
-    );
+            {i < (members?.documents.length ?? 0) - 1 && <Separator className="my-2.5" />}
+          </Fragment>
+        ))}
+      </CardContent>
+    </Card>
+  );
 };

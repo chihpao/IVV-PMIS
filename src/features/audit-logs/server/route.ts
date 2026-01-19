@@ -19,7 +19,7 @@ const app = new Hono().get(
       workspaceId: z.string(),
       entityId: z.string().optional(),
       entityType: z.string().optional(),
-    })
+    }),
   ),
   async (ctx) => {
     const databases = ctx.get('databases');
@@ -37,11 +37,7 @@ const app = new Hono().get(
       return ctx.json({ error: 'Unauthorized' }, 401);
     }
 
-    const queries = [
-      Query.equal('workspaceId', workspaceId),
-      Query.orderDesc('$createdAt'),
-      Query.limit(50),
-    ];
+    const queries = [Query.equal('workspaceId', workspaceId), Query.orderDesc('$createdAt'), Query.limit(50)];
 
     if (entityId) {
       queries.push(Query.equal('entityId', entityId));
@@ -54,18 +50,14 @@ const app = new Hono().get(
     try {
       // Use Admin Client to bypass permission checks (logs are restricted)
       const { databases: adminDatabases } = await createAdminClient();
-      const auditLogs = await adminDatabases.listDocuments<AuditLog>(
-        DATABASE_ID,
-        AUDIT_LOGS_ID,
-        queries
-      );
+      const auditLogs = await adminDatabases.listDocuments<AuditLog>(DATABASE_ID, AUDIT_LOGS_ID, queries);
 
       return ctx.json({ data: auditLogs });
     } catch (error) {
       console.error('Failed to fetch audit logs:', error);
       return ctx.json({ error: 'Failed to fetch audit logs', details: error }, 500);
     }
-  }
+  },
 );
 
 export default app;

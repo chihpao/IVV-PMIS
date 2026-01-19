@@ -7,8 +7,9 @@ import { Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { DataSearch } from '@/features/tasks/components/data-search';
 import { useCreateTaskModal } from '@/features/tasks/hooks/use-create-task-modal';
-import { WorkspaceSwitcher } from './workspaces-switcher';
+
 import { MobileSidebar } from './mobile-sidebar';
+import { WorkspaceSwitcher } from './workspaces-switcher';
 
 export const Navbar = () => {
   const tCommon = useTranslations('Common');
@@ -50,9 +51,9 @@ export const Navbar = () => {
         </div>
 
         <div className="flex items-center justify-end gap-x-2.5">
-           <Suspense fallback={null}>
-             <WorkspaceSwitcher />
-           </Suspense>
+          <Suspense fallback={null}>
+            <WorkspaceSwitcher />
+          </Suspense>
         </div>
       </div>
     </nav>

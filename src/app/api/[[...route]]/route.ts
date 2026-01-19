@@ -1,13 +1,13 @@
 import { Hono } from 'hono';
 import { handle } from 'hono/vercel';
 
+import auditLogs from '@/features/audit-logs/server/route';
 import auth from '@/features/auth/server/route';
 import comments from '@/features/comments/server/route';
 import members from '@/features/members/server/route';
 import projects from '@/features/projects/server/route';
 import tasks from '@/features/tasks/server/route';
 import workspaces from '@/features/workspaces/server/route';
-import auditLogs from '@/features/audit-logs/server/route';
 
 export const runtime = 'nodejs';
 

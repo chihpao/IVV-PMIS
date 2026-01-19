@@ -1,10 +1,7 @@
-import { useQueryState, parseAsBoolean } from 'nuqs';
+import { parseAsBoolean, useQueryState } from 'nuqs';
 
 export const useInviteModal = () => {
-  const [isOpen, setIsOpen] = useQueryState(
-    'invite-modal',
-    parseAsBoolean.withDefault(false).withOptions({ clearOnDefault: true })
-  );
+  const [isOpen, setIsOpen] = useQueryState('invite-modal', parseAsBoolean.withDefault(false).withOptions({ clearOnDefault: true }));
 
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);

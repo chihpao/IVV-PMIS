@@ -10,11 +10,7 @@ interface UseGetAuditLogsProps {
   entityType?: AuditEntityType;
 }
 
-export const useGetAuditLogs = ({
-  workspaceId,
-  entityId,
-  entityType,
-}: UseGetAuditLogsProps) => {
+export const useGetAuditLogs = ({ workspaceId, entityId, entityType }: UseGetAuditLogsProps) => {
   const query = useQuery({
     queryKey: ['audit-logs', workspaceId, entityId, entityType],
     queryFn: async () => {

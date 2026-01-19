@@ -7,8 +7,8 @@ import remarkGfm from 'remark-gfm';
 import { DottedSeparator } from '@/components/dotted-separator';
 import { MarkdownToolbar } from '@/components/markdown-toolbar';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
 import { useUpdateTask } from '@/features/tasks/api/use-update-task';
 import type { Task } from '@/features/tasks/types';
 
@@ -56,11 +56,8 @@ export const TaskDescription = ({ task }: TaskDescriptionProps) => {
 
     // After state update, we need to focus and select
     setTimeout(() => {
-        textarea.focus();
-        textarea.setSelectionRange(
-            start + prefix.length,
-            start + prefix.length + selection.length
-        );
+      textarea.focus();
+      textarea.setSelectionRange(start + prefix.length, start + prefix.length + selection.length);
     }, 0);
   };
 
@@ -86,48 +83,48 @@ export const TaskDescription = ({ task }: TaskDescriptionProps) => {
 
       {isEditing ? (
         <div className="flex flex-col gap-y-4">
-            <Tabs defaultValue="edit" className="w-full">
-                <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0">
-                    <TabsTrigger 
-                        value="edit" 
-                        className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-                    >
-                        編輯
-                    </TabsTrigger>
-                    <TabsTrigger 
-                        value="preview"
-                        className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-                    >
-                        預覽
-                    </TabsTrigger>
-                </TabsList>
-                <TabsContent value="edit" className="mt-4 flex flex-col gap-y-2">
-                    <MarkdownToolbar onAction={handleMarkdownAction} disabled={isPending} />
-                    <Textarea
-                        ref={textareaRef}
-                        autoFocus
-                        placeholder={tTasks('addDescription')}
-                        value={value}
-                        rows={12}
-                        onChange={(e) => setValue(e.target.value)}
-                        disabled={isPending}
-                        className="font-mono text-sm resize-none rounded-t-none border-t-0 focus-visible:ring-0"
-                    />
-                    <p className="text-[10px] text-muted-foreground flex items-center gap-1">
-                        <span className="font-bold">Pro-tip:</span> 
-                        <span>支援 Markdown 語法與鍵盤快捷鍵</span>
-                    </p>
-                </TabsContent>
-                <TabsContent value="preview" className="mt-4 min-h-[200px] border rounded-md p-4 bg-neutral-50/30">
-                     {value ? (
-                        <div className="prose prose-neutral prose-sm max-w-none dark:prose-invert">
-                            <ReactMarkdown remarkPlugins={[remarkGfm]}>{value}</ReactMarkdown>
-                        </div>
-                     ) : (
-                        <span className="italic text-muted-foreground">沒有內容</span>
-                     )}
-                </TabsContent>
-            </Tabs>
+          <Tabs defaultValue="edit" className="w-full">
+            <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0">
+              <TabsTrigger
+                value="edit"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+              >
+                編輯
+              </TabsTrigger>
+              <TabsTrigger
+                value="preview"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+              >
+                預覽
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="edit" className="mt-4 flex flex-col gap-y-2">
+              <MarkdownToolbar onAction={handleMarkdownAction} disabled={isPending} />
+              <Textarea
+                ref={textareaRef}
+                autoFocus
+                placeholder={tTasks('addDescription')}
+                value={value}
+                rows={12}
+                onChange={(e) => setValue(e.target.value)}
+                disabled={isPending}
+                className="font-mono text-sm resize-none rounded-t-none border-t-0 focus-visible:ring-0"
+              />
+              <p className="text-[10px] text-muted-foreground flex items-center gap-1">
+                <span className="font-bold">Pro-tip:</span>
+                <span>支援 Markdown 語法與鍵盤快捷鍵</span>
+              </p>
+            </TabsContent>
+            <TabsContent value="preview" className="mt-4 min-h-[200px] border rounded-md p-4 bg-neutral-50/30">
+              {value ? (
+                <div className="prose prose-neutral prose-sm max-w-none dark:prose-invert">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{value}</ReactMarkdown>
+                </div>
+              ) : (
+                <span className="italic text-muted-foreground">沒有內容</span>
+              )}
+            </TabsContent>
+          </Tabs>
 
           <Button size="sm" className="ml-auto w-fit" onClick={handleSave} disabled={isPending}>
             {isPending ? tTasks('saving') : tTasks('saveChanges')}
@@ -135,11 +132,11 @@ export const TaskDescription = ({ task }: TaskDescriptionProps) => {
         </div>
       ) : (
         <div className="prose prose-neutral prose-sm max-w-none dark:prose-invert">
-            {task.description ? (
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>{task.description}</ReactMarkdown>
-            ) : (
-                <span className="italic text-muted-foreground">{tTasks('noDescription')}</span>
-            )}
+          {task.description ? (
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{task.description}</ReactMarkdown>
+          ) : (
+            <span className="italic text-muted-foreground">{tTasks('noDescription')}</span>
+          )}
         </div>
       )}
     </div>

@@ -13,7 +13,9 @@ import { Input } from '@/components/ui/input';
 import { useCurrent } from '@/features/auth/api/use-current';
 import { useUpdateUser } from '@/features/auth/api/use-update-user';
 import { updateUserSchema } from '@/features/auth/schema';
-import { cn } from '@/lib/utils'; // Add cn import if needed or use from utils
+import { cn } from '@/lib/utils';
+
+// Add cn import if needed or use from utils
 
 interface EditProfileFormProps {
   onCancel?: () => void;
@@ -76,14 +78,14 @@ export const EditProfileForm = ({ onCancel }: EditProfileFormProps) => {
                   </FormItem>
                 )}
               />
-              
+
               <FormItem>
-                 <FormLabel>電子郵件</FormLabel>
-                 <FormControl>
-                   <Input value={user?.email || ''} disabled type="text" />
-                 </FormControl>
+                <FormLabel>電子郵件</FormLabel>
+                <FormControl>
+                  <Input value={user?.email || ''} disabled type="text" />
+                </FormControl>
               </FormItem>
-               {/* Place for Job Title later if added */}
+              {/* Place for Job Title later if added */}
             </div>
 
             <DottedSeparator className="py-7" />

@@ -31,9 +31,7 @@ export const ActivityList = ({ entityId, entityType }: ActivityListProps) => {
   if (!auditLogs?.documents.length) {
     return (
       <Card className="border-none shadow-none bg-muted">
-        <CardContent className="p-4 text-center text-sm text-muted-foreground">
-          沒有活動紀錄。
-        </CardContent>
+        <CardContent className="p-4 text-center text-sm text-muted-foreground">沒有活動紀錄。</CardContent>
       </Card>
     );
   }

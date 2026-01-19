@@ -18,16 +18,13 @@ export const TaskActivity = ({ task }: TaskActivityProps) => {
   return (
     <div className="rounded-none border p-4">
       <div className="flex items-center gap-x-2">
-         <ActivityIcon className="size-5 text-neutral-500" />
+        <ActivityIcon className="size-5 text-neutral-500" />
         <p className="text-lg font-semibold">{tTasks('activity')}</p>
       </div>
 
       <DottedSeparator className="my-4" />
 
-      <ActivityList
-        entityId={task.$id}
-        entityType={AuditEntityType.TASK}
-      />
+      <ActivityList entityId={task.$id} entityType={AuditEntityType.TASK} />
     </div>
   );
 };

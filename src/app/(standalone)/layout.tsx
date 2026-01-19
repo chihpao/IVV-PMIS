@@ -1,7 +1,9 @@
+import dynamic from 'next/dynamic';
 import type { PropsWithChildren } from 'react';
 
 import { Logo } from '@/components/logo';
-import { UserButton } from '@/features/auth/components/user-button';
+
+const UserButton = dynamic(() => import('@/features/auth/components/user-button').then((mod) => mod.UserButton), { ssr: false });
 
 const StandaloneLayout = ({ children }: PropsWithChildren) => {
   return (

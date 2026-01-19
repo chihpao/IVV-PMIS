@@ -21,15 +21,10 @@ export const ActivityCard = ({ data }: ActivityCardProps) => {
 
   return (
     <div className="flex items-center gap-x-2">
-      <MemberAvatar
-        className="size-8"
-        fallbackClassName="text-xs"
-        name={data.userName}
-      />
+      <MemberAvatar className="size-8" fallbackClassName="text-xs" name={data.userName} />
       <div className="flex flex-col">
         <p className="text-sm text-neutral-500">
-          <span className="font-medium text-neutral-900">{data.userName}</span>{' '}
-          {actionText}
+          <span className="font-medium text-neutral-900">{data.userName}</span> {actionText}
         </p>
         <p className="text-xs text-neutral-400">
           {formatDistanceToNow(new Date(data.$createdAt), {

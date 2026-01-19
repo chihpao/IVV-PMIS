@@ -38,12 +38,12 @@ export const WorkspaceSwitcher = () => {
               </div>
             </SelectItem>
           ))}
-          <div 
+          <div
             onClick={open}
             className="flex cursor-pointer items-center gap-3 px-2 py-2 font-medium text-[var(--text-tertiary)] hover:text-[var(--text-primary)] relative select-none rounded-sm bg-transparent outline-none transition-colors hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
           >
-             <RiAddCircleFill className="size-5" />
-             <span className="truncate">{t('createWorkspace')}</span>
+            <RiAddCircleFill className="size-5" />
+            <span className="truncate">{t('createWorkspace')}</span>
           </div>
         </SelectContent>
       </Select>

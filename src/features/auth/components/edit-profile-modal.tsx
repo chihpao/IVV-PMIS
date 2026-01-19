@@ -8,12 +8,7 @@ export const EditProfileModal = () => {
   const { isOpen, setIsOpen, close } = useEditProfileModal();
 
   return (
-    <ResponsiveModal
-      title="個人資料設定"
-      description="在這裡更新您的個人基本資訊。"
-      open={isOpen}
-      onOpenChange={setIsOpen}
-    >
+    <ResponsiveModal title="個人資料設定" description="在這裡更新您的個人基本資訊。" open={isOpen} onOpenChange={setIsOpen}>
       <EditProfileForm onCancel={close} />
     </ResponsiveModal>
   );

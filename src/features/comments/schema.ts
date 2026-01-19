@@ -7,5 +7,5 @@ export const createCommentSchema = z.object({
 });
 
 export const updateCommentSchema = z.object({
-    content: z.string().trim().min(1, '留言內容不能為空'),
+  content: z.string().trim().min(1, '留言內容不能為空'),
 });

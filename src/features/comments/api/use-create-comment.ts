@@ -20,9 +20,11 @@ export const useCreateComment = () => {
 
       return await response.json();
     },
-    onSuccess: ({ data }) => {
-      queryClient.invalidateQueries({ queryKey: ['comments', data.taskId] });
-      toast.success('留言已發送');
+    onSuccess: (response) => {
+      if ('data' in response) {
+        queryClient.invalidateQueries({ queryKey: ['comments', response.data.taskId] });
+        toast.success('留言已發送');
+      }
     },
     onError: (error) => {
       console.error('[CREATE_COMMENT]: ', error);

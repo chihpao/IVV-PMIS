@@ -6,12 +6,14 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { UserButton } from '@/features/auth/components/user-button';
 import { cn } from '@/lib/utils';
 
-import { UserButton } from '@/features/auth/components/user-button'; // Import UserButton
+// Import UserButton
 import { Navigation } from './navigation';
 import { Projects } from './projects';
 import { Button } from './ui/button';
+
 // Removed WorkspaceSwitcher import
 
 interface SidebarProps {
@@ -82,7 +84,7 @@ export const Sidebar = ({ isCollapsed = false, onToggle }: SidebarProps) => {
         )}
       </div>
 
-      <div className={cn("mt-auto flex items-center gap-2 p-4", isCollapsed && "justify-center")}>
+      <div className={cn('mt-auto flex items-center gap-2 p-4', isCollapsed && 'justify-center')}>
         <UserButton />
       </div>
     </aside>
