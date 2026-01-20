@@ -1,6 +1,6 @@
 'use client';
 
-import { Component, Loader2, LogOut, Settings } from 'lucide-react';
+import { Component, Loader2, LogOut, Settings, UserIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { DottedSeparator } from '@/components/dotted-separator';
@@ -67,8 +67,8 @@ export const UserButton = () => {
             onClick={() => open()}
             className="flex h-10 cursor-pointer items-center justify-center font-medium text-[var(--text-primary)]"
           >
-            <Settings className="mr-2 size-4" />
-            {tNav('settings')}
+            <UserIcon className="mr-2 size-4" />
+            {tNav('account')}
           </DropdownMenuItem>
 
           <DottedSeparator className="mb-1" />

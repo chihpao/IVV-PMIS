@@ -94,7 +94,7 @@ const app = new Hono()
     return ctx.json({ success: true });
   })
   .patch('/current', sessionMiddleware, zValidator('json', updateUserSchema), async (ctx) => {
-    const { name } = ctx.req.valid('json');
+    const { name, password, oldPassword } = ctx.req.valid('json');
     const account = ctx.get('account');
     const user = ctx.get('user');
 
@@ -108,6 +108,19 @@ const app = new Hono()
 
       if (members.total > 0) {
         await Promise.all(members.documents.map((member) => databases.updateDocument(DATABASE_ID, MEMBERS_ID, member.$id, { name })));
+      }
+    }
+
+    if (password) {
+      // For Appwrite, we need the old password to update it if we want to be secure,
+      // but if the user is logged in (session exists), updatePassword(newPassword, oldPassword)
+      // oldPassword is optional but recommended.
+      // Here we assume if they provide it, we pass it.
+      if (oldPassword) {
+        await account.updatePassword(password, oldPassword);
+      } else {
+        // Try without old password (if permitted by security settings, though usually requires recent auth)
+        await account.updatePassword(password);
       }
     }
 

@@ -8,6 +8,7 @@ import { useCallback, useMemo } from 'react';
 
 import { DottedSeparator } from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useGetMembers } from '@/features/members/api/use-get-members';
 import { useGetProjects } from '@/features/projects/api/use-get-projects';
@@ -146,8 +147,36 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
 
         <DottedSeparator className="my-4" />
         {isLoadingTasks ? (
-          <div className="flex h-[200px] w-full flex-col items-center justify-center rounded-none">
-            <Loader2 className="size-5 animate-spin text-muted-foreground" />
+          <div className="w-full border rounded-lg h-[200px] flex flex-col items-center justify-center p-4">
+            {view === 'kanban' ? (
+              <div className="flex w-full gap-4 h-full">
+                <div className="flex-1 space-y-4">
+                  <Skeleton className="h-10 w-full" />
+                  <Skeleton className="h-24 w-full" />
+                  <Skeleton className="h-24 w-full" />
+                </div>
+                <div className="flex-1 space-y-4 hidden md:block">
+                  <Skeleton className="h-10 w-full" />
+                  <Skeleton className="h-24 w-full" />
+                </div>
+                <div className="flex-1 space-y-4 hidden lg:block">
+                  <Skeleton className="h-10 w-full" />
+                  <Skeleton className="h-24 w-full" />
+                </div>
+                <div className="flex-1 space-y-4 hidden xl:block">
+                  <Skeleton className="h-10 w-full" />
+                  <Skeleton className="h-24 w-full" />
+                </div>
+              </div>
+            ) : (
+              <div className="w-full space-y-2">
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-8 w-full" />
+                <Skeleton className="h-8 w-full" />
+                <Skeleton className="h-8 w-full" />
+                <Skeleton className="h-8 w-full" />
+              </div>
+            )}
           </div>
         ) : (
           <>
