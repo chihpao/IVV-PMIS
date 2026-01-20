@@ -68,9 +68,15 @@ const app = new Hono()
             documents: populatedComments,
           },
         });
-      } catch (error) {
+      } catch (error: any) {
         console.error('[GET_COMMENTS_ERROR]', error);
-        return ctx.json({ error: 'Internal Server Error', details: error instanceof Error ? error.message : error }, 500);
+        return ctx.json({ 
+          error: 'Internal Server Error', 
+          message: error?.message || 'Unknown error',
+          code: error?.code,
+          type: error?.type,
+          details: error 
+        }, 500);
       }
     },
   )

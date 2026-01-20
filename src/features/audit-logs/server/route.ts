@@ -71,7 +71,13 @@ const app = new Hono().get(
           {
             error: 'Failed to fetch audit logs',
             message: adminError instanceof Error ? adminError.message : 'Unknown error',
-            debug: process.env.NODE_ENV === 'development' ? { sessionError, adminError } : undefined,
+            code: (adminError as any)?.code,
+            type: (adminError as any)?.type,
+            debug: {
+              sessionError: sessionError instanceof Error ? sessionError.message : sessionError,
+              adminError: adminError instanceof Error ? adminError.message : adminError,
+              queries: queries
+            }
           },
           500,
         );
