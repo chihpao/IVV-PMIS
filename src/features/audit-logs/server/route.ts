@@ -76,8 +76,8 @@ const app = new Hono().get(
             debug: {
               sessionError: sessionError instanceof Error ? sessionError.message : sessionError,
               adminError: adminError instanceof Error ? adminError.message : adminError,
-              queries: queries
-            }
+              queries: queries,
+            },
           },
           500,
         );
