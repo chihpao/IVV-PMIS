@@ -234,7 +234,9 @@
     "inviteCodeLabel": "邀請碼",
     "backToWorkspace": "返回工作空間",
     "dangerZone": "危險區域",
-    "dangerZoneDescription": "刪除工作空間後將無法復原，且會移除所有相關資料。"
+    "dangerZoneDescription": "刪除工作空間後將無法復原，且會移除所有相關資料。",
+    "deleteWorkspaceEnterName": "請輸入工作空間名稱以確認刪除",
+    "deleteWorkspaceConfirmMatch": "請輸入 {name} 以確認"
   },
   "Members": {
     "members": "成員",

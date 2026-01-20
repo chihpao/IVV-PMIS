@@ -137,11 +137,6 @@ export const TaskViewSwitcher = ({ projectId, hideProjectFilter }: TaskViewSwitc
               {tTasks('timeline')}
             </TabsTrigger>
           </TabsList>
-
-          <Button onClick={() => open()} size="sm" className="w-full lg:w-auto">
-            <PlusIcon className="size-4" />
-            {tCommon('new')}
-          </Button>
         </div>
         <DottedSeparator className="my-4" />
 

@@ -52,7 +52,8 @@ const app = new Hono().get(
       const auditLogs = await databases.listDocuments<AuditLog>(DATABASE_ID, AUDIT_LOGS_ID, queries);
       return ctx.json({ data: auditLogs });
     } catch (sessionError) {
-      console.warn('[AUDIT_LOGS] Session client failed, attempting Admin client fallback...', sessionError);
+      // Session client failed (likely 401). This is expected for standard users.
+      // Silently falling back to Admin client.
 
       try {
         // Fallback to Admin Client if session client lacks permissions (common for audit logs)

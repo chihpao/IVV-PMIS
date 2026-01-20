@@ -2,12 +2,13 @@
 
 import { formatDistanceToNow } from 'date-fns';
 import { zhTW } from 'date-fns/locale';
-import { CalendarIcon, PlusIcon, SettingsIcon } from 'lucide-react';
+import { CalendarIcon, FolderPlus, ListChecks, PlusIcon, SettingsIcon, Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 import { Analytics } from '@/components/analytics';
 import { DottedSeparator } from '@/components/dotted-separator';
+import { EmptyState } from '@/components/empty-state';
 import { PageError } from '@/components/page-error';
 import { PageLoader } from '@/components/page-loader';
 import { Button } from '@/components/ui/button';
@@ -79,32 +80,38 @@ export const TaskList = ({ data, total }: TaskListProps) => {
 
         <div className="my-4 h-px bg-[var(--border-subtle)]" />
 
-        <ul className="flex flex-col gap-y-4">
+        <div className="flex flex-col gap-y-4">
           {data.map((task) => (
-            <li key={task.$id}>
-              <Link href={`/workspaces/${workspaceId}/tasks/${task.$id}`}>
-                <Card className="rounded-none shadow-none transition hover:opacity-75">
-                  <CardContent className="p-4">
-                    <p className="truncate text-lg font-medium">{task.name}</p>
+            <Link key={task.$id} href={`/workspaces/${workspaceId}/tasks/${task.$id}`}>
+              <Card className="rounded-none shadow-none transition hover:opacity-75">
+                <CardContent className="p-4">
+                  <p className="truncate text-lg font-medium">{task.name}</p>
 
-                    <div className="flex items-center gap-x-2">
-                      <p>{task.project?.name}</p>
+                  <div className="flex items-center gap-x-2">
+                    <p className="text-sm text-[var(--text-secondary)]">{task.project?.name}</p>
 
-                      <div aria-hidden className="size-1 rounded-none bg-neutral-300" />
+                    <div aria-hidden className="size-1 rounded-none bg-neutral-300" />
 
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <CalendarIcon className="mr-1 size-3" />
-                        <span className="truncate">{formatDistanceToNow(new Date(task.dueDate), { locale: zhTW })}</span>
-                      </div>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <CalendarIcon className="mr-1 size-3" />
+                      <span className="truncate text-xs">{formatDistanceToNow(new Date(task.dueDate), { locale: zhTW })}</span>
                     </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            </li>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
 
-          <li className="hidden text-center text-sm text-muted-foreground first-of-type:block">{tHome('noTasks')}</li>
-        </ul>
+          {data.length === 0 && (
+            <EmptyState
+              icon={ListChecks}
+              title={tHome('noTasks')}
+              description="目前沒有待處理的任務，點擊上方按鈕建立新任務。"
+              actionLabel={tHome('createTask')}
+              onAction={createTask}
+            />
+          )}
+        </div>
 
         <Button variant="outline" className="mt-4 w-full" asChild>
           <Link href={`/workspaces/${workspaceId}/tasks`}>{tHome('showAll')}</Link>
@@ -137,22 +144,30 @@ export const ProjectList = ({ data, total }: ProjectListProps) => {
 
         <div className="my-4 h-px bg-[var(--border-subtle)]" />
 
-        <ul className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           {data.map((project) => (
-            <li key={project.$id}>
-              <Link href={`/workspaces/${workspaceId}/projects/${project.$id}`}>
-                <Card className="rounded-none shadow-none transition hover:opacity-75">
-                  <CardContent className="flex items-center gap-x-2.5 p-4">
-                    <ProjectAvatar name={project.name} image={project.imageUrl} className="size-12" fallbackClassName="text-lg" />
-                    <p className="truncate text-lg font-medium">{project.name}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            </li>
+            <Link key={project.$id} href={`/workspaces/${workspaceId}/projects/${project.$id}`}>
+              <Card className="rounded-none shadow-none transition hover:opacity-75">
+                <CardContent className="flex items-center gap-x-2.5 p-4">
+                  <ProjectAvatar name={project.name} image={project.imageUrl} className="size-12" fallbackClassName="text-lg" />
+                  <p className="truncate text-lg font-medium">{project.name}</p>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
 
-          <li className="hidden text-center text-sm text-muted-foreground first-of-type:block">{tHome('noProjects')}</li>
-        </ul>
+          {data.length === 0 && (
+            <div className="col-span-full">
+              <EmptyState
+                icon={FolderPlus}
+                title={tHome('noProjects')}
+                description="目前沒有任何專案，開始建立一個來管理你的任務吧！"
+                actionLabel={tHome('createProject')}
+                onAction={createProject}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -182,23 +197,22 @@ export const MemberList = ({ data, total }: MemberListProps) => {
 
         <div className="my-4 h-px bg-[var(--border-subtle)]" />
 
-        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {data.map((member) => (
-            <li key={member.$id}>
-              <Card className="overflow-hidden rounded-none shadow-none">
-                <CardContent className="flex flex-col items-center gap-x-2 p-3">
-                  <MemberAvatar name={member.name} className="size-12" />
-
-                  <div className="flex flex-col items-center overflow-hidden">
-                    <p className="line-clamp-1 text-lg font-medium">{member.name}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </li>
+            <Card key={member.$id} className="overflow-hidden rounded-none shadow-none border-[var(--border-subtle)]">
+              <CardContent className="flex flex-col items-center gap-y-2 p-4">
+                <MemberAvatar name={member.name} className="size-12" />
+                <p className="line-clamp-1 text-sm font-medium text-[var(--text-secondary)]">{member.name}</p>
+              </CardContent>
+            </Card>
           ))}
 
-          <li className="hidden text-center text-sm text-muted-foreground first-of-type:block">{tHome('noMembers')}</li>
-        </ul>
+          {data.length === 0 && (
+            <div className="col-span-full">
+              <EmptyState icon={Users} title={tHome('noMembers')} description="目前工作空間還沒有其他成員。" />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

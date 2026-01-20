@@ -32,7 +32,6 @@ const RootLayout = async ({ children }: Readonly<PropsWithChildren>) => {
             <NuqsAdapter>
               <ExternalBrowserGate />
               <SonnerToaster />
-              <CommandPalette />
               {children}
             </NuqsAdapter>
           </QueryProvider>

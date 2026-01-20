@@ -5,7 +5,7 @@ import { CopyIcon, ImageIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -15,9 +15,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useDeleteWorkspace } from '@/features/workspaces/api/use-delete-workspace';
 import { useResetInviteCode } from '@/features/workspaces/api/use-reset-invite-code';
 import { useUpdateWorkspace } from '@/features/workspaces/api/use-update-workspace';
+import { DeleteWorkspaceDialog } from '@/features/workspaces/components/delete-workspace-dialog';
 import { updateWorkspaceSchema } from '@/features/workspaces/schema';
 import type { Workspace } from '@/features/workspaces/types';
 import { useConfirm } from '@/hooks/use-confirm';
@@ -36,11 +36,10 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
   const tUploads = useTranslations('Uploads');
   const tWorkspaces = useTranslations('Workspaces');
 
-  const [DeleteDialog, confirmDelete] = useConfirm(tWorkspaces('deleteWorkspace'), tWorkspaces('deleteWorkspaceWarning'), 'destructive');
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [ResetDialog, confirmReset] = useConfirm(tWorkspaces('resetInviteLink'), tWorkspaces('resetInviteLinkWarning'), 'destructive');
 
   const { mutate: updateWorkspace, isPending: isUpdatingWorkspace } = useUpdateWorkspace();
-  const { mutate: deleteWorkspace, isPending: isDeletingWorkspace } = useDeleteWorkspace();
   const { mutate: resetInviteCode, isPending: isResettingInviteCode } = useResetInviteCode();
 
   const updateWorkspaceForm = useForm<z.infer<typeof updateWorkspaceSchema>>({
@@ -75,20 +74,7 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
   };
 
   const handleDelete = async () => {
-    const ok = await confirmDelete();
-
-    if (!ok) return;
-
-    deleteWorkspace(
-      {
-        param: { workspaceId: initialValues.$id },
-      },
-      {
-        onSuccess: () => {
-          window.location.href = '/';
-        },
-      },
-    );
+    setDeleteDialogOpen(true);
   };
 
   const handleResetInviteCode = async () => {
@@ -106,11 +92,11 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
   };
 
   const fullInviteLink = `${process.env.NEXT_PUBLIC_APP_BASE_URL}/workspaces/${initialValues.$id}/join/${initialValues.inviteCode}`;
-  const isPending = isUpdatingWorkspace || isDeletingWorkspace || isResettingInviteCode;
+  const isPending = isUpdatingWorkspace || isResettingInviteCode;
 
   return (
     <div className="flex flex-col gap-y-4">
-      <DeleteDialog />
+      <DeleteWorkspaceDialog initialValues={initialValues} open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} />
       <ResetDialog />
 
       <Card className="size-full border-none shadow-none">

@@ -50,7 +50,7 @@ export const DataSearch = () => {
 
   return (
     <div className="relative">
-      <SearchIcon className="absolute left-2.5 top-[20%] size-4 text-muted-foreground" />
+      <SearchIcon className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground pointer-events-none" />
 
       <Input
         type="search"

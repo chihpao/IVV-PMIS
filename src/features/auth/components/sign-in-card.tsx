@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { OAuthProvider } from 'node-appwrite';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaGithub } from 'react-icons/fa';
@@ -53,7 +52,7 @@ export const SignInCard = () => {
     );
   };
 
-  const handleOAuth = (provider: OAuthProvider.Github | OAuthProvider.Google) => {
+  const handleOAuth = (provider: 'github' | 'google') => {
     setIsRedirecting(true);
 
     onOAuth(provider, next ? next : undefined)
@@ -121,11 +120,11 @@ export const SignInCard = () => {
       </div>
 
       <CardContent className="flex flex-col gap-y-4 p-7">
-        <Button onClick={() => handleOAuth(OAuthProvider.Google)} disabled={isPending} variant="secondary" size="lg" className="w-full">
+        <Button onClick={() => handleOAuth('google')} disabled={isPending} variant="secondary" size="lg" className="w-full">
           <FcGoogle className="mr-2 size-5" /> {t('continueWithGoogle')}
         </Button>
 
-        <Button onClick={() => handleOAuth(OAuthProvider.Github)} disabled={isPending} variant="secondary" size="lg" className="w-full">
+        <Button onClick={() => handleOAuth('github')} disabled={isPending} variant="secondary" size="lg" className="w-full">
           <FaGithub className="mr-2 size-5" /> {t('continueWithGithub')}
         </Button>
       </CardContent>

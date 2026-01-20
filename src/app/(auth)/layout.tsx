@@ -21,7 +21,7 @@ const AuthLayout = ({ children }: PropsWithChildren) => {
 
           <div className="flex items-center gap-x-2.5">
             <Button variant="secondary" asChild>
-              <Link href={isSignIn ? '/sign-up' : 'sign-in'}>{isSignIn ? t('register') : t('login')}</Link>
+              <Link href={isSignIn ? '/sign-up' : '/sign-in'}>{isSignIn ? t('register') : t('login')}</Link>
             </Button>
           </div>
         </nav>

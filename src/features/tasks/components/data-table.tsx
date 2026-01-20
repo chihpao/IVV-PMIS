@@ -11,10 +11,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import { EmptyState } from '@/components/empty-state';
 import { Button } from '@/components/ui/button';
 
 interface DataTableProps<TData, TValue> {
@@ -115,8 +117,8 @@ export function DataTable<TData, TValue>({ columns, data, getRowHref }: DataTabl
             );
           })
         ) : (
-          <div className="col-span-full bg-[var(--bg-surface)] px-4 py-12 text-center text-[var(--text-tertiary)]">
-            {tCommon('noResults')}
+          <div className="col-span-full border-none">
+            <EmptyState icon={Search} title={tCommon('noResults')} description="找不到符合條件的結果，請嘗試調整篩選條件或關鍵字。" />
           </div>
         )}
       </div>

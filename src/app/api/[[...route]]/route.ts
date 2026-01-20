@@ -6,6 +6,7 @@ import auth from '@/features/auth/server/route';
 import comments from '@/features/comments/server/route';
 import members from '@/features/members/server/route';
 import projects from '@/features/projects/server/route';
+import search from '@/features/search/server/route';
 import tasks from '@/features/tasks/server/route';
 import workspaces from '@/features/workspaces/server/route';
 
@@ -20,7 +21,8 @@ const routes = app
   .route('/tasks', tasks)
   .route('/workspaces', workspaces)
   .route('/comments', comments)
-  .route('/audit-logs', auditLogs);
+  .route('/audit-logs', auditLogs)
+  .route('/search', search);
 
 export type AppType = typeof routes;
 

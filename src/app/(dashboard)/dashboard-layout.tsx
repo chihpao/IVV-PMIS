@@ -1,8 +1,9 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { usePathname } from 'next/navigation';
 import type { PropsWithChildren } from 'react';
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 
 import { Navbar } from '@/components/navbar';
 import { Sidebar } from '@/components/sidebar';
@@ -17,6 +18,14 @@ interface DashboardLayoutProps extends PropsWithChildren {
 
 export const DashboardLayout = ({ children, defaultCollapsed }: DashboardLayoutProps) => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(defaultCollapsed);
+  const pathname = usePathname();
+  const mainContentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (mainContentRef.current) {
+      mainContentRef.current.scrollTop = 0;
+    }
+  }, [pathname]);
 
   const toggleSidebar = () => {
     setIsSidebarCollapsed((prev) => {
@@ -41,7 +50,7 @@ export const DashboardLayout = ({ children, defaultCollapsed }: DashboardLayoutP
 
         {/* Main Content Island */}
         <main className="flex flex-1 flex-col overflow-hidden rounded-none border border-[var(--border-subtle)] bg-[var(--bg-surface)] shadow-sm">
-          <div className="custom-scrollbar flex-1 overflow-y-auto">
+          <div ref={mainContentRef} className="custom-scrollbar flex-1 overflow-y-auto">
             <div className="sticky top-0 z-50 bg-[var(--bg-surface)]">
               <Suspense fallback={null}>
                 <Navbar />
