@@ -48,14 +48,31 @@ const app = new Hono().get(
     }
 
     try {
-      // Use Admin Client to bypass permission checks (logs are restricted)
-      const { databases: adminDatabases } = await createAdminClient();
-      const auditLogs = await adminDatabases.listDocuments<AuditLog>(DATABASE_ID, AUDIT_LOGS_ID, queries);
-
+      // Try using the session-based databases first
+      const auditLogs = await databases.listDocuments<AuditLog>(DATABASE_ID, AUDIT_LOGS_ID, queries);
       return ctx.json({ data: auditLogs });
-    } catch (error) {
-      console.error('Failed to fetch audit logs:', error);
-      return ctx.json({ error: 'Failed to fetch audit logs', details: error }, 500);
+    } catch (sessionError) {
+      console.warn('[AUDIT_LOGS] Session client failed, attempting Admin client fallback...', sessionError);
+      
+      try {
+        // Fallback to Admin Client if session client lacks permissions (common for audit logs)
+        const { databases: adminDatabases } = await createAdminClient();
+        const auditLogs = await adminDatabases.listDocuments<AuditLog>(DATABASE_ID, AUDIT_LOGS_ID, queries);
+
+        return ctx.json({ data: auditLogs });
+      } catch (adminError) {
+        console.error('[AUDIT_LOGS_CRITICAL_FAILURE]', {
+          sessionError: sessionError instanceof Error ? sessionError.message : sessionError,
+          adminError: adminError instanceof Error ? adminError.message : adminError,
+          queries: JSON.stringify(queries)
+        });
+        
+        return ctx.json({ 
+          error: 'Failed to fetch audit logs', 
+          message: adminError instanceof Error ? adminError.message : 'Unknown error',
+          debug: process.env.NODE_ENV === 'development' ? { sessionError, adminError } : undefined
+        }, 500);
+      }
     }
   },
 );

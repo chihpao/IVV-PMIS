@@ -22,51 +22,56 @@ const app = new Hono()
       }),
     ),
     async (ctx) => {
-      const databases = ctx.get('databases');
-      const user = ctx.get('user');
-      const { taskId, workspaceId } = ctx.req.valid('query');
+      try {
+        const databases = ctx.get('databases');
+        const user = ctx.get('user');
+        const { taskId, workspaceId } = ctx.req.valid('query');
 
-      const member = await getMember({
-        databases,
-        workspaceId,
-        userId: user.$id,
-      });
+        const member = await getMember({
+          databases,
+          workspaceId,
+          userId: user.$id,
+        });
 
-      if (!member) {
-        return ctx.json({ error: 'Unauthorized.' }, 401);
+        if (!member) {
+          return ctx.json({ error: 'Unauthorized.' }, 401);
+        }
+
+        const comments = await databases.listDocuments<Comment>(DATABASE_ID, COMMENTS_ID, [
+          Query.equal('taskId', taskId),
+          Query.equal('workspaceId', workspaceId),
+          Query.orderAsc('$createdAt'),
+        ]);
+
+        const authorIds = Array.from(new Set(comments.documents.map((comment) => comment.userId)));
+
+        const members = await databases.listDocuments<Member>(
+          DATABASE_ID,
+          MEMBERS_ID,
+          authorIds.length > 0 ? [Query.equal('userId', authorIds), Query.equal('workspaceId', workspaceId)] : [],
+        );
+
+        const authors = members.documents;
+
+        const populatedComments = comments.documents.map((comment) => {
+          const author = authors.find((member) => member.userId === comment.userId);
+
+          return {
+            ...comment,
+            author,
+          };
+        });
+
+        return ctx.json({
+          data: {
+            ...comments,
+            documents: populatedComments,
+          },
+        });
+      } catch (error) {
+        console.error('[GET_COMMENTS_ERROR]', error);
+        return ctx.json({ error: 'Internal Server Error', details: error instanceof Error ? error.message : error }, 500);
       }
-
-      const comments = await databases.listDocuments<Comment>(DATABASE_ID, COMMENTS_ID, [
-        Query.equal('taskId', taskId),
-        Query.equal('workspaceId', workspaceId),
-        Query.orderAsc('$createdAt'),
-      ]);
-
-      const authorIds = Array.from(new Set(comments.documents.map((comment) => comment.userId)));
-
-      const members = await databases.listDocuments<Member>(
-        DATABASE_ID,
-        MEMBERS_ID,
-        authorIds.length > 0 ? [Query.equal('userId', authorIds), Query.equal('workspaceId', workspaceId)] : [],
-      );
-
-      const authors = members.documents;
-
-      const populatedComments = comments.documents.map((comment) => {
-        const author = authors.find((member) => member.userId === comment.userId);
-
-        return {
-          ...comment,
-          author,
-        };
-      });
-
-      return ctx.json({
-        data: {
-          ...comments,
-          documents: populatedComments,
-        },
-      });
     },
   )
   .post('/', sessionMiddleware, zValidator('json', createCommentSchema), async (ctx) => {
