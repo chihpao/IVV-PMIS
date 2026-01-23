@@ -5,6 +5,7 @@ import { zhTW } from 'date-fns/locale';
 import { CalendarIcon, Loader2, MoreVertical, PlusIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import { useMemo } from 'react';
 
 import { DottedSeparator } from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
@@ -25,9 +26,12 @@ export const ActionQueuePanel = () => {
   const { open: createTask } = useCreateTaskModal();
   const { mutate: updateTask, isPending: isUpdating } = useUpdateTask();
 
-  const now = new Date();
-  const threeDaysFromNow = new Date();
-  threeDaysFromNow.setDate(now.getDate() + 4); // Include 3 days ahead
+  const now = useMemo(() => new Date(), []);
+  const threeDaysFromNow = useMemo(() => {
+    const d = new Date(now);
+    d.setDate(d.getDate() + 4);
+    return d;
+  }, [now]);
 
   const { data: overdueTasks, isLoading: isLoadingOverdue } = useGetTasks({
     workspaceId,
