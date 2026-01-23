@@ -1,0 +1,49 @@
+
+> IVV-PMIS@1.0.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/12) ...
+   Generating static pages (3/12) 
+   Generating static pages (6/12) 
+   Generating static pages (9/12) 
+ ✓ Generating static pages (12/12)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                                  Size     First Load JS
+┌ ƒ /                                                        161 B          88.4 kB
+├ ○ /_not-found                                              161 B          88.4 kB
+├ ƒ /api/[[...route]]                                        0 B                0 B
+├ ƒ /api/images/[fileId]                                     0 B                0 B
+├ ○ /apple-icon.png                                          0 B                0 B
+├ ○ /icon1.png                                               0 B                0 B
+├ ○ /icon2.png                                               0 B                0 B
+├ ƒ /settings                                                2.1 kB          160 kB
+├ ƒ /sign-in                                                 2.95 kB         166 kB
+├ ƒ /sign-up                                                 3.06 kB         166 kB
+├ ƒ /workspaces                                              161 B          88.4 kB
+├ ƒ /workspaces/[workspaceId]                                10.5 kB         206 kB
+├ ƒ /workspaces/[workspaceId]/join/[inviteCode]              4.43 kB         145 kB
+├ ƒ /workspaces/[workspaceId]/members                        7.62 kB         189 kB
+├ ƒ /workspaces/[workspaceId]/projects/[projectId]           2.06 kB         296 kB
+├ ƒ /workspaces/[workspaceId]/projects/[projectId]/settings  4.55 kB         191 kB
+├ ƒ /workspaces/[workspaceId]/settings                       5.23 kB         192 kB
+├ ƒ /workspaces/[workspaceId]/tasks                          715 B           280 kB
+├ ƒ /workspaces/[workspaceId]/tasks/[taskId]                 49.5 kB         261 kB
+└ ƒ /workspaces/create                                       5.11 kB         163 kB
++ First Load JS shared by all                                88.2 kB
+  ├ chunks/2117-ec132107d27f3bba.js                          31.9 kB
+  ├ chunks/fd9d1056-54c461eef48c1ee1.js                      53.6 kB
+  └ other shared chunks (total)                              2.69 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

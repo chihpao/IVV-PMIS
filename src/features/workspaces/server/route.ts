@@ -359,6 +359,100 @@ const app = new Hono()
         overdueTaskDifference,
       },
     });
+  })
+  .get('/:workspaceId/workload', sessionMiddleware, async (ctx) => {
+    const databases = ctx.get('databases');
+    const user = ctx.get('user');
+    const { workspaceId } = ctx.req.param();
+
+    const member = await getMember({
+      databases,
+      workspaceId,
+      userId: user.$id,
+    });
+
+    if (!member) {
+      return ctx.json({ error: 'Unauthorized.' }, 401);
+    }
+
+    const members = await databases.listDocuments<Member>(DATABASE_ID, MEMBERS_ID, [Query.equal('workspaceId', workspaceId)]);
+
+    const openTasks = await databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, [
+      Query.equal('workspaceId', workspaceId),
+      Query.notEqual('status', TaskStatus.DONE),
+      Query.orderAsc('dueDate'), // Order by dueDate so we can easily find nextDueTask
+    ]);
+
+    const PROJECTS = await databases.listDocuments<Project>(DATABASE_ID, PROJECTS_ID, [Query.equal('workspaceId', workspaceId)]);
+
+    const now = new Date();
+    const threeDaysFromNow = new Date();
+    threeDaysFromNow.setDate(now.getDate() + 3);
+
+    const workload = members.documents.map((m) => {
+      const memberTasks = openTasks.documents.filter((task) => task.assigneeId === m.$id);
+      const overdueTasks = memberTasks.filter((task) => task.dueDate && new Date(task.dueDate) < now);
+      const dueSoonTasks = memberTasks.filter((task) => {
+        if (!task.dueDate) return false;
+        const dueDate = new Date(task.dueDate);
+        return dueDate >= now && dueDate <= threeDaysFromNow;
+      });
+
+      const nextDueTaskDoc = memberTasks[0];
+      let nextDueTask = undefined;
+
+      if (nextDueTaskDoc) {
+        const project = PROJECTS.documents.find((p) => p.$id === nextDueTaskDoc.projectId);
+        nextDueTask = {
+          $id: nextDueTaskDoc.$id,
+          name: nextDueTaskDoc.name,
+          dueDate: nextDueTaskDoc.dueDate,
+          projectName: project?.name,
+        };
+      }
+
+      return {
+        memberId: m.$id,
+        name: m.name,
+        userId: m.userId,
+        openCount: memberTasks.length,
+        overdueCount: overdueTasks.length,
+        dueSoonCount: dueSoonTasks.length,
+        nextDueTask,
+      };
+    });
+
+    // Add unassigned tasks
+    const unassignedTasks = openTasks.documents.filter((task) => !task.assigneeId);
+    if (unassignedTasks.length > 0) {
+      const nextDueTaskDoc = unassignedTasks[0];
+      let nextDueTask = undefined;
+      if (nextDueTaskDoc) {
+        const project = PROJECTS.documents.find((p) => p.$id === nextDueTaskDoc.projectId);
+        nextDueTask = {
+          $id: nextDueTaskDoc.$id,
+          name: nextDueTaskDoc.name,
+          dueDate: nextDueTaskDoc.dueDate,
+          projectName: project?.name,
+        };
+      }
+
+      workload.push({
+        memberId: 'unassigned',
+        name: 'Unassigned',
+        userId: '',
+        openCount: unassignedTasks.length,
+        overdueCount: unassignedTasks.filter((task) => task.dueDate && new Date(task.dueDate) < now).length,
+        dueSoonCount: unassignedTasks.filter((task) => {
+          if (!task.dueDate) return false;
+          const dueDate = new Date(task.dueDate);
+          return dueDate >= now && dueDate <= threeDaysFromNow;
+        }).length,
+        nextDueTask,
+      } as any);
+    }
+
+    return ctx.json({ data: workload });
   });
 
 export default app;

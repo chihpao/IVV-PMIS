@@ -10,17 +10,19 @@ interface useGetTasksProps {
   status?: TaskStatus[] | null;
   assigneeId?: string[] | null;
   dueDate?: string | null;
+  dueBefore?: string | null;
+  dueAfter?: string | null;
   limit?: number | null;
 }
 
-export const useGetTasks = ({ workspaceId, projectId, status, assigneeId, dueDate, limit }: useGetTasksProps) => {
+export const useGetTasks = ({ workspaceId, projectId, status, assigneeId, dueDate, dueBefore, dueAfter, limit }: useGetTasksProps) => {
   const tErrors = useTranslations('Errors');
   const statusKey = status?.join(',') ?? null;
   const projectKey = projectId?.join(',') ?? null;
   const assigneeKey = assigneeId?.join(',') ?? null;
   const normalizedLimit = typeof limit === 'number' ? limit : 200;
   const query = useQuery({
-    queryKey: ['tasks', workspaceId, projectKey, statusKey, assigneeKey, dueDate, normalizedLimit],
+    queryKey: ['tasks', workspaceId, projectKey, statusKey, assigneeKey, dueDate, dueBefore, dueAfter, normalizedLimit],
     enabled: !!workspaceId,
     queryFn: async () => {
       const response = await client.api.tasks.$get({
@@ -30,6 +32,8 @@ export const useGetTasks = ({ workspaceId, projectId, status, assigneeId, dueDat
           status: status?.length ? status.join(',') : undefined,
           assigneeId: assigneeId?.length ? assigneeId.join(',') : undefined,
           dueDate: dueDate ?? undefined,
+          dueBefore: dueBefore ?? undefined,
+          dueAfter: dueAfter ?? undefined,
           limit: normalizedLimit,
         },
       });

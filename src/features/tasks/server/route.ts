@@ -46,6 +46,8 @@ const app = new Hono()
         ),
         search: z.string().nullish(),
         dueDate: z.string().nullish(),
+        dueBefore: z.string().nullish(),
+        dueAfter: z.string().nullish(),
         limit: z.coerce.number().int().positive().max(200).nullish(),
       }),
     ),
@@ -53,7 +55,7 @@ const app = new Hono()
       const databases = ctx.get('databases');
       const user = ctx.get('user');
 
-      const { workspaceId, projectId, assigneeId, status, search, dueDate, limit } = ctx.req.valid('query');
+      const { workspaceId, projectId, assigneeId, status, search, dueDate, dueBefore, dueAfter, limit } = ctx.req.valid('query');
 
       const member = await getMember({
         databases,
@@ -74,6 +76,8 @@ const app = new Hono()
       if (assigneeId?.length) query.push(Query.equal('assigneeId', assigneeId));
 
       if (dueDate) query.push(Query.equal('dueDate', dueDate));
+      if (dueBefore) query.push(Query.lessThan('dueDate', dueBefore));
+      if (dueAfter) query.push(Query.greaterThanEqual('dueDate', dueAfter));
 
       const shouldUseServerSearch = typeof search === 'string' && search.trim().length > 0 && /^[\x00-\x7F]+$/.test(search);
 

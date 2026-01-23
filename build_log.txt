@@ -1,0 +1,31 @@
+
+> IVV-PMIS@1.0.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+[31;1mFailed to compile.[0m
+[31;1m[0m
+[31;1m./src/features/workspaces/hooks/use-workspace-id.ts[0m
+[31;1mError: [0m
+[31;1m  [31mx[0m You're importing a component that needs useParams. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.[0m
+[31;1m  [31m|[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials[0m
+[31;1m  [31m|[0m [0m
+[31;1m  [31m|[0m [0m
+[31;1m   ,-[[36;1;4mC:\Entrance\B-Programming\IVV-PMIS\src\features\workspaces\hooks\use-workspace-id.ts[0m:1:1][0m
+[31;1m [2m1[0m | import { useParams } from 'next/navigation';[0m
+[31;1m   : [31;1m         ^^^^^^^^^[0m[0m
+[31;1m [2m2[0m | [0m
+[31;1m [2m3[0m | export const useWorkspaceId = () => {[0m
+[31;1m [2m4[0m |   const params = useParams();[0m
+[31;1m   `----[0m
+[31;1m[0m
+[31;1mImport trace for requested module:[0m
+[31;1m./src/features/workspaces/hooks/use-workspace-id.ts[0m
+[31;1m./src/app/(dashboard)/workspaces/[workspaceId]/client.tsx[0m
+[31;1m./src/app/(dashboard)/workspaces/[workspaceId]/page.tsx[0m
+[31;1m[0m
+[31;1m[0m
+[31;1m> Build failed because of webpack errors[0m
