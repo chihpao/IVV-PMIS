@@ -17,14 +17,9 @@ export const Navbar = () => {
   const { open } = useCreateTaskModal();
 
   return (
-    <nav className="sticky top-0 z-40 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)] lg:h-16">
-      <div className="flex items-center gap-3 px-6 py-3 lg:grid lg:h-full lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center lg:gap-x-6 lg:py-0">
-        <div className="flex items-center gap-x-3">
-          <MobileSidebar />
-          {/* WorkspaceSwitcher removed from here */}
-        </div>
-
-        <div className="flex min-w-0 flex-1 items-center gap-x-2 lg:justify-center">
+    <nav className="sticky top-0 z-40 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)] md:h-16">
+      <div className="flex items-center gap-3 px-6 py-3 md:grid md:h-full md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-x-6 md:py-0">
+        <div className="flex min-w-0 flex-1 items-center gap-x-2 md:justify-center">
           <div className="w-full min-w-0 max-w-[360px]">
             <Suspense fallback={null}>
               <DataSearch />

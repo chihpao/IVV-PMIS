@@ -25,6 +25,17 @@ export const DashboardLayout = ({ children, defaultCollapsed }: DashboardLayoutP
     if (mainContentRef.current) {
       mainContentRef.current.scrollTop = 0;
     }
+
+    const checkMobile = () => {
+      // Auto-collapse when browser is large (per user request) or very small (to save space)
+      if (window.innerWidth >= 1024 || window.innerWidth < 768) {
+        setIsSidebarCollapsed(true);
+      }
+    };
+
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
   }, [pathname]);
 
   const toggleSidebar = () => {
@@ -42,8 +53,8 @@ export const DashboardLayout = ({ children, defaultCollapsed }: DashboardLayoutP
       <div className="flex h-[calc(100vh-32px)] w-full gap-4">
         {/* Sidebar Island */}
         <aside
-          className="relative hidden flex-shrink-0 rounded-none bg-[var(--bg-base)] transition-[width] duration-200 ease-out lg:block"
-          style={{ width: isSidebarCollapsed ? 72 : 264 }}
+          className="relative flex-shrink-0 rounded-none bg-[var(--bg-base)] transition-[width] duration-200 ease-out"
+          style={{ width: isSidebarCollapsed ? 72 : 220 }}
         >
           <Sidebar isCollapsed={isSidebarCollapsed} onToggle={toggleSidebar} />
         </aside>

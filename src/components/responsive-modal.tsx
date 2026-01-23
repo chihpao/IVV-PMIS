@@ -15,7 +15,7 @@ interface ResponsiveModalProps {
 }
 
 export const ResponsiveModal = ({ children, title, description, open, onOpenChange }: PropsWithChildren<ResponsiveModalProps>) => {
-  const isDesktop = useMedia('(min-width: 1024px)', true);
+  const isDesktop = useMedia('(min-width: 768px)', true);
   const tCommon = useTranslations('Common');
 
   if (isDesktop) {

@@ -21,9 +21,9 @@ export const MobileSidebar = () => {
   }, [pathname]);
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen} modal={false}>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button title={tCommon('openMenu')} size="icon" variant="secondary" className="size-10 lg:hidden">
+        <Button title={tCommon('openMenu')} size="icon" variant="secondary" className="size-10 md:hidden">
           <svg viewBox="0 0 24 24" className="size-5 text-neutral-500" fill="none" stroke="currentColor" strokeWidth="2">
             <path strokeLinecap="round" strokeLinejoin="round" d="M3 5v14" />
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 12H7" />
@@ -32,7 +32,7 @@ export const MobileSidebar = () => {
         </Button>
       </SheetTrigger>
 
-      <SheetContent side="left" className="p-0">
+      <SheetContent side="left" className="w-[264px] max-w-[85vw] p-0">
         <SheetHeader>
           <VisuallyHidden.Root>
             <SheetTitle>{tNav('mobileTitle')}</SheetTitle>
