@@ -40,7 +40,7 @@
 
   /* Radius */
   --radius-card: 0px;
-  --radius-button: 0px;
+  --radius-button: 9999px;
   --radius-input: 0px;
 
   /* shadcn/ui mapping to new vars where possible */

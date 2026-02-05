@@ -122,9 +122,7 @@ export const ActionQueuePanel = () => {
           <CardTitle className="text-xl font-bold">{t('actionQueue')}</CardTitle>
           <p className="text-sm text-muted-foreground">{t('actionQueueDescription')}</p>
         </div>
-        <Button size="icon" variant="outline" onClick={() => createTask()} className="rounded-none">
-          <PlusIcon className="size-4" />
-        </Button>
+
       </CardHeader>
       <CardContent className="px-6 pb-6">
         <DottedSeparator className="mb-4" />

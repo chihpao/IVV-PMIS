@@ -55,7 +55,7 @@
   },
   "Dashboard": {
     "actionQueue": "今日待處理",
-    "workload": "團隊負載",
+    "workload": "成員負載",
     "recentActivity": "最近動作",
     "overdue": "逾期任務",
     "dueSoon": "即將到期",

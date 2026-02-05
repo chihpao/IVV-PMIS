@@ -3,8 +3,8 @@
 import { formatDistanceToNow } from 'date-fns';
 import { zhTW } from 'date-fns/locale';
 import { AlertCircle, Loader2, UserPlus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
 
 import { DottedSeparator } from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
@@ -14,16 +14,14 @@ import { useGetWorkspaceWorkload } from '@/features/workspaces/api/use-get-works
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 import { cn } from '@/lib/utils';
 
-import { MemberTasksDrawer } from './member-tasks-drawer';
-
 // Threshold for overload
 const OVERLOAD_THRESHOLD = 10;
 
 export const WorkloadPanel = () => {
   const t = useTranslations('Dashboard');
+  const router = useRouter();
   const workspaceId = useWorkspaceId();
   const { data: workload, isLoading } = useGetWorkspaceWorkload({ workspaceId });
-  const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
 
   if (isLoading) {
     return (
@@ -40,7 +38,6 @@ export const WorkloadPanel = () => {
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <div>
           <CardTitle className="text-xl font-bold">{t('workload')}</CardTitle>
-          <p className="text-sm text-muted-foreground">{t('workloadDescription')}</p>
         </div>
       </CardHeader>
       <CardContent className="px-6 pb-6">
@@ -54,16 +51,18 @@ export const WorkloadPanel = () => {
             return (
               <div
                 key={item.memberId}
-                onClick={() => setSelectedMemberId(item.memberId)}
+                onClick={() => {
+                  router.push(`/workspaces/${workspaceId}/tasks?assigneeId=${item.memberId}`);
+                }}
                 className="group flex cursor-pointer items-center justify-between gap-x-4 border-b border-[var(--border-subtle)] py-3 transition hover:bg-muted/30 last:border-0"
               >
                 <div className="flex min-w-0 items-center gap-x-3">
                   {isUnassigned ? (
-                    <div className="flex size-10 items-center justify-center rounded-none bg-muted text-muted-foreground">
+                    <div className="flex size-10 items-center justify-center rounded-full bg-muted text-muted-foreground">
                       <UserPlus className="size-5" />
                     </div>
                   ) : (
-                    <MemberAvatar name={item.name} className="size-10 shrink-0" />
+                    <MemberAvatar name={item.name} className="size-10 shrink-0 rounded-full" fallbackClassName="rounded-full" />
                   )}
 
                   <div className="min-w-0">
@@ -89,14 +88,6 @@ export const WorkloadPanel = () => {
                         {item.openCount}
                       </span>
                     </div>
-                    <div className="flex gap-x-2 text-[10px] font-medium uppercase tracking-wider">
-                      <span className="text-red-500">
-                        {t('overdueShort')}: {item.overdueCount}
-                      </span>
-                      <span className="text-orange-500">
-                        {t('dueSoonShort')}: {item.dueSoonCount}
-                      </span>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -104,13 +95,6 @@ export const WorkloadPanel = () => {
           })}
         </div>
       </CardContent>
-
-      <MemberTasksDrawer
-        memberId={selectedMemberId}
-        isOpen={!!selectedMemberId}
-        onClose={() => setSelectedMemberId(null)}
-        memberName={workload?.find((m: any) => m.memberId === selectedMemberId)?.name}
-      />
     </Card>
   );
 };
