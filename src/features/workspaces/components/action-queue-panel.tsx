@@ -122,7 +122,6 @@ export const ActionQueuePanel = () => {
           <CardTitle className="text-xl font-bold">{t('actionQueue')}</CardTitle>
           <p className="text-sm text-muted-foreground">{t('actionQueueDescription')}</p>
         </div>
-
       </CardHeader>
       <CardContent className="px-6 pb-6">
         <DottedSeparator className="mb-4" />

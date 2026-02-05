@@ -20,7 +20,11 @@ export const Navbar = () => {
     <nav className="sticky top-0 z-40 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)] md:h-20">
       <div className="flex items-center gap-3 px-6 py-3 md:grid md:h-full md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-x-6 md:py-0">
         <div className="flex min-w-0 flex-1 items-center gap-x-4">
-          <Link href="/" className="shrink-0 font-sans text-xl font-bold tracking-tight text-[var(--text-primary)]" style={{ fontFamily: "'Source Han Sans', 'Noto Sans TC', sans-serif" }}>
+          <Link
+            href="/"
+            className="shrink-0 font-sans text-xl font-bold tracking-tight text-[var(--text-primary)]"
+            style={{ fontFamily: "'Source Han Sans', 'Noto Sans TC', sans-serif" }}
+          >
             PMIS
           </Link>
           <div className="flex flex-1 items-center justify-center gap-x-2">
